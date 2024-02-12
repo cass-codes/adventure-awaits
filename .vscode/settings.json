@@ -1,0 +1,21 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "files.associations": {
+    "*.env": "properties"
+  },
+  // the line below may not be needed but the plugin was not working correctly without it at one point
+  "prettier.documentSelectors": [
+    "**/*.js",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.json",
+    "**/*.html",
+    "**/*.css",
+    "**/*.scss"
+  ],
+  "jestrunner.jestPath": "node_modules/jest/bin/jest.js",
+  // longer timeout allows 3 minutes to step through code before failing the test due to timeout
+  // --no-cache since there are occasionally hard to find bugs that don't fail a test but log errors
+  "jestrunner.runOptions": ["--forceExit", "--testTimeout=180000", "--no-cache"]
+}
