@@ -1,0 +1,36 @@
+.Choices p {
+  font-family: "Courgette";
+  font-size: 1em;
+}
+
+.Choices ul {
+  font-family: "Courgette";
+  font-size: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  list-style-type: none;
+}
+
+button {
+  font-family: "Courgette";
+  font-size: 1em;
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.795);
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+input {
+  font-family: "Courgette";
+  font-size: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  list-style-type: none;
+  background-color: rgba(255, 255, 255, 0.795);
+  margin-bottom: 10%;
+}

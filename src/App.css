@@ -1,5 +1,10 @@
 .App {
+  background-color: #282c34;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .App-logo {
@@ -14,14 +19,18 @@
 }
 
 .App-header {
+  font-family: "Astloch", system-ui;
+  background-color: #282c34;
+  font-size: 50px;
+  color: rgba(255, 255, 255, 0.795);
+}
+
+.App-body {
   background-color: #282c34;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgba(255, 255, 255, 0.795);
+  width: 90%;
 }
 
 .App-link {
