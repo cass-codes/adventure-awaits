@@ -6,11 +6,7 @@ import { useState } from "react";
 import { quit, startScreen } from "../server/data/screens";
 import { getScreenById } from "../server/ScreenHandler";
 import { SavingService } from "../server/SavingService/SavingService";
-import {
-  evaluateConditionMain,
-  unfurlObjects,
-  unfurlString,
-} from "../server/unfurlObjects";
+import { unfurlObjects, unfurlString } from "../server/unfurlObjects";
 import GlobalActionsHeader from "../components/GlobalActionsHeader";
 
 function MainApp() {
@@ -57,16 +53,13 @@ function MainApp() {
     .map((content) => {
       if (typeof content === "string") {
         return unfurlString(content);
-      } else if ("url" in content) {
+      } else {
         // type is PictureMain
         return {
           ...content,
           sideText: unfurlString(content.sideText),
           alt: unfurlString(content.alt),
         } as PictureMain;
-      } else {
-        // type is ConditionalMain
-        return evaluateConditionMain(content) as (string | PictureMain)[];
       }
     })
     .flat();

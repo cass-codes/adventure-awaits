@@ -14,15 +14,7 @@ export interface PictureMain {
   sideText: string;
 }
 
-export interface ConditionalMain {
-  conditionPath: string;
-  conditionOperator: "===" | "!==" | ">" | "<" | ">=" | "<=";
-  conditionValue: string;
-  trueMain: MainContentProps;
-  falseMain: MainContentProps;
-}
-
-export type MainContentProps = (string | PictureMain | ConditionalMain)[];
+export type MainContentProps = (string | PictureMain)[];
 
 // Choices
 
@@ -40,10 +32,22 @@ interface StringChoiceOption extends BaseChoiceOption {
   type: "screen";
 }
 
+export interface ConditionalScreenOption {
+  type: "conditionalScreen";
+  optionText: string;
+  conditionPath: string;
+  conditionOperator: string;
+  conditionValue: string;
+  trueScreenId: string;
+  falseScreenId: string;
+}
+
 interface SaveChoiceOption extends BaseChoiceOption {
   type: "save";
-  savePath: string;
-  saveValue: string;
+  saveValues: {
+    savePath: string;
+    saveValue: string;
+  }[];
 }
 
 interface InputChoiceOption extends BaseChoiceOption {
@@ -57,6 +61,7 @@ interface QuitChoiceOption extends BaseChoiceOption {
 }
 
 export type ChoiceOption =
+  | ConditionalScreenOption
   | StringChoiceOption
   | SaveChoiceOption
   | InputChoiceOption

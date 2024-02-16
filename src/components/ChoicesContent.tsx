@@ -1,6 +1,7 @@
 import { Key, useRef } from "react";
 import "./ChoicesContent.css";
 import { ChoiceInfo, ChoiceOption } from "../types/Screen";
+import { evaluateConditionalScreenOption } from "../server/unfurlObjects";
 
 function ChoicesContent(props: {
   choices: ChoiceInfo;
@@ -14,19 +15,45 @@ function ChoicesContent(props: {
   const choicesOptions = props.choices.options;
 
   function selectHandler(event: any) {
-    if (event.target.getAttribute("choice-type") === "quit") {
+    const chosenId = event.target.id;
+    const chosenOption = choicesOptions.find((option) => {
+      if (option.type === "conditionalScreen") {
+        return (
+          option.trueScreenId === chosenId || option.falseScreenId === chosenId
+        );
+      }
+      return option.screenId === chosenId;
+    });
+    if (!chosenOption) {
+      throw new Error("No option found for id: " + chosenId);
+    }
+    if (chosenOption.type === "quit") {
       props.quitWithoutSaving();
     }
-    const savePath = event.target.getAttribute("save-path");
-    const saveValue = event.target.getAttribute("save-value");
-    if (savePath) {
+    if (chosenOption.type === "save") {
+      if (chosenOption && chosenOption.type === "save") {
+        const saveValues = chosenOption.saveValues;
+        saveValues.forEach(
+          ({
+            savePath,
+            saveValue,
+          }: {
+            savePath: string;
+            saveValue: string;
+          }) => {
+            if (savePath) {
+              console.log("saving", saveValue, savePath);
+              props.savingContent(saveValue, savePath);
+            }
+          }
+        );
+      }
+    } else if (chosenOption.type === "input") {
       const enteredInput = inputRef?.current?.value || undefined;
-      if (enteredInput) {
+      const savePath = chosenOption.savePath;
+      if (enteredInput && savePath) {
         props.savingContent(enteredInput, savePath);
         inputRef.current!.value = "";
-      } else {
-        console.log("saving", saveValue, savePath);
-        props.savingContent(saveValue, savePath);
       }
     }
     props.setScreenById(event.target.id);
@@ -40,11 +67,17 @@ function ChoicesContent(props: {
             <li key={index}>
               <p>{choice.promptText}</p>
               <input type="text" ref={inputRef} />
-              <button
-                onClick={selectHandler}
-                id={choice.screenId}
-                save-path={choice.savePath}
-              >
+              <button onClick={selectHandler} id={choice.screenId}>
+                {choice.optionText}
+              </button>
+            </li>
+          );
+        }
+        if (choice.type === "conditionalScreen") {
+          const screenId = evaluateConditionalScreenOption(choice);
+          return (
+            <li key={index}>
+              <button onClick={selectHandler} id={screenId}>
                 {choice.optionText}
               </button>
             </li>
@@ -52,13 +85,7 @@ function ChoicesContent(props: {
         }
         return (
           <li key={index}>
-            <button
-              onClick={selectHandler}
-              choice-type={choice.type}
-              id={choice.screenId}
-              save-path={choice.type === "save" ? choice.savePath : undefined}
-              save-value={choice.type === "save" ? choice.saveValue : undefined}
-            >
+            <button onClick={selectHandler} id={choice.screenId}>
               {choice.optionText}
             </button>
           </li>

@@ -1,4 +1,4 @@
-import { ChoiceInfo, ConditionalMain } from "../types/Screen";
+import { ChoiceInfo, ConditionalScreenOption } from "../types/Screen";
 import { SavingService } from "./SavingService/SavingService";
 
 export function unfurlObjects(text: ChoiceInfo) {
@@ -33,10 +33,12 @@ export function unfurlString(text: string) {
   return returnVal;
 }
 
-export function evaluateConditionMain(content: ConditionalMain) {
+export function evaluateConditionalScreenOption(
+  content: ConditionalScreenOption
+) {
   let userValStr = SavingService.getObjectPathString(content.conditionPath);
-  console.log("content.conditionPath", content.conditionPath);
-  console.log("userValStr", userValStr);
+  // console.log("content.conditionPath", content.conditionPath);
+  // console.log("userValStr", userValStr);
 
   if (userValStr === undefined) {
     throw Error("Invalid condition path, check your screen data");
@@ -46,17 +48,17 @@ export function evaluateConditionMain(content: ConditionalMain) {
 
   switch (content.conditionOperator) {
     case "===":
-      return userVal === testVal ? content.trueMain : content.falseMain;
+      return userVal === testVal ? content.trueScreenId : content.falseScreenId;
     case "!==":
-      return userVal !== testVal ? content.trueMain : content.falseMain;
+      return userVal !== testVal ? content.trueScreenId : content.falseScreenId;
     case ">":
-      return userVal > testVal ? content.trueMain : content.falseMain;
+      return userVal > testVal ? content.trueScreenId : content.falseScreenId;
     case "<":
-      return userVal < testVal ? content.trueMain : content.falseMain;
+      return userVal < testVal ? content.trueScreenId : content.falseScreenId;
     case ">=":
-      return userVal >= testVal ? content.trueMain : content.falseMain;
+      return userVal >= testVal ? content.trueScreenId : content.falseScreenId;
     case "<=":
-      return userVal <= testVal ? content.trueMain : content.falseMain;
+      return userVal <= testVal ? content.trueScreenId : content.falseScreenId;
     default:
       throw Error("Invalid condition operator, check your screen data");
   }

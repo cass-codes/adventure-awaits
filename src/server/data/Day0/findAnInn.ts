@@ -21,22 +21,19 @@ const theAdventureBegins: Screen = {
         type: "save",
         optionText: "The Rusty Sword",
         screenId: "rustySword_1",
-        savePath: "User.stats.goodness",
-        saveValue: "++",
+        saveValues: [{ savePath: "User.stats.goodness", saveValue: "++" }],
       },
       {
         type: "save",
         optionText: "The Silver Spoon",
         screenId: "silverSpoon1",
-        savePath: "User.stats.cleverness",
-        saveValue: "++",
+        saveValues: [{ savePath: "User.stats.cleverness", saveValue: "++" }],
       },
       {
         type: "save",
         optionText: "Sewer Water",
         screenId: "sewerWater1",
-        savePath: "User.stats.sneakiness",
-        saveValue: "++",
+        saveValues: [{ savePath: "User.stats.sneakiness", saveValue: "++" }],
       },
     ],
   },
@@ -54,9 +51,10 @@ const rustySword_1: Screen = {
     text: "Do you join in the revelry or seek a quieter corner to rest?",
     options: [
       {
-        type: "screen",
+        type: "save",
         optionText: "Join the festivities",
         screenId: "joinTheFestivities",
+        saveValues: [{ savePath: "User.stats.charm", saveValue: "++" }],
       },
       {
         type: "screen",
@@ -82,8 +80,7 @@ const seekSolitude: Screen = {
         type: "save",
         optionText: "Help",
         screenId: "stepInToHelp",
-        savePath: "User.stats.goodness",
-        saveValue: "++",
+        saveValues: [{ savePath: "User.stats.goodness", saveValue: "++" }],
       },
       {
         type: "screen",
@@ -108,8 +105,7 @@ const stepInToHelp: Screen = {
         type: "save",
         optionText: "Next",
         screenId: "callItANight",
-        savePath: "User.coins",
-        saveValue: "++",
+        saveValues: [{ savePath: "User.coins", saveValue: "++" }],
       },
     ],
   },
@@ -127,11 +123,13 @@ const joinTheFestivities: Screen = {
     text: "Challenge someone to a friendly arm wrestling match or call it a night?",
     options: [
       {
-        type: "save",
+        type: "conditionalScreen",
         optionText: "Arm wrestle",
-        screenId: "armWrestlesFallout",
-        savePath: "User.stats.charm",
-        saveValue: "++",
+        conditionPath: "User.stats.brawn",
+        conditionOperator: ">=",
+        conditionValue: "1",
+        trueScreenId: "winArmWrestle",
+        falseScreenId: "callItANight", // todo update
       },
       {
         type: "screen",
@@ -160,28 +158,18 @@ const callItANight: Screen = {
   },
 };
 
-const armWrestlesFallout: Screen = {
-  _id: "armWrestlesFallout",
+const winArmWrestle: Screen = {
+  _id: "winArmWrestle",
   header: "The Rusty Sword",
   main: [
+    `Your strength and skill impress the crowd, earning you hearty cheers and a round of drinks on the house.`,
+    `An young warrior in the corner, who has been watching the match, approaches you and offers to buy you a drink.`,
     {
-      conditionPath: "User.stats.brawn",
-      conditionOperator: ">=",
-      conditionValue: "1",
-      trueMain: [
-        `Your strength and skill impress the crowd, earning you hearty cheers and a round of drinks on the house.`,
-        `An old man in the corner, who has been watching the match, approaches you and offers to buy you a drink.`,
-        {
-          url: "grizzledMan.png",
-          alt: "Old wise man",
-          side: "right",
-          sideText:
-            "I see you have some talent, young one. I have a proposition for you.",
-        },
-      ],
-      falseMain: [
-        "You give it your best shot but after several minutes of struggle you are defeated. The crowd cheers and you feel a little embarrassed.",
-      ],
+      url: "beardedKnight.png",
+      alt: "Bearded Warrior",
+      side: "right",
+      sideText:
+        "I see you have some talent, young one. I have a proposition for you. Come",
     },
   ],
   choiceInformation: {
@@ -211,8 +199,12 @@ const silverSpoon1: Screen = {
         type: "save",
         optionText: "Approach the figure",
         screenId: "approachFigure",
-        savePath: "User.stats.charm",
-        saveValue: "++",
+        saveValues: [
+          {
+            savePath: "User.stats.charm",
+            saveValue: "++",
+          },
+        ],
       },
       {
         type: "screen",
@@ -246,8 +238,7 @@ const approachFigure: Screen = {
         type: "save",
         optionText: "Next",
         screenId: "fighter2_2_1",
-        savePath: "User.stats.charm",
-        saveValue: "++",
+        saveValues: [{ savePath: "User.stats.charm", saveValue: "++" }],
       },
     ],
   },
@@ -284,7 +275,7 @@ export const fighterScreens = [
   silverSpoon1,
   sewerWater1,
   joinTheFestivities,
-  armWrestlesFallout,
+  winArmWrestle,
   callItANight,
   seekSolitude,
   stepInToHelp,
