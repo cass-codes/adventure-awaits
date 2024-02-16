@@ -10,6 +10,18 @@ function App() {
       <div className="App-body">
         <MainApp />
       </div>
+      <footer className="App-footer">
+        <p>
+          Created by:{" "}
+          <a
+            href="https://github.com/cass-codes"
+            rel="noreferrer"
+            target="_blank"
+          >
+            cass-codes
+          </a>
+        </p>
+      </footer>
     </div>
   );
 }

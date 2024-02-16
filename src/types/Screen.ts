@@ -1,9 +1,22 @@
 export interface Screen {
   _id: string;
   header: string;
-  main: string;
+  main: MainContentProps;
   choiceInformation: ChoiceInfo;
 }
+
+// Main
+
+export interface PictureMain {
+  url: string;
+  alt: string;
+  side: "left" | "right";
+  sideText: string;
+}
+
+export type MainContentProps = (string | PictureMain)[];
+
+// Choices
 
 export interface ChoiceInfo {
   text: string;
@@ -31,7 +44,12 @@ interface InputChoiceOption extends BaseChoiceOption {
   savePath: string;
 }
 
+interface QuitChoiceOption extends BaseChoiceOption {
+  type: "quit";
+}
+
 export type ChoiceOption =
   | StringChoiceOption
   | SaveChoiceOption
-  | InputChoiceOption;
+  | InputChoiceOption
+  | QuitChoiceOption;

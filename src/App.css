@@ -33,6 +33,16 @@
   width: 90%;
 }
 
+.App-footer {
+  color: rgba(255, 255, 255, 0.795);
+  font-size: 20px;
+  font-family: "Courgette";
+}
+
+.App-footer a {
+  color: rgba(217, 179, 233, 0.795);
+}
+
 .App-link {
   color: #61dafb;
 }

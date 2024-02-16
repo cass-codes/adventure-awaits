@@ -1,3 +1,17 @@
 .Body p {
   font-family: "Courgette";
 }
+
+.PictureMain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Left {
+  flex-direction: row;
+}
+
+.Right {
+  flex-direction: row-reverse;
+}
