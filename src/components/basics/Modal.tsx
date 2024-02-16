@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import "./Modal.css";
 
 function Modal(props: {
   isOpen: boolean;
@@ -40,8 +41,8 @@ function Modal(props: {
   return (
     <dialog ref={modalRef} onKeyDown={handleKeyDown}>
       {props.hasCloseBtn && (
-        <button className="modal-close-btn" onClick={handleCloseModal}>
-          Close
+        <button className="CloseBtn" onClick={handleCloseModal}>
+          &#x2715;
         </button>
       )}
       {props.children}

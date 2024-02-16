@@ -101,7 +101,7 @@ const bardBegin: Screen = {
       {
         type: "save",
         optionText: "Next",
-        screenId: "first",
+        screenId: "theAdventureBegins",
         savePath: "User.class",
         saveValue: "Fighter",
       },
@@ -128,7 +128,7 @@ const fighterBegin: Screen = {
       {
         type: "save",
         optionText: "Next",
-        screenId: "fighter1",
+        screenId: "theAdventureBegins",
         savePath: "User.class",
         saveValue: "Fighter",
       },
@@ -155,7 +155,7 @@ const mageBegin: Screen = {
       {
         type: "save",
         optionText: "Next",
-        screenId: "first",
+        screenId: "theAdventureBegins",
         savePath: "User.class",
         saveValue: "Mage",
       },

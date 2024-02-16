@@ -1,6 +1,39 @@
+.UserModal {
+  text-align: left;
+}
+
 .UserModal h1 {
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.UserModal h2 {
   font-size: 1em;
+  text-decoration: dotted;
+}
+
+.UserModal p {
+  font-size: 0.8em;
+  padding: 0em;
+  margin-block-end: 0em;
+}
+
+dialog {
   font-family: "Courgette";
-  margin: 0;
-  padding: 0;
+  background-color: rgb(223, 180, 79);
+  color: rgb(62, 62, 62);
+  margin-top: 10rem;
+  border-radius: 5%;
+  position: relative;
+  overflow-y: auto;
+}
+
+.barStats {
+  font-family: "Courier New", Courier, monospace;
+  margin-block-start: 0em;
+  color: black;
+}
+
+.barKey {
+  font-size: 0.9em;
 }

@@ -22,25 +22,25 @@
   font-family: "Astloch", system-ui;
   background-color: #282c34;
   font-size: 50px;
-  color: rgba(255, 255, 255, 0.795);
+  color: rgb(195, 195, 195);
 }
 
 .App-body {
   background-color: #282c34;
   min-height: 100vh;
   font-size: calc(10px + 2vmin);
-  color: rgba(255, 255, 255, 0.795);
+  color: rgb(195, 195, 195);
   width: 90%;
 }
 
 .App-footer {
-  color: rgba(255, 255, 255, 0.795);
+  color: rgb(195, 195, 195);
   font-size: 20px;
   font-family: "Courgette";
 }
 
 .App-footer a {
-  color: rgba(217, 179, 233, 0.795);
+  color: rgb(195, 195, 195);
 }
 
 .App-link {

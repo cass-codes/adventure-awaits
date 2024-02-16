@@ -1,4 +1,4 @@
-import { PictureMain, Screen } from "../types/Screen";
+import { MainContentProps, PictureMain, Screen } from "../types/Screen";
 import ChoicesContent from "../components/ChoicesContent";
 import HeaderContent from "../components/HeaderContent";
 import MainContent from "../components/MainContent";
@@ -6,7 +6,11 @@ import { useState } from "react";
 import { quit, startScreen } from "../server/data/screens";
 import { getScreenById } from "../server/ScreenHandler";
 import { SavingService } from "../server/SavingService/SavingService";
-import { unfurlObjects, unfurlString } from "../server/unfurlObjects";
+import {
+  evaluateConditionMain,
+  unfurlObjects,
+  unfurlString,
+} from "../server/unfurlObjects";
 import GlobalActionsHeader from "../components/GlobalActionsHeader";
 
 function MainApp() {
@@ -49,18 +53,23 @@ function MainApp() {
   }
 
   const header = unfurlString(screen.header);
-  const main = screen.main.map((content) => {
-    if (typeof content === "string") {
-      return unfurlString(content);
-    } else {
-      // type is PictureMain
-      return {
-        ...content,
-        sideText: unfurlString(content.sideText),
-        alt: unfurlString(content.alt),
-      } as PictureMain;
-    }
-  });
+  const main: MainContentProps = screen.main
+    .map((content) => {
+      if (typeof content === "string") {
+        return unfurlString(content);
+      } else if ("url" in content) {
+        // type is PictureMain
+        return {
+          ...content,
+          sideText: unfurlString(content.sideText),
+          alt: unfurlString(content.alt),
+        } as PictureMain;
+      } else {
+        // type is ConditionalMain
+        return evaluateConditionMain(content) as (string | PictureMain)[];
+      }
+    })
+    .flat();
   const choiceInformation = unfurlObjects(screen.choiceInformation);
 
   return (

@@ -14,7 +14,15 @@ export interface PictureMain {
   sideText: string;
 }
 
-export type MainContentProps = (string | PictureMain)[];
+export interface ConditionalMain {
+  conditionPath: string;
+  conditionOperator: "===" | "!==" | ">" | "<" | ">=" | "<=";
+  conditionValue: string;
+  trueMain: MainContentProps;
+  falseMain: MainContentProps;
+}
+
+export type MainContentProps = (string | PictureMain | ConditionalMain)[];
 
 // Choices
 

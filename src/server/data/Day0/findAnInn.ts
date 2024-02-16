@@ -1,7 +1,7 @@
 import { Screen } from "../../../types/Screen";
 
-const _1: Screen = {
-  _id: "fighter1",
+const theAdventureBegins: Screen = {
+  _id: "theAdventureBegins",
   header: "The Adventure Begins!",
   main: [
     `After a long day on the road you are ready to find a place to rest and find some work in the morning.
@@ -20,21 +20,21 @@ const _1: Screen = {
       {
         type: "save",
         optionText: "The Rusty Sword",
-        screenId: "fighter2_1",
+        screenId: "rustySword_1",
         savePath: "User.stats.goodness",
         saveValue: "++",
       },
       {
         type: "save",
         optionText: "The Silver Spoon",
-        screenId: "fighter2_2",
+        screenId: "silverSpoon1",
         savePath: "User.stats.cleverness",
         saveValue: "++",
       },
       {
         type: "save",
         optionText: "Sewer Water",
-        screenId: "fighter2_3",
+        screenId: "sewerWater1",
         savePath: "User.stats.sneakiness",
         saveValue: "++",
       },
@@ -42,8 +42,8 @@ const _1: Screen = {
   },
 };
 
-const _2_1: Screen = {
-  _id: "fighter2_1",
+const rustySword_1: Screen = {
+  _id: "rustySword_1",
   header: "The Rusty Sword",
   main: [
     `Intrigued by the lively atmosphere, you enter The Rusty Sword. The aroma of hearty stew and freshly baked bread greets 
@@ -56,19 +56,19 @@ const _2_1: Screen = {
       {
         type: "screen",
         optionText: "Join the festivities",
-        screenId: "fighter2_1_1",
+        screenId: "joinTheFestivities",
       },
       {
         type: "screen",
         optionText: "Seek solitude",
-        screenId: "fighter2_1_2",
+        screenId: "seekSolitude",
       },
     ],
   },
 };
 
 const seekSolitude: Screen = {
-  _id: "fighter2_1_2",
+  _id: "seekSolitude",
   header: "The Rusty Sword",
   main: [
     `You take a seat at a table near the entrance, keeping a watchful eye on the comings and goings of the tavern.
@@ -88,7 +88,7 @@ const seekSolitude: Screen = {
       {
         type: "screen",
         optionText: "Not Your Problem",
-        screenId: "fighter2_1_1_2",
+        screenId: "callItANight",
       },
     ],
   },
@@ -107,7 +107,7 @@ const stepInToHelp: Screen = {
       {
         type: "save",
         optionText: "Next",
-        screenId: "fighter2_1_1_2",
+        screenId: "callItANight",
         savePath: "User.coins",
         saveValue: "++",
       },
@@ -115,8 +115,8 @@ const stepInToHelp: Screen = {
   },
 };
 
-const _2_1_1: Screen = {
-  _id: "fighter2_1_1",
+const joinTheFestivities: Screen = {
+  _id: "joinTheFestivities",
   header: "The Rusty Sword",
   main: [
     `You head straight to the center of the room, where a large crew of strong looking patrons
@@ -129,21 +129,21 @@ const _2_1_1: Screen = {
       {
         type: "save",
         optionText: "Arm wrestle",
-        screenId: "fighter2_1_1_1",
+        screenId: "armWrestlesFallout",
         savePath: "User.stats.charm",
         saveValue: "++",
       },
       {
         type: "screen",
         optionText: "Call it a night",
-        screenId: "fighter2_1_1_2",
+        screenId: "callItANight",
       },
     ],
   },
 };
 
 const callItANight: Screen = {
-  _id: "fighter2_1_1_2",
+  _id: "callItANight",
   header: "The Rusty Sword",
   main: [
     `You decide to call it a night and head up to your room. The bed is soft and the room is warm, you fall asleep quickly.`,
@@ -160,12 +160,29 @@ const callItANight: Screen = {
   },
 };
 
-const _2_1_1_1: Screen = {
-  _id: "fighter2_1_1_1",
+const armWrestlesFallout: Screen = {
+  _id: "armWrestlesFallout",
   header: "The Rusty Sword",
   main: [
-    `Your strength and skill impress the crowd, earning you hearty cheers and a round of drinks on the house.`,
-    `After a few more hours of happy chatting and drinking.`,
+    {
+      conditionPath: "User.stats.brawn",
+      conditionOperator: ">=",
+      conditionValue: "1",
+      trueMain: [
+        `Your strength and skill impress the crowd, earning you hearty cheers and a round of drinks on the house.`,
+        `An old man in the corner, who has been watching the match, approaches you and offers to buy you a drink.`,
+        {
+          url: "grizzledMan.png",
+          alt: "Old wise man",
+          side: "right",
+          sideText:
+            "I see you have some talent, young one. I have a proposition for you.",
+        },
+      ],
+      falseMain: [
+        "You give it your best shot but after several minutes of struggle you are defeated. The crowd cheers and you feel a little embarrassed.",
+      ],
+    },
   ],
   choiceInformation: {
     text: "",
@@ -173,14 +190,14 @@ const _2_1_1_1: Screen = {
       {
         type: "screen",
         optionText: "Next",
-        screenId: "fighter2_1_1_2",
+        screenId: "callItANight",
       },
     ],
   },
 };
 
-const _2_2: Screen = {
-  _id: "fighter2_2",
+const silverSpoon1: Screen = {
+  _id: "silverSpoon1",
   header: "The Silver Spoon",
   main: [
     `Drawn by the promise of a quiet reprieve, you enter The Silver Spoon. The air is hushed, punctuated 
@@ -236,8 +253,8 @@ const approachFigure: Screen = {
   },
 };
 
-const _2_3: Screen = {
-  _id: "fighter2_3",
+const sewerWater1: Screen = {
+  _id: "sewerWater1",
   header: "Sewer Water",
   main: [
     `Despite its foreboding name, you decide to investigate Sewer Water out of curiosity. The windows are 
@@ -262,12 +279,12 @@ const _2_3: Screen = {
 };
 
 export const fighterScreens = [
-  _1,
-  _2_1,
-  _2_2,
-  _2_3,
-  _2_1_1,
-  _2_1_1_1,
+  theAdventureBegins,
+  rustySword_1,
+  silverSpoon1,
+  sewerWater1,
+  joinTheFestivities,
+  armWrestlesFallout,
   callItANight,
   seekSolitude,
   stepInToHelp,

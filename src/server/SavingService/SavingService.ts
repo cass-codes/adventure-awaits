@@ -107,6 +107,28 @@ export class SavingService {
       if (propertyPath[0] === "class") {
         return user.class;
       }
+      if (propertyPath[0] === "stats") {
+        const stat = propertyPath[1];
+        if (stat === "goodness") {
+          return user.stats?.goodness.toString();
+        }
+        if (stat === "cleverness") {
+          return user.stats?.cleverness.toString();
+        }
+        if (stat === "sneakiness") {
+          return user.stats?.sneakiness.toString();
+        }
+        if (stat === "brawn") {
+          return user.stats?.brawn.toString();
+        }
+        if (stat === "magic") {
+          return user.stats?.magic.toString();
+        }
+        if (stat === "charm") {
+          return user.stats?.charm.toString();
+        }
+        throw Error("Stat not found");
+      }
     }
   }
 

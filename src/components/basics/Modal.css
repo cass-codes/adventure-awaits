@@ -1,0 +1,12 @@
+.CloseBtn {
+  background-color: rgba(195, 195, 195, 0);
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 17px;
+  transition: 0.3s;
+}

@@ -19,7 +19,7 @@ button {
   padding: 0.5em 1em;
   border-radius: 5px;
   border: none;
-  background-color: rgba(255, 255, 255, 0.795);
+  background-color: rgb(195, 195, 195);
   color: #333;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -32,6 +32,6 @@ input {
   flex-direction: row;
   justify-content: space-around;
   list-style-type: none;
-  background-color: rgba(255, 255, 255, 0.795);
+  background-color: rgb(195, 195, 195);
   margin-bottom: 10%;
 }

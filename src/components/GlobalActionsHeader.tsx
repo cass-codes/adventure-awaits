@@ -25,7 +25,8 @@ function GlobalActionsHeader(props: {
   }
 
   function handleOpenUserModal() {
-    // get user data?
+    const user = props.loadUser();
+    setUserData(user);
     setIsUserModalOpen(true);
   }
 
@@ -55,7 +56,11 @@ function GlobalActionsHeader(props: {
           onClick={handleOpenUserModal}
         />
       </div>
-      <UserModal isOpen={isUserModalOpen} onClose={handleCloseUserModal} />
+      <UserModal
+        isOpen={isUserModalOpen}
+        onClose={handleCloseUserModal}
+        userData={userData}
+      />
     </div>
   );
 }
