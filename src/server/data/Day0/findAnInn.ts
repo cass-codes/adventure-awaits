@@ -21,23 +21,37 @@ const theAdventureBegins: Screen = {
         type: "save",
         optionText: "The Rusty Sword",
         screenId: "rustySword_1",
-        saveValues: [{ savePath: "User.stats.goodness", saveValue: "++" }],
+        saveValues: [
+          { savePath: "User.stats.goodness", saveValue: "++" },
+          { savePath: "User.coins", saveValue: "--" },
+          { savePath: "User.coins", saveValue: "--" },
+        ],
       },
       {
         type: "save",
         optionText: "The Silver Spoon",
         screenId: "silverSpoon1",
-        saveValues: [{ savePath: "User.stats.cleverness", saveValue: "++" }],
+        saveValues: [
+          { savePath: "User.stats.cleverness", saveValue: "++" },
+          { savePath: "User.coins", saveValue: "--" },
+          { savePath: "User.coins", saveValue: "--" },
+          { savePath: "User.coins", saveValue: "--" },
+        ],
       },
       {
         type: "save",
         optionText: "Sewer Water",
         screenId: "sewerWater1",
-        saveValues: [{ savePath: "User.stats.sneakiness", saveValue: "++" }],
+        saveValues: [
+          { savePath: "User.stats.sneakiness", saveValue: "++" },
+          { savePath: "User.coins", saveValue: "--" },
+        ],
       },
     ],
   },
 };
+
+// RUSTY SWORD
 
 const rustySword_1: Screen = {
   _id: "rustySword_1",
@@ -129,7 +143,7 @@ const joinTheFestivities: Screen = {
         conditionOperator: ">=",
         conditionValue: "1",
         trueScreenId: "winArmWrestle",
-        falseScreenId: "callItANight", // todo update
+        falseScreenId: "loseArmWrestle",
       },
       {
         type: "screen",
@@ -152,7 +166,7 @@ const callItANight: Screen = {
       {
         type: "screen",
         optionText: "Next",
-        screenId: "fighterDay1",
+        screenId: "endFirstDay",
       },
     ],
   },
@@ -163,14 +177,103 @@ const winArmWrestle: Screen = {
   header: "The Rusty Sword",
   main: [
     `Your strength and skill impress the crowd, earning you hearty cheers and a round of drinks on the house.`,
-    `An young warrior in the corner, who has been watching the match, approaches you and offers to buy you a drink.`,
+    `A young warrior in the corner, who has been watching the match, approaches you and offers to buy you a drink.`,
     {
       url: "beardedKnight.png",
       alt: "Bearded Warrior",
       side: "right",
       sideText:
-        "I see you have some talent, young one. I have a proposition for you. Come",
+        "I see you have some talent and by your pack I'm thinking you're new in town. What brings you to Belenham?",
     },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "I'm here to make money",
+        screenId: "tryingToMakeMoney",
+      },
+      {
+        type: "screen",
+        optionText: "I'm trying to prove myself",
+        screenId: "tryingToProveMyself",
+      },
+      {
+        type: "screen",
+        optionText: "I'm out to get revenge",
+        screenId: "tryingToGetRevenge",
+      },
+    ],
+  },
+};
+
+const tryingToMakeMoney: Screen = {
+  _id: "tryingToMakeMoney",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "beardedKnight.png",
+      alt: "Bearded Warrior",
+      side: "right",
+      sideText: `I know some places where you can make some coin. I'll introduce you to some people in the morning if you meet me here.`,
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Thank you",
+        screenId: "thankTheKnight_callItANight",
+        saveValues: [
+          { savePath: "User.quests", saveValue: "meetBeardedKnightForWork" },
+        ],
+      },
+    ],
+  },
+};
+
+const tryingToProveMyself: Screen = {
+  _id: "tryingToProveMyself",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "beardedKnight.png",
+      alt: "Bearded Warrior",
+      side: "right",
+      sideText: `Prove yourself, huh? I'm not sure what you're looking for, but I might be able to help you find it. I'll meet you here tomorrow morning, I think I have a job for you.`,
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Thank you",
+        screenId: "thankTheKnight_callItANight",
+        saveValues: [
+          {
+            savePath: "User.quests",
+            saveValue: "meetBeardedKnightForAdventure",
+          },
+        ],
+      },
+    ],
+  },
+};
+
+const tryingToGetRevenge: Screen = {
+  _id: "tryingToGetRevenge",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "beardedKnight.png",
+      alt: "Bearded Warrior",
+      side: "right",
+      sideText: `Revenge is a dangerous game. I wish I could help you find what you're looking for. Best of luck to you`,
+    },
+    `The warrior gives you a nod and heads back to their table. You finish your meal with your thoughts buzzing.`,
   ],
   choiceInformation: {
     text: "",
@@ -184,13 +287,120 @@ const winArmWrestle: Screen = {
   },
 };
 
+const thankTheKnight_callItANight: Screen = {
+  _id: "thankTheKnight_callItANight",
+  header: "The Rusty Sword",
+  main: [
+    `You thank the young warrior who introduces themself as Kael, and head up to your room. 
+    The bed is soft and the room is warm, you fall asleep quickly.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Next",
+        screenId: "endFirstDay",
+        saveValues: [{ savePath: "User.relationships.Kael", saveValue: "++" }],
+      },
+    ],
+  },
+};
+
+const loseArmWrestle: Screen = {
+  _id: "loseArmWrestle",
+  header: "The Rusty Sword",
+  main: [
+    `You put up a good fight, but your opponent's strength wins out in the end. 
+    The crowd cheers and you both share a laugh. Your opponent buys you a drink 
+    and you end up sitting at the same table`,
+    {
+      url: "hopefulFighter.png",
+      alt: "Young Fighter",
+      side: "left",
+      sideText: "You're new in town, aren't you? What brings you to Belenham?",
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "I'm trying to prove myself",
+        screenId: "tryToProveYourself",
+      },
+    ],
+  },
+};
+
+const tryToProveYourself: Screen = {
+  _id: "tryToProveYourself",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "hopefulFighter.png",
+      alt: "Young Fighter",
+      side: "left",
+      sideText: `Proving yourself is so hard in this city! I'm also trying to prove myself. Do you want to work together?`,
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "No thanks",
+        screenId: "callItANight",
+      },
+      {
+        type: "screen",
+        optionText: "Yes please!",
+        screenId: "yesToWorkingTogether",
+      },
+    ],
+  },
+};
+
+const yesToWorkingTogether: Screen = {
+  _id: "yesToWorkingTogether",
+  header: "The Rusty Sword",
+  main: [
+    `You agree to work together with the fighter who introduces herself as Somerild and the two of you make plans to meet in the morning. 
+    You head up to your room and fall asleep quickly.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Next",
+        screenId: "endFirstDay",
+        saveValues: [
+          { savePath: "User.relationships.Somerild", saveValue: "++" },
+          { savePath: "User.relationships.Somerild", saveValue: "++" },
+          { savePath: "User.quests", saveValue: "workWithSomerild" },
+        ],
+      },
+    ],
+  },
+};
+
+// SILVER SPOON
+
+const callItANight_SS: Screen = {
+  ...callItANight,
+  _id: "callItANight_SS",
+  header: "The Silver Spoon",
+};
+
 const silverSpoon1: Screen = {
   _id: "silverSpoon1",
   header: "The Silver Spoon",
   main: [
     `Drawn by the promise of a quiet reprieve, you enter The Silver Spoon. The air is hushed, punctuated 
     only by the clinking of silverware and murmured conversations. A lone figure sits at the bar, nursing 
-    a glass of wine.`,
+    a glass of wine. Their cloak is pulled up around their face, and they carry a long staff that is
+    leaning against the bar.`,
   ],
   choiceInformation: {
     text: "Do you approach them or choose a table for yourself?",
@@ -215,20 +425,21 @@ const silverSpoon1: Screen = {
   },
 };
 
+// Lyra stuff
 const approachFigure: Screen = {
   _id: "approachFigure",
   header: "The Silver Spoon",
   main: [
-    `You strike up a conversation with the mysterious stranger, who reveals themselves to 
-    be a retired adventurer. They offer to share tales of their exploits in exchange for 
-    a friendly game of cards. Through their stories, you gain valuable insights into the 
-    city's history and its hidden secrets.`,
+    `You casually slide onto the stool next to the strange figure, sliding your heavy pack onto the floor 
+    with a thud. The figure looks up at you, their eyes twinkling with amusement.`,
+    `You sit in comfortable silence for a while, as you order a meal and a glass of mead from the barkeep.
+    Eventually the figure finally speaks.`,
     {
-      url: "grizzledMan.png",
-      alt: "Grizzled Adventurer",
-      side: "right",
+      url: "quietDruid.png",
+      alt: "Quiet Druid",
+      side: "left",
       sideText:
-        "Hello there, young one. I see the fire of adventure in your eyes. Sit with me, and I'll share with you the tales of my youth.",
+        "You look like you've been on a long journey. What brings you to Belenham?",
     },
   ],
   choiceInformation: {
@@ -236,13 +447,180 @@ const approachFigure: Screen = {
     options: [
       {
         type: "save",
-        optionText: "Next",
-        screenId: "fighter2_2_1",
-        saveValues: [{ savePath: "User.stats.charm", saveValue: "++" }],
+        optionText: "I'm looking for work",
+        saveValues: [{ savePath: "User.motivations", saveValue: "money" }],
+        screenId: "lookForWork",
+      },
+      {
+        type: "save",
+        optionText: "I'm trying to see the world",
+        saveValues: [{ savePath: "User.motivations", saveValue: "adventure" }],
+        screenId: "tryingToSeeTheWorld", // TODO
+      },
+      {
+        type: "save",
+        optionText: "I'm running away from something",
+        saveValues: [{ savePath: "User.motivations", saveValue: "safety" }],
+        screenId: "runningAwayFromSomething", // TODO
       },
     ],
   },
 };
+
+const lookForWork: Screen = {
+  _id: "lookForWork",
+  header: "The Silver Spoon",
+  main: [
+    {
+      url: "quietDruid.png",
+      alt: "Quiet Druid",
+      side: "left",
+      sideText: `Well, I'm not really in the hiring business, but I might know
+      someone who can help you. I'll bring them by in the morning.`,
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Thank you",
+        screenId: "thankTheDruid_callItANight",
+        saveValues: [{ savePath: "User.quests", saveValue: "meetLyraForWork" }],
+      },
+    ],
+  },
+};
+
+const tryingToSeeTheWorld: Screen = {
+  _id: "tryingToSeeTheWorld",
+  header: "The Silver Spoon",
+  main: [
+    {
+      url: "quietDruid.png",
+      alt: "Quiet Druid",
+      side: "left",
+      sideText: `I understand that feeling. I've seen a lot of the world myself. 
+      I might be able to help you find some interesting places.`,
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Thank you",
+        screenId: "thankTheDruid_callItANight",
+        saveValues: [
+          { savePath: "User.quests", saveValue: "meetLyraForAdventure" },
+        ],
+      },
+    ],
+  },
+};
+
+const runningAwayFromSomething: Screen = {
+  _id: "runningAwayFromSomething",
+  header: "The Silver Spoon",
+  main: [
+    `The woman is quiet for a moment, just looking at you`,
+    {
+      url: "quietDruid.png",
+      alt: "Quiet Druid",
+      side: "left",
+      sideText: `I understand that. Not all of the world is kind to everyone. 
+        If you're looking to make a new start I can introduce you to someone 
+        who might be able to help. I'll meet you here tomorrow morning.`,
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Thank You",
+        screenId: "thankTheDruid_callItANight",
+        saveValues: [
+          { savePath: "User.quests", saveValue: "meetLyraForFreshStart" },
+        ],
+      },
+    ],
+  },
+};
+
+const thankTheDruid_callItANight: Screen = {
+  _id: "thankTheDruid_callItANight",
+  header: "The Silver Spoon",
+  main: [
+    `You thank the woman who introduces herself as Lyra, and head up to your room. 
+    The bed is soft and the room is warm, you fall asleep quickly.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Next",
+        screenId: "endFirstDay",
+        saveValues: [{ savePath: "User.relationships.Lyra", saveValue: "++" }],
+      },
+    ],
+  },
+};
+
+// Find a table stuff
+const findTable: Screen = {
+  _id: "findTable",
+  header: "The Silver Spoon",
+  main: [
+    `You find a small table near the back of the room and take a seat. The barkeep 
+    brings you a glass of wine and a menu.`,
+    `As you sip your wine and peruse the 
+    menu, you overhear a group of merchants at the next table discussing the city's 
+    recent economic troubles.`,
+  ],
+  choiceInformation: {
+    text: "Do you eavesdrop on their conversation or mind your own business?",
+    options: [
+      {
+        type: "save",
+        optionText: "Eavesdrop",
+        screenId: "eavesdrop",
+        saveValues: [{ savePath: "User.stats.sneakiness", saveValue: "++" }],
+      },
+      {
+        type: "screen",
+        optionText: "Mind your own business",
+        screenId: "callItANight_SS",
+      },
+    ],
+  },
+};
+
+const eavesdrop: Screen = {
+  _id: "eavesdrop",
+  header: "The Silver Spoon",
+  main: [
+    `You lean back in your chair, feigning disinterest as you listen to the merchants' conversation. 
+    You learn that the city's recent economic troubles are due to a series of robberies that have 
+    targeted the city's wealthiest citizens.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Next",
+        screenId: "callItANight_SS",
+        saveValues: [
+          { savePath: "User.quests", saveValue: "learnAboutRobberies" },
+        ],
+      },
+    ],
+  },
+};
+
+// SEWER WATER
 
 const sewerWater1: Screen = {
   _id: "sewerWater1",
@@ -258,12 +636,378 @@ const sewerWater1: Screen = {
       {
         type: "screen",
         optionText: "Intervene",
-        screenId: "fighter2_3_1",
+        screenId: "intervene",
       },
       {
         type: "screen",
         optionText: "Observe",
-        screenId: "fighter2_3_2",
+        screenId: "observe",
+      },
+    ],
+  },
+};
+
+const callItANight_SW: Screen = {
+  ...callItANight,
+  _id: "callItANight_SW",
+  header: "Sewer Water",
+};
+
+const observe: Screen = {
+  _id: "observe",
+  header: "Sewer Water",
+  main: [
+    `You decide to observe from a safe distance, not wanting to get involved in whatever trouble 
+    is brewing inside. The people in the middle of the argument are dirty and rough looking. You
+    notice a few of them have weapons.`,
+  ],
+  choiceInformation: {
+    text: "Do you keep a low profile, get involved, or turn around to find a different inn?",
+    options: [
+      {
+        type: "save",
+        optionText: "Keep a low profile",
+        screenId: "keepALowProfile",
+        saveValues: [{ savePath: "User.stats.cleverness", saveValue: "++" }],
+      },
+      {
+        type: "screen",
+        optionText: "Get Involved",
+        screenId: "intervene",
+      },
+      {
+        type: "screen",
+        optionText: "Find A Different Inn",
+        screenId: "findDifferentInn",
+      },
+    ],
+  },
+};
+
+const keepALowProfile: Screen = {
+  _id: "keepALowProfile",
+  header: "Sewer Water",
+  main: [
+    `You keep a low profile and find a table in the corner, ordering a meal and a drink. 
+    You keep an eye on the group, but they seem to be too wrapped up in their argument to notice you.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "Next",
+        screenId: "callItANight_SW",
+      },
+    ],
+  },
+};
+
+const intervene: Screen = {
+  _id: "intervene",
+  header: "Sewer Water",
+  main: [
+    `You push open the door and stride into the inn, your presence drawing the attention of the 
+    arguing group.`,
+  ],
+  choiceInformation: {
+    text: "Do you try to defuse the situation or take a more aggressive approach?",
+    options: [
+      {
+        type: "conditionalScreen",
+        optionText: "Defuse",
+        conditionPath: "User.stats.charm",
+        conditionOperator: ">=",
+        conditionValue: "1",
+        trueScreenId: "defuseSituation_success",
+        falseScreenId: "defuseSituation_failure",
+      },
+      {
+        type: "screen",
+        optionText: "Aggressive",
+        screenId: "aggressive",
+      },
+    ],
+  },
+};
+
+const aggressive: Screen = {
+  _id: "aggressive",
+  header: "Sewer Water",
+  main: [
+    `You take a more aggressive approach, and the group responds in kind. 
+    You find yourself in the middle of a brawl.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Next",
+        screenId: "middleOfBrawl",
+        saveValues: [
+          { savePath: "User.stats.brawn", saveValue: "++" },
+          { savePath: "User.stats.goodness", saveValue: "--" },
+        ],
+      },
+    ],
+  },
+};
+
+const defuseSituation_success: Screen = {
+  _id: "defuseSituation_success",
+  header: "Sewer Water",
+  main: [
+    `You manage to defuse the situation with a few well-chosen words, and the group 
+    disperses with grumbles and glares.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Next",
+        screenId: "callItANight_SW",
+        saveValues: [{ savePath: "User.stats.goodness", saveValue: "++" }],
+      },
+    ],
+  },
+};
+
+const defuseSituation_failure: Screen = {
+  _id: "defuseSituation_failure",
+  header: "Sewer Water",
+  main: [
+    `Your attempt to defuse the situation only seems to make things worse. 
+    The group turns their anger on you, and you find yourself in the middle of a brawl.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Next",
+        screenId: "middleOfBrawl",
+        saveValues: [
+          { savePath: "User.stats.brawn", saveValue: "++" },
+          { savePath: "User.stats.goodness", saveValue: "--" },
+        ],
+      },
+    ],
+  },
+};
+
+const middleOfBrawl: Screen = {
+  _id: "middleOfBrawl",
+  header: "Sewer Water",
+  main: [
+    `You're dodging fists and trying to keep your feet as the other patrons join in the fray.`,
+    `Out of nowhere, you feel a tug at the back of your neck and you're suddenly yanked
+    from the fight and out the door. You find yourself face to face with a tall figure`,
+    {
+      url: "grizzledMan.png",
+      alt: "Tall Grizzled Man",
+      side: "right",
+      sideText:
+        "Are you stupid or something? You should know better than to get involved in a fight in a place like this!",
+    },
+    `He gives you a shake and a stern look before releasing you and walking back inside.`,
+  ],
+  choiceInformation: {
+    text: "Do you follow him back inside or find a different inn?",
+    options: [
+      {
+        type: "save",
+        optionText: "Find a different inn",
+        screenId: "findDifferentInn",
+        saveValues: [
+          { savePath: "User.stats.sneakiness", saveValue: "--" },
+          { savePath: "User.coins", saveValue: "++" },
+        ],
+      },
+      {
+        type: "screen",
+        optionText: "Next",
+        screenId: "followHimInside",
+      },
+    ],
+  },
+};
+
+const followHimInside: Screen = {
+  _id: "followHimInside",
+  header: "Sewer Water",
+  main: [
+    `You follow the man back inside, and he leads you to a table in the corner.`,
+    `He sits down and gestures for you to do the same.`,
+    {
+      url: "grizzledMan.png",
+      alt: "Tall Grizzled Man",
+      side: "right",
+      sideText:
+        "You're lucky I was there to pull you out of that mess. You look like you could use a drink. What are you doing in Belenham?",
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "I'm looking to disappear",
+        screenId: "lookingToDisappear",
+      },
+      {
+        type: "screen",
+        optionText: "I'm trying to see the world",
+        screenId: "SW_tryingToSeeTheWorld",
+      },
+      {
+        type: "screen",
+        optionText: "I'm looking for answers",
+        screenId: "lookingForAnswers",
+      },
+    ],
+  },
+};
+
+const lookingToDisappear: Screen = {
+  _id: "lookingToDisappear",
+  header: "Sewer Water",
+  main: [
+    {
+      url: "grizzledMan.png",
+      alt: "Tall Grizzled Man",
+      side: "right",
+      sideText:
+        "I understand that. I know someone who is very good at that sort of thing. I'll introduce you in the morning.",
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Thank you",
+        screenId: "thankTheMan_callItANight",
+        saveValues: [
+          { savePath: "User.quests", saveValue: "meetGrizzledManForDisappear" },
+        ],
+      },
+    ],
+  },
+};
+
+const SW_tryingToSeeTheWorld: Screen = {
+  _id: "SW_tryingToSeeTheWorld",
+  header: "Sewer Water",
+  main: [
+    {
+      url: "grizzledMan.png",
+      alt: "Tall Grizzled Man",
+      side: "right",
+      sideText:
+        "I understand that. I might be able to help you find some interesting places.",
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Thank you",
+        screenId: "thankTheMan_callItANight",
+        saveValues: [
+          { savePath: "User.quests", saveValue: "meetGrizzledManForAdventure" },
+        ],
+      },
+    ],
+  },
+};
+
+const lookingForAnswers: Screen = {
+  _id: "lookingForAnswers",
+  header: "Sewer Water",
+  main: [
+    {
+      url: "grizzledMan.png",
+      alt: "Tall Grizzled Man",
+      side: "right",
+      sideText: `Getting answers can be dangerous. I might know someone who 
+      can help you. She's got ins with the right people. Meet me here tomorrow
+      morning and I'll introduce you.`,
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Thank you",
+        screenId: "thankTheMan_callItANight",
+        saveValues: [
+          { savePath: "User.quests", saveValue: "meetGrizzledManForAnswers" },
+        ],
+      },
+    ],
+  },
+};
+
+const thankTheMan_callItANight: Screen = {
+  _id: "thankTheMan_callItANight",
+  header: "Sewer Water",
+  main: [
+    `You thank the man who introduces himself as Hunstan, and after eating some gritty 
+    food you head up to your room. The bed is scratchy and there's a draft in the room, 
+    but you fall asleep quickly.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Next",
+        screenId: "endFirstDay",
+        saveValues: [
+          { savePath: "User.relationships.Hunstan", saveValue: "++" },
+        ],
+      },
+    ],
+  },
+};
+
+const findDifferentInn: Screen = {
+  _id: "findDifferentInn",
+  header: "",
+  main: [
+    `You decide to find a different inn.`,
+    `There's The Rusty Sword, it's windows are yellow with light and laughter seems to spill 
+    from it's hearth.`,
+    `There's also The Silver Spoon, it's windows are dark and the only sound you hear is the soft
+    clinking of silverware and occasionally a low murmur.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "The Rusty Sword",
+        screenId: "rustySword_1",
+        saveValues: [
+          { savePath: "User.stats.goodness", saveValue: "++" },
+          { savePath: "User.coins", saveValue: "--" },
+          { savePath: "User.coins", saveValue: "--" },
+        ],
+      },
+      {
+        type: "save",
+        optionText: "The Silver Spoon",
+        screenId: "silverSpoon1",
+        saveValues: [
+          { savePath: "User.stats.cleverness", saveValue: "++" },
+          { savePath: "User.coins", saveValue: "--" },
+          { savePath: "User.coins", saveValue: "--" },
+          { savePath: "User.coins", saveValue: "--" },
+        ],
       },
     ],
   },
@@ -280,4 +1024,32 @@ export const fighterScreens = [
   seekSolitude,
   stepInToHelp,
   approachFigure,
+  loseArmWrestle,
+  lookForWork,
+  tryingToSeeTheWorld,
+  runningAwayFromSomething,
+  thankTheDruid_callItANight,
+  callItANight_SS,
+  findTable,
+  eavesdrop,
+  callItANight_SW,
+  intervene,
+  defuseSituation_success,
+  defuseSituation_failure,
+  findDifferentInn,
+  middleOfBrawl,
+  followHimInside,
+  thankTheMan_callItANight,
+  lookingToDisappear,
+  SW_tryingToSeeTheWorld,
+  lookingForAnswers,
+  aggressive,
+  keepALowProfile,
+  observe,
+  tryingToMakeMoney,
+  tryingToProveMyself,
+  tryingToGetRevenge,
+  thankTheKnight_callItANight,
+  tryToProveYourself,
+  yesToWorkingTogether,
 ];

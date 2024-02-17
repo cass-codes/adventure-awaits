@@ -11,6 +11,7 @@
   justify-content: space-around;
   list-style-type: none;
   flex-wrap: wrap;
+  row-gap: 10px;
 }
 
 button {

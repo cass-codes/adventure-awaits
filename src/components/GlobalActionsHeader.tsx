@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./GlobalActionsHeader.css";
-import UserModal from "./UserModal";
+import UserModal from "./UserModal/UserModal";
+import { SavingService } from "../server/SavingService/SavingService";
 
 function GlobalActionsHeader(props: {
   onFirstScreen: boolean;
@@ -10,7 +11,7 @@ function GlobalActionsHeader(props: {
   loadUser: Function;
 }) {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(SavingService.loadUser());
 
   function loadGameHandler() {
     props.loadGame();

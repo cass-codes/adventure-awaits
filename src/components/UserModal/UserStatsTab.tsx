@@ -1,6 +1,4 @@
-import { User } from "../types/User";
-import Modal from "./basics/Modal";
-import "./UserModal.css";
+import { User } from "../../types/User";
 
 const barStart = -5;
 const barEnd = 5;
@@ -25,15 +23,7 @@ function getUserGoal(userClass: string) {
   }
 }
 
-function UserModal({
-  isOpen,
-  onClose,
-  userData,
-}: {
-  isOpen: boolean;
-  onClose: Function;
-  userData: User;
-}) {
+function UserStatsTab({ userData }: { userData: User }) {
   let modalData;
 
   const goodnessBarEval = userData.stats?.goodness || 0;
@@ -145,11 +135,7 @@ function UserModal({
     );
   }
 
-  return (
-    <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onClose}>
-      <div className="UserModal">{modalData}</div>
-    </Modal>
-  );
+  return <div>{modalData}</div>;
 }
 
-export default UserModal;
+export default UserStatsTab;

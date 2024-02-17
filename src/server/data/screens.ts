@@ -6,7 +6,7 @@ export const startScreen: Screen = {
   header: "Welcome to the game!",
   main: ["This is an adventure game where you make choices to progress."],
   choiceInformation: {
-    text: "Start the game, or Load a previous game in the upper right corner.",
+    text: "Start the game, or Load a previous game in the upper left corner.",
     options: [{ type: "screen", optionText: "Start", screenId: "start" }],
   },
 };

@@ -1,7 +1,31 @@
-import { User } from "../../types/User";
+import { QuestStatus } from "../../types/Quest";
+import { Motivations, Relationship, Stat, User } from "../../types/User";
+import { allQuests } from "../data/quests";
 import { parseSavePath } from "./helper";
 
-let user: User = {};
+let user: User = {
+  quests: allQuests,
+  coins: 10,
+  stats: {
+    goodness: 0,
+    sneakiness: 0,
+    cleverness: 0,
+    brawn: 0,
+    magic: 0,
+    charm: 0,
+  },
+  relationships: {},
+};
+
+function evalPlusMinusInput(input: string) {
+  if (input === "++") {
+    return 1;
+  } else if (input === "--") {
+    return -1;
+  } else {
+    throw Error(`Invalid input: ${input}`);
+  }
+}
 
 export class SavingService {
   static saveContent(input: string, savePath: string) {
@@ -13,84 +37,48 @@ export class SavingService {
         user.class = input;
       } else if (propertyPath[0] === "stats") {
         console.log("updating stats", user.stats, propertyPath[1], input);
-        if (user.stats === undefined) {
-          user.stats = {
-            goodness: 0,
-            sneakiness: 0,
-            cleverness: 0,
-            brawn: 0,
-            magic: 0,
-            charm: 0,
-          };
-        }
-        const stat = propertyPath[1];
-        if (stat === "goodness") {
-          if (input === "++") {
-            user.stats.goodness++;
-          } else if (input === "--") {
-            user.stats.goodness--;
-          } else {
-            console.error("Invalid input", input);
-          }
-        } else if (stat === "cleverness") {
-          if (input === "++") {
-            user.stats.cleverness++;
-          } else if (input === "--") {
-            user.stats.cleverness--;
-          } else {
-            console.error("Invalid input", input);
-          }
-        } else if (stat === "sneakiness") {
-          if (input === "++") {
-            user.stats.sneakiness++;
-          } else if (input === "--") {
-            user.stats.sneakiness--;
-          } else {
-            console.error("Invalid input", input);
-          }
-        } else if (stat === "brawn") {
-          if (input === "++") {
-            user.stats.brawn++;
-          } else if (input === "--") {
-            user.stats.brawn--;
-          } else {
-            console.error("Invalid input", input);
-          }
-        } else if (stat === "magic") {
-          if (input === "++") {
-            user.stats.magic++;
-          } else if (input === "--") {
-            user.stats.magic--;
-          } else {
-            console.error("Invalid input", input);
-          }
-        } else if (stat === "charm") {
-          if (input === "++") {
-            user.stats.charm++;
-          } else if (input === "--") {
-            user.stats.charm--;
-          } else {
-            console.error("Invalid input", input);
-          }
-        } else {
-          console.error("Stat not found", stat);
-        }
+        const stat = Stat[propertyPath[1] as keyof typeof Stat];
+        const currentStat = user.stats[stat];
+        const changeBy = evalPlusMinusInput(input);
+        user.stats[stat] = currentStat + changeBy;
       } else if (propertyPath[0] === "coins") {
-        if (user.coins === undefined) {
-          user.coins = 10;
+        const changeBy = evalPlusMinusInput(input);
+        user.coins += changeBy;
+      } else if (propertyPath[0] === "motivations") {
+        if (user.motivations === undefined) {
+          user.motivations = [];
         }
-        if (input === "++") {
-          user.coins++;
-        } else if (input === "--") {
-          user.coins--;
+        const motive = input as keyof typeof Motivations;
+        user.motivations.push(Motivations[motive]);
+      } else if (propertyPath[0] === "relationships") {
+        const relationship =
+          Relationship[propertyPath[1] as keyof typeof Relationship];
+        let rel = user.relationships[relationship];
+        if (rel === undefined) {
+          rel = 0;
         } else {
-          console.error("Invalid input", input);
+          rel += evalPlusMinusInput(input);
+        }
+        user.relationships[relationship] = rel;
+      } else if (propertyPath[0] === "quests") {
+        if (propertyPath.length < 2) {
+          user.quests[input].status = QuestStatus.active;
+        } else {
+          const quest = user.quests[propertyPath[1]];
+          if (quest === undefined) {
+            throw Error(`Quest not found: ${propertyPath[1]}`);
+          }
+          if (propertyPath[2] === "status") {
+            quest.status = input as QuestStatus;
+          } else {
+            throw Error(`Property not found: ${propertyPath[2]}`);
+          }
         }
       } else {
-        console.error("Property not found", propertyPath[0]);
+        throw Error(`Property not found: ${propertyPath[0]}`);
       }
     } else {
-      console.error("Object not found", ObjectName);
+      throw Error(`Object not found ${ObjectName}`);
     }
   }
 
@@ -108,26 +96,22 @@ export class SavingService {
         return user.class;
       }
       if (propertyPath[0] === "stats") {
-        const stat = propertyPath[1];
-        if (stat === "goodness") {
-          return user.stats?.goodness.toString();
-        }
-        if (stat === "cleverness") {
-          return user.stats?.cleverness.toString();
-        }
-        if (stat === "sneakiness") {
-          return user.stats?.sneakiness.toString();
-        }
-        if (stat === "brawn") {
-          return user.stats?.brawn.toString();
-        }
-        if (stat === "magic") {
-          return user.stats?.magic.toString();
-        }
-        if (stat === "charm") {
-          return user.stats?.charm.toString();
-        }
-        throw Error("Stat not found");
+        const stat = Stat[propertyPath[1] as keyof typeof Stat];
+        return user.stats[stat].toString();
+      }
+      if (propertyPath[0] === "coins") {
+        return user.coins.toString();
+      }
+      if (propertyPath[0] === "motivations") {
+        return user.motivations?.join(", ") || "";
+      }
+      if (propertyPath[0] === "relationships") {
+        const relationship =
+          Relationship[propertyPath[1] as keyof typeof Relationship];
+        return user.relationships[relationship]?.toString() || "";
+      }
+      if (propertyPath[0] === "quests") {
+        return user.quests[propertyPath[1]].displayText;
       }
     }
   }
@@ -149,7 +133,19 @@ export class SavingService {
   }
 
   static restartGame() {
-    user = {};
+    user = {
+      quests: allQuests,
+      coins: 10,
+      stats: {
+        goodness: 0,
+        sneakiness: 0,
+        cleverness: 0,
+        brawn: 0,
+        magic: 0,
+        charm: 0,
+      },
+      relationships: {},
+    };
     localStorage.removeItem("user");
     localStorage.removeItem("screenId");
   }
