@@ -53,12 +53,13 @@ export class SavingService {
       } else if (propertyPath[0] === "relationships") {
         const relationship =
           Relationship[propertyPath[1] as keyof typeof Relationship];
+        console.log("updating relationship", relationship, input);
         let rel = user.relationships[relationship];
+        console.log("current rel", rel);
         if (rel === undefined) {
           rel = 0;
-        } else {
-          rel += evalPlusMinusInput(input);
         }
+        rel += evalPlusMinusInput(input);
         user.relationships[relationship] = rel;
       } else if (propertyPath[0] === "quests") {
         if (propertyPath.length < 2) {

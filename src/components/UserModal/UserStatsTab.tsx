@@ -10,19 +10,6 @@ const brawnBarKey = "[weak]-------------------[strong]";
 const magicBarKey = "[none]-------------------[master]";
 const charmBarKey = "[uh]----------------[charismatic]";
 
-function getUserGoal(userClass: string) {
-  switch (userClass) {
-    case "Fighter":
-      return "Become Knighted";
-    case "Mage":
-      return "Enroll in the Mage's College";
-    case "Bard":
-      return "Get the king to laugh!";
-    default:
-      return "";
-  }
-}
-
 function UserStatsTab({ userData }: { userData: User }) {
   let modalData;
 
@@ -108,8 +95,6 @@ function UserStatsTab({ userData }: { userData: User }) {
         <h1>
           {userData.name} the {userData.class}
         </h1>
-        <h2>Goal: {getUserGoal(userData.class)}</h2>
-        <p>Stats </p>
         <p>Goodness: </p>
         <p className="barStats">{goodnessBar}</p>
         <p className="barStats barKey">{goodnessBarKey}</p>

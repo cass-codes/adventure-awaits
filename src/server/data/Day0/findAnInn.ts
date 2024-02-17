@@ -179,7 +179,7 @@ const winArmWrestle: Screen = {
     `Your strength and skill impress the crowd, earning you hearty cheers and a round of drinks on the house.`,
     `A young warrior in the corner, who has been watching the match, approaches you and offers to buy you a drink.`,
     {
-      url: "beardedKnight.png",
+      url: "Kael.png",
       alt: "Bearded Warrior",
       side: "right",
       sideText:
@@ -190,19 +190,22 @@ const winArmWrestle: Screen = {
     text: "",
     options: [
       {
-        type: "screen",
+        type: "save",
         optionText: "I'm here to make money",
         screenId: "tryingToMakeMoney",
+        saveValues: [{ savePath: "User.motivations", saveValue: "money" }],
       },
       {
-        type: "screen",
+        type: "save",
         optionText: "I'm trying to prove myself",
         screenId: "tryingToProveMyself",
+        saveValues: [{ savePath: "User.motivations", saveValue: "power" }],
       },
       {
-        type: "screen",
+        type: "save",
         optionText: "I'm out to get revenge",
         screenId: "tryingToGetRevenge",
+        saveValues: [{ savePath: "User.motivations", saveValue: "revenge" }],
       },
     ],
   },
@@ -213,7 +216,7 @@ const tryingToMakeMoney: Screen = {
   header: "The Rusty Sword",
   main: [
     {
-      url: "beardedKnight.png",
+      url: "Kael.png",
       alt: "Bearded Warrior",
       side: "right",
       sideText: `I know some places where you can make some coin. I'll introduce you to some people in the morning if you meet me here.`,
@@ -239,7 +242,7 @@ const tryingToProveMyself: Screen = {
   header: "The Rusty Sword",
   main: [
     {
-      url: "beardedKnight.png",
+      url: "Kael.png",
       alt: "Bearded Warrior",
       side: "right",
       sideText: `Prove yourself, huh? I'm not sure what you're looking for, but I might be able to help you find it. I'll meet you here tomorrow morning, I think I have a job for you.`,
@@ -268,7 +271,7 @@ const tryingToGetRevenge: Screen = {
   header: "The Rusty Sword",
   main: [
     {
-      url: "beardedKnight.png",
+      url: "Kael.png",
       alt: "Bearded Warrior",
       side: "right",
       sideText: `Revenge is a dangerous game. I wish I could help you find what you're looking for. Best of luck to you`,
@@ -315,7 +318,7 @@ const loseArmWrestle: Screen = {
     The crowd cheers and you both share a laugh. Your opponent buys you a drink 
     and you end up sitting at the same table`,
     {
-      url: "hopefulFighter.png",
+      url: "Somerild.png",
       alt: "Young Fighter",
       side: "left",
       sideText: "You're new in town, aren't you? What brings you to Belenham?",
@@ -338,7 +341,7 @@ const tryToProveYourself: Screen = {
   header: "The Rusty Sword",
   main: [
     {
-      url: "hopefulFighter.png",
+      url: "Somerild.png",
       alt: "Young Fighter",
       side: "left",
       sideText: `Proving yourself is so hard in this city! I'm also trying to prove myself. Do you want to work together?`,
@@ -435,7 +438,7 @@ const approachFigure: Screen = {
     `You sit in comfortable silence for a while, as you order a meal and a glass of mead from the barkeep.
     Eventually the figure finally speaks.`,
     {
-      url: "quietDruid.png",
+      url: "Lyra.png",
       alt: "Quiet Druid",
       side: "left",
       sideText:
@@ -472,7 +475,7 @@ const lookForWork: Screen = {
   header: "The Silver Spoon",
   main: [
     {
-      url: "quietDruid.png",
+      url: "Lyra.png",
       alt: "Quiet Druid",
       side: "left",
       sideText: `Well, I'm not really in the hiring business, but I might know
@@ -497,7 +500,7 @@ const tryingToSeeTheWorld: Screen = {
   header: "The Silver Spoon",
   main: [
     {
-      url: "quietDruid.png",
+      url: "Lyra.png",
       alt: "Quiet Druid",
       side: "left",
       sideText: `I understand that feeling. I've seen a lot of the world myself. 
@@ -525,7 +528,7 @@ const runningAwayFromSomething: Screen = {
   main: [
     `The woman is quiet for a moment, just looking at you`,
     {
-      url: "quietDruid.png",
+      url: "Lyra.png",
       alt: "Quiet Druid",
       side: "left",
       sideText: `I understand that. Not all of the world is kind to everyone. 
@@ -805,7 +808,7 @@ const middleOfBrawl: Screen = {
     `Out of nowhere, you feel a tug at the back of your neck and you're suddenly yanked
     from the fight and out the door. You find yourself face to face with a tall figure`,
     {
-      url: "grizzledMan.png",
+      url: "Hunstan.png",
       alt: "Tall Grizzled Man",
       side: "right",
       sideText:
@@ -827,7 +830,7 @@ const middleOfBrawl: Screen = {
       },
       {
         type: "screen",
-        optionText: "Next",
+        optionText: "Follow him inside",
         screenId: "followHimInside",
       },
     ],
@@ -841,7 +844,7 @@ const followHimInside: Screen = {
     `You follow the man back inside, and he leads you to a table in the corner.`,
     `He sits down and gestures for you to do the same.`,
     {
-      url: "grizzledMan.png",
+      url: "Hunstan.png",
       alt: "Tall Grizzled Man",
       side: "right",
       sideText:
@@ -852,19 +855,22 @@ const followHimInside: Screen = {
     text: "",
     options: [
       {
-        type: "screen",
+        type: "save",
         optionText: "I'm looking to disappear",
         screenId: "lookingToDisappear",
+        saveValues: [{ savePath: "User.motivations", saveValue: "safety" }],
       },
       {
-        type: "screen",
+        type: "save",
         optionText: "I'm trying to see the world",
         screenId: "SW_tryingToSeeTheWorld",
+        saveValues: [{ savePath: "User.motivations", saveValue: "adventure" }],
       },
       {
-        type: "screen",
+        type: "save",
         optionText: "I'm looking for answers",
         screenId: "lookingForAnswers",
+        saveValues: [{ savePath: "User.motivations", saveValue: "knowledge" }],
       },
     ],
   },
@@ -875,7 +881,7 @@ const lookingToDisappear: Screen = {
   header: "Sewer Water",
   main: [
     {
-      url: "grizzledMan.png",
+      url: "Hunstan.png",
       alt: "Tall Grizzled Man",
       side: "right",
       sideText:
@@ -902,7 +908,7 @@ const SW_tryingToSeeTheWorld: Screen = {
   header: "Sewer Water",
   main: [
     {
-      url: "grizzledMan.png",
+      url: "Hunstan.png",
       alt: "Tall Grizzled Man",
       side: "right",
       sideText:
@@ -929,7 +935,7 @@ const lookingForAnswers: Screen = {
   header: "Sewer Water",
   main: [
     {
-      url: "grizzledMan.png",
+      url: "Hunstan.png",
       alt: "Tall Grizzled Man",
       side: "right",
       sideText: `Getting answers can be dangerous. I might know someone who 
@@ -1013,6 +1019,24 @@ const findDifferentInn: Screen = {
   },
 };
 
+// End of Day 0
+
+const endFirstDay: Screen = {
+  _id: "endFirstDay",
+  header: "You have finished your first day in Belenham!`",
+  main: [``, ``, ``, ``],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "Restart game",
+        screenId: "quit",
+      },
+    ],
+  },
+};
+
 export const fighterScreens = [
   theAdventureBegins,
   rustySword_1,
@@ -1052,4 +1076,5 @@ export const fighterScreens = [
   thankTheKnight_callItANight,
   tryToProveYourself,
   yesToWorkingTogether,
+  endFirstDay,
 ];

@@ -1,0 +1,14 @@
+.ActiveTab {
+  background-color: inherit;
+  border: 1pt solid black;
+  border-bottom: none;
+  border-radius: 5px 5px 0px 0px;
+  margin: 2pt;
+}
+
+.InactiveTabs {
+  background-color: inherit;
+  border: 1pt solid black;
+  border-radius: 5px 5px 0px 0px;
+  margin: 2pt;
+}

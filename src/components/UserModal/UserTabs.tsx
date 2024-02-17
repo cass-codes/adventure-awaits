@@ -1,4 +1,12 @@
-function UserTabs({ openTab }: { openTab: Function }) {
+import "./UserTabs.css";
+
+function UserTabs({
+  openTab,
+  activeTab,
+}: {
+  openTab: Function;
+  activeTab: string;
+}) {
   function openStatsHandler() {
     openTab("stats");
   }
@@ -16,17 +24,29 @@ function UserTabs({ openTab }: { openTab: Function }) {
   }
 
   return (
-    <div className="UserTabs">
-      <button className="UserTabs-tab" onClick={openStatsHandler}>
+    <div>
+      <button
+        className={activeTab === "stats" ? "ActiveTab" : "InactiveTabs"}
+        onClick={openStatsHandler}
+      >
         Stats
       </button>
-      <button className="UserTabs-tab" onClick={openQuestsHandler}>
+      <button
+        className={activeTab === "quests" ? "ActiveTab" : "InactiveTabs"}
+        onClick={openQuestsHandler}
+      >
         Quests
       </button>
-      <button className="UserTabs-tab" onClick={openRelationshipsHandler}>
+      <button
+        className={activeTab === "relationships" ? "ActiveTab" : "InactiveTabs"}
+        onClick={openRelationshipsHandler}
+      >
         Relationships
       </button>
-      <button className="UserTabs-tab" onClick={openInfoHandler}>
+      <button
+        className={activeTab === "info" ? "ActiveTab" : "InactiveTabs"}
+        onClick={openInfoHandler}
+      >
         Info
       </button>
     </div>

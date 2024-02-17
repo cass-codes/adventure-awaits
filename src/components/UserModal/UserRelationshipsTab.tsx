@@ -1,4 +1,12 @@
 import { User } from "../../types/User";
+import { getUrlFromMap } from "../picture-url-map";
+import "./UserRelationshipsTab.css";
+
+const RELATIONSHIP_MAX = 10;
+
+function getRelationshipPicture(relationship: string) {
+  return getUrlFromMap(relationship + ".png");
+}
 
 function hasAnyRelationships(relationships: {
   Lyra?: number | undefined;
@@ -20,20 +28,44 @@ function UserRelationshipsTab({ userData }: { userData: User }) {
     );
   }
   const relationshipKeys = Object.keys(relationships);
+
+  function getRelationshipRow(relationshipKey: string) {
+    const relationshipValue =
+      relationships[relationshipKey as keyof typeof relationships] || 0;
+    return (
+      <>
+        <td>
+          <img
+            className="relationshipImage"
+            src={getRelationshipPicture(relationshipKey)}
+            alt={relationshipKey}
+          />
+        </td>
+        <td>{relationshipKey}</td>
+        <td>
+          <span>
+            <meter
+              className="progressBar"
+              value={relationshipValue}
+              min="0"
+              max={RELATIONSHIP_MAX}
+            />
+          </span>
+        </td>
+      </>
+    );
+  }
+
   return (
     <>
       <h3>Relationships</h3>
-
-      <ul>
+      <table>
         {relationshipKeys.map((relationshipKey) => {
           return (
-            <li key={relationshipKey}>
-              {relationshipKey} -{" "}
-              {relationships[relationshipKey as keyof typeof relationships]}
-            </li>
+            <tr key={relationshipKey}>{getRelationshipRow(relationshipKey)}</tr>
           );
         })}
-      </ul>
+      </table>
     </>
   );
 }

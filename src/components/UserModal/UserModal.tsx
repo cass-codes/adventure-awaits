@@ -30,7 +30,7 @@ function UserModal({
 
   return (
     <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onCloseHandler}>
-      <UserTabs openTab={openTabHandler} />
+      <UserTabs openTab={openTabHandler} activeTab={activeTab} />
       <div className="UserModal">
         {activeTab === "stats" && <UserStatsTab userData={userData} />}
         {activeTab === "quests" && <UserQuestsTab userData={userData} />}

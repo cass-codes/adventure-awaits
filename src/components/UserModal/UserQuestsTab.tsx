@@ -15,7 +15,6 @@ function UserQuestsTab({ userData }: { userData: User }) {
   if (activeQuestsKeys.length > 0) {
     modalData = (
       <div>
-        <h3>Quests</h3>
         <ul>
           {activeQuestsKeys.map((questKey) => {
             const quest = quests[questKey];
@@ -25,10 +24,15 @@ function UserQuestsTab({ userData }: { userData: User }) {
       </div>
     );
   } else {
-    modalData = <p>No quests yet</p>;
+    modalData = <p>No quests yet.</p>;
   }
 
-  return modalData;
+  return (
+    <>
+      <h3>Quests</h3>
+      {modalData}
+    </>
+  );
 }
 
 export default UserQuestsTab;
