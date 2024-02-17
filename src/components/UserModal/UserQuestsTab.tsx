@@ -1,6 +1,8 @@
 import { QuestStatus } from "../../types/Quest";
 import { User } from "../../types/User";
 
+// TODO: Add back bullets for quests
+
 function UserQuestsTab({ userData }: { userData: User }) {
   let modalData;
 

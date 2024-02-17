@@ -2,6 +2,8 @@ import { MainContentProps, PictureMain } from "../types/Screen";
 import "./MainContent.css";
 import { getUrlFromMap } from "./picture-url-map";
 
+// TODO: Make something to make it apparent that the side text for the picture is dialog!
+
 function MainContent(props: { content: MainContentProps }) {
   function buildPictureMain(p: PictureMain, index: number) {
     const url = getUrlFromMap(p.url);
@@ -33,10 +35,7 @@ function MainContent(props: { content: MainContentProps }) {
           // type is PictureMain
           return buildPictureMain(p, index);
         } else {
-          // type is ConditionalMain
-          // return <MainContent content={p.trueMain} />;
-          console.log("ConditionalMain not implemented");
-          console.log("p", p);
+          // type is undefined
           return <></>;
         }
       })}

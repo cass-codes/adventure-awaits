@@ -20,6 +20,8 @@ function UserStatsTab({ userData }: { userData: User }) {
   const magicBarEval = userData.stats?.magic || 0;
   const charmBarEval = userData.stats?.charm || 0;
 
+  // TODO - Refactor this to be more DRY
+
   let goodnessBar = "";
   let sneakinessBar = "";
   let clevernessBar = "";
@@ -41,7 +43,7 @@ function UserStatsTab({ userData }: { userData: User }) {
     if (i < sneakinessBarEval) {
       sneakinessBar += "[ ]";
     } else if (i === sneakinessBarEval) {
-      sneakinessBar += "[V]";
+      sneakinessBar += `[V]`;
     } else {
       sneakinessBar += "[ ]";
     }
@@ -86,7 +88,7 @@ function UserStatsTab({ userData }: { userData: User }) {
   if (!userData.name || !userData.class) {
     modalData = (
       <div>
-        <h2>Please play the game to build your character</h2>
+        <h2>Please play the game to build your character!</h2>
       </div>
     );
   } else {

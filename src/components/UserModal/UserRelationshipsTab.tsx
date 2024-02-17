@@ -23,7 +23,7 @@ function UserRelationshipsTab({ userData }: { userData: User }) {
     return (
       <>
         <h3>Relationships</h3>
-        <p>No relationships yet, explore your world more to meet people</p>
+        <p>No relationships yet. Explore your world to meet people!</p>
       </>
     );
   }

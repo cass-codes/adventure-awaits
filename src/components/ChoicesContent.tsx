@@ -3,6 +3,10 @@ import "./ChoicesContent.css";
 import { ChoiceInfo, ChoiceOption } from "../types/Screen";
 import { evaluateConditionalScreenOption } from "../server/unfurlObjects";
 
+// TODO fix alignment of input choices!!
+
+// TODO fix alignment of choices when there is a single choice
+
 function ChoicesContent(props: {
   choices: ChoiceInfo;
   setScreenById: Function;

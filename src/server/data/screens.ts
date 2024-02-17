@@ -1,12 +1,12 @@
 import { Screen } from "../../types/Screen";
-import { fighterScreens } from "./Day0/findAnInn";
+import { fighterScreens as day0Screens } from "./Day0/findAnInn";
 
 export const startScreen: Screen = {
   _id: "0",
   header: "Welcome to the game!",
   main: ["This is an adventure game where you make choices to progress."],
   choiceInformation: {
-    text: "Start the game, or Load a previous game in the upper left corner.",
+    text: "Start the game, or load a previous game in the upper left corner.",
     options: [{ type: "screen", optionText: "Start", screenId: "start" }],
   },
 };
@@ -34,7 +34,7 @@ const start: Screen = {
   _id: "start",
   header: "Build Your Character",
   main: [
-    "You are traveling on a road to a destination you hope will bring you answers. You will reach your destination soon, but first who are you?",
+    "You are traveling on a road to a destination you hope will bring you answers. You will reach your destination soon, but first, who are you?",
   ],
   choiceInformation: {
     text: "",
@@ -90,7 +90,7 @@ const bardBegin: Screen = {
     options: [
       {
         type: "save",
-        optionText: "No Let Me Choose Again",
+        optionText: "No, let me choose again.",
         screenId: "pickClass",
         saveValues: [{ savePath: "User.stats.charm", saveValue: "--" }],
       },
@@ -115,7 +115,7 @@ const fighterBegin: Screen = {
     options: [
       {
         type: "save",
-        optionText: "No Let Me Choose Again",
+        optionText: "No, let me choose again.",
         screenId: "pickClass",
         saveValues: [
           {
@@ -143,14 +143,16 @@ const mageBegin: Screen = {
   _id: "mageBegin",
   header: "Welcome %%{User.name} the Mage!",
   main: [
-    "It's just about time to start your journey. You are a young mage with a lot to learn. You have been traveling to the Great University in Belenham to try to get training to control your magic. If this does not seem like the path for you, you can choose again.",
+    `It's just about time to start your journey. You are a young mage with a lot to learn. You have been traveling to 
+    the Great University in Belenham to get training to control your magic. If this does not seem like the path for you, 
+    you can choose again.`,
   ],
   choiceInformation: {
     text: "",
     options: [
       {
         type: "save",
-        optionText: "No Let Me Choose Again",
+        optionText: "No, let me choose again.",
         screenId: "pickClass",
         saveValues: [
           {
@@ -182,5 +184,5 @@ export const screens = [
   bardBegin,
   fighterBegin,
   mageBegin,
-  ...fighterScreens,
+  ...day0Screens,
 ];

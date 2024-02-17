@@ -4,14 +4,14 @@ const theAdventureBegins: Screen = {
   _id: "theAdventureBegins",
   header: "The Adventure Begins!",
   main: [
-    `After a long day on the road you are ready to find a place to rest and find some work in the morning.
-    Beleham is medium sized city with a large market and a few inns. As you walk through the streets a few
-    inns stand out to you as places you might find rest. `,
-    `The first is called The Rusty Sword, it's windows are yellow with light and laughter seems to spill 
-    from it's hearth.`,
-    `The second is called The Silver Spoon, it's windows are dark and the only sound you hear is the soft
+    `After a long day on the road, you are ready to find a place to rest and find some work in the morning.
+    Belenham is medium-sized city with a large market and a few inns. As you walk through the streets, a few
+    inns stand out to you as places you might find rest.`,
+    `The first is called The Rusty Sword. Its windows are yellow with light, and laughter seems to spill 
+    from its hearth.`,
+    `The second is called The Silver Spoon. Its windows are dark and the only sounds you hear are the soft
     clinking of silverware and occasionally a low murmur.`,
-    `The third is called Sewer Water, it's windows are small and dirty, you hear raised voices from inside
+    `The third is called Sewer Water. Its windows are small and dirty. You hear raised voices from inside
     and the sound of a heated argument.`,
   ],
   choiceInformation: {
@@ -84,7 +84,7 @@ const seekSolitude: Screen = {
   header: "The Rusty Sword",
   main: [
     `You take a seat at a table near the entrance, keeping a watchful eye on the comings and goings of the tavern.
-    At one point a rowdy patron, who has had too much to drink, starts to cause trouble with the barkeep. 
+    At one point, a rowdy patron, who has had too much to drink, starts to cause trouble with the barkeep. 
     `,
   ],
   choiceInformation: {
@@ -98,13 +98,14 @@ const seekSolitude: Screen = {
       },
       {
         type: "screen",
-        optionText: "Not Your Problem",
+        optionText: "Not your problem",
         screenId: "callItANight",
       },
     ],
   },
 };
 
+// TODO: make stepping in to help contingent on your stats - opportunity for failure
 const stepInToHelp: Screen = {
   _id: "stepInToHelp",
   header: "The Rusty Sword",
@@ -130,8 +131,8 @@ const joinTheFestivities: Screen = {
   header: "The Rusty Sword",
   main: [
     `You head straight to the center of the room, where a large crew of strong looking patrons
-    are sitting at a long table. You hail them with a hearty greeting and they invite you to sit with them.`,
-    `After a few rounds of ale and a hearty meal you're feeling like you want to show off a little.`,
+    are sitting at a long table. You hail them with a friendly greeting and they invite you to sit with them.`,
+    `After a few rounds of ale and a hearty meal, you're feeling like you want to show off a little.`,
   ],
   choiceInformation: {
     text: "Challenge someone to a friendly arm wrestling match or call it a night?",
@@ -158,7 +159,7 @@ const callItANight: Screen = {
   _id: "callItANight",
   header: "The Rusty Sword",
   main: [
-    `You decide to call it a night and head up to your room. The bed is soft and the room is warm, you fall asleep quickly.`,
+    `You decide to call it a night and head up to your room. The bed is soft and the room is warm. You fall asleep quickly.`,
   ],
   choiceInformation: {
     text: "",
@@ -183,7 +184,7 @@ const winArmWrestle: Screen = {
       alt: "Bearded Warrior",
       side: "right",
       sideText:
-        "I see you have some talent and by your pack I'm thinking you're new in town. What brings you to Belenham?",
+        "I see you have some talent, and by your pack I'm thinking you're new in town. What brings you to Belenham?",
     },
   ],
   choiceInformation: {
@@ -245,7 +246,7 @@ const tryingToProveMyself: Screen = {
       url: "Kael.png",
       alt: "Bearded Warrior",
       side: "right",
-      sideText: `Prove yourself, huh? I'm not sure what you're looking for, but I might be able to help you find it. I'll meet you here tomorrow morning, I think I have a job for you.`,
+      sideText: `Prove yourself, huh? I'm not sure what you're looking for, but I might be able to help you find it. I'll meet you here tomorrow morning. I think I have a job for you.`,
     },
   ],
   choiceInformation: {
@@ -295,7 +296,7 @@ const thankTheKnight_callItANight: Screen = {
   header: "The Rusty Sword",
   main: [
     `You thank the young warrior who introduces themself as Kael, and head up to your room. 
-    The bed is soft and the room is warm, you fall asleep quickly.`,
+    The bed is soft and the room is warm. You fall asleep quickly.`,
   ],
   choiceInformation: {
     text: "",
@@ -310,13 +311,14 @@ const thankTheKnight_callItANight: Screen = {
   },
 };
 
+// TODO add more choices to this one
 const loseArmWrestle: Screen = {
   _id: "loseArmWrestle",
   header: "The Rusty Sword",
   main: [
     `You put up a good fight, but your opponent's strength wins out in the end. 
     The crowd cheers and you both share a laugh. Your opponent buys you a drink 
-    and you end up sitting at the same table`,
+    and you end up sitting at the same table.`,
     {
       url: "Somerild.png",
       alt: "Young Fighter",
@@ -368,7 +370,7 @@ const yesToWorkingTogether: Screen = {
   _id: "yesToWorkingTogether",
   header: "The Rusty Sword",
   main: [
-    `You agree to work together with the fighter who introduces herself as Somerild and the two of you make plans to meet in the morning. 
+    `You agree to work together with the fighter, who introduces herself as Somerild. The two of you make plans to meet in the morning. 
     You head up to your room and fall asleep quickly.`,
   ],
   choiceInformation: {
@@ -433,10 +435,11 @@ const approachFigure: Screen = {
   _id: "approachFigure",
   header: "The Silver Spoon",
   main: [
-    `You casually slide onto the stool next to the strange figure, sliding your heavy pack onto the floor 
+    `You casually slide onto the stool next to the strange figure, dropping your heavy pack onto the floor 
     with a thud. The figure looks up at you, their eyes twinkling with amusement.`,
+    ``, // TODO add something about discovering what the figure looks like
     `You sit in comfortable silence for a while, as you order a meal and a glass of mead from the barkeep.
-    Eventually the figure finally speaks.`,
+    Eventually, the figure finally speaks.`,
     {
       url: "Lyra.png",
       alt: "Quiet Druid",
@@ -450,21 +453,21 @@ const approachFigure: Screen = {
     options: [
       {
         type: "save",
-        optionText: "I'm looking for work",
+        optionText: "I'm looking for work.",
         saveValues: [{ savePath: "User.motivations", saveValue: "money" }],
         screenId: "lookForWork",
       },
       {
         type: "save",
-        optionText: "I'm trying to see the world",
+        optionText: "I'm trying to see the world.",
         saveValues: [{ savePath: "User.motivations", saveValue: "adventure" }],
-        screenId: "tryingToSeeTheWorld", // TODO
+        screenId: "tryingToSeeTheWorld",
       },
       {
         type: "save",
-        optionText: "I'm running away from something",
+        optionText: "I'm running away from something.",
         saveValues: [{ savePath: "User.motivations", saveValue: "safety" }],
-        screenId: "runningAwayFromSomething", // TODO
+        screenId: "runningAwayFromSomething",
       },
     ],
   },
@@ -526,13 +529,13 @@ const runningAwayFromSomething: Screen = {
   _id: "runningAwayFromSomething",
   header: "The Silver Spoon",
   main: [
-    `The woman is quiet for a moment, just looking at you`,
+    `The woman is quiet for a moment, just looking at you.`,
     {
       url: "Lyra.png",
       alt: "Quiet Druid",
       side: "left",
       sideText: `I understand that. Not all of the world is kind to everyone. 
-        If you're looking to make a new start I can introduce you to someone 
+        If you're looking to make a new start, I can introduce you to someone 
         who might be able to help. I'll meet you here tomorrow morning.`,
     },
   ],
@@ -541,7 +544,7 @@ const runningAwayFromSomething: Screen = {
     options: [
       {
         type: "save",
-        optionText: "Thank You",
+        optionText: "Thank you",
         screenId: "thankTheDruid_callItANight",
         saveValues: [
           { savePath: "User.quests", saveValue: "meetLyraForFreshStart" },
@@ -555,8 +558,8 @@ const thankTheDruid_callItANight: Screen = {
   _id: "thankTheDruid_callItANight",
   header: "The Silver Spoon",
   main: [
-    `You thank the woman who introduces herself as Lyra, and head up to your room. 
-    The bed is soft and the room is warm, you fall asleep quickly.`,
+    `You thank the woman, who introduces herself as Lyra, and head up to your room. 
+    The bed is soft, and the room is warm. You fall asleep quickly.`,
   ],
   choiceInformation: {
     text: "",
@@ -578,9 +581,8 @@ const findTable: Screen = {
   main: [
     `You find a small table near the back of the room and take a seat. The barkeep 
     brings you a glass of wine and a menu.`,
-    `As you sip your wine and peruse the 
-    menu, you overhear a group of merchants at the next table discussing the city's 
-    recent economic troubles.`,
+    `As you sip your wine and peruse the menu, you overhear a group of merchants at 
+    the next table discussing the city's recent economic troubles.`,
   ],
   choiceInformation: {
     text: "Do you eavesdrop on their conversation or mind your own business?",
@@ -654,6 +656,10 @@ const callItANight_SW: Screen = {
   ...callItANight,
   _id: "callItANight_SW",
   header: "Sewer Water",
+  main: [
+    `You decide to call it a night and head up to your room. The bed is scratchy and there is a draft in the room. 
+    You toss and turn for most of the night.`,
+  ],
 };
 
 const observe: Screen = {
@@ -675,12 +681,12 @@ const observe: Screen = {
       },
       {
         type: "screen",
-        optionText: "Get Involved",
+        optionText: "Get involved",
         screenId: "intervene",
       },
       {
         type: "screen",
-        optionText: "Find A Different Inn",
+        optionText: "Find a different inn",
         screenId: "findDifferentInn",
       },
     ],
@@ -739,7 +745,7 @@ const aggressive: Screen = {
   header: "Sewer Water",
   main: [
     `You take a more aggressive approach, and the group responds in kind. 
-    You find yourself in the middle of a brawl.`,
+    You find yourself in the middle of a brawl!`,
   ],
   choiceInformation: {
     text: "",
@@ -782,7 +788,7 @@ const defuseSituation_failure: Screen = {
   header: "Sewer Water",
   main: [
     `Your attempt to defuse the situation only seems to make things worse. 
-    The group turns their anger on you, and you find yourself in the middle of a brawl.`,
+    The group turns their anger on you, and you find yourself in the middle of a brawl!`,
   ],
   choiceInformation: {
     text: "",
@@ -806,7 +812,7 @@ const middleOfBrawl: Screen = {
   main: [
     `You're dodging fists and trying to keep your feet as the other patrons join in the fray.`,
     `Out of nowhere, you feel a tug at the back of your neck and you're suddenly yanked
-    from the fight and out the door. You find yourself face to face with a tall figure`,
+    from the fight and out the door. You find yourself face to face with a tall figure.`,
     {
       url: "Hunstan.png",
       alt: "Tall Grizzled Man",
@@ -856,19 +862,19 @@ const followHimInside: Screen = {
     options: [
       {
         type: "save",
-        optionText: "I'm looking to disappear",
+        optionText: "I'm looking to disappear.",
         screenId: "lookingToDisappear",
         saveValues: [{ savePath: "User.motivations", saveValue: "safety" }],
       },
       {
         type: "save",
-        optionText: "I'm trying to see the world",
+        optionText: "I'm trying to see the world.",
         screenId: "SW_tryingToSeeTheWorld",
         saveValues: [{ savePath: "User.motivations", saveValue: "adventure" }],
       },
       {
         type: "save",
-        optionText: "I'm looking for answers",
+        optionText: "I'm looking for answers.",
         screenId: "lookingForAnswers",
         saveValues: [{ savePath: "User.motivations", saveValue: "knowledge" }],
       },
@@ -962,8 +968,8 @@ const thankTheMan_callItANight: Screen = {
   _id: "thankTheMan_callItANight",
   header: "Sewer Water",
   main: [
-    `You thank the man who introduces himself as Hunstan, and after eating some gritty 
-    food you head up to your room. The bed is scratchy and there's a draft in the room, 
+    `You thank the man, who introduces himself as Hunstan. After eating some gritty 
+    food, you head up to your room. The bed is scratchy and there's a draft in the room, 
     but you fall asleep quickly.`,
   ],
   choiceInformation: {
@@ -1031,7 +1037,7 @@ const endFirstDay: Screen = {
       {
         type: "screen",
         optionText: "Restart game",
-        screenId: "quit",
+        screenId: "quit", // TODO: make an "end" so user data doesn't keep going
       },
     ],
   },
