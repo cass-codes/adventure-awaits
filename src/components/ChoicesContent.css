@@ -1,9 +1,26 @@
-.Choices p {
+.ChoicesPrompt {
   font-family: "Courgette";
   font-size: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  list-style-type: none;
+  flex-wrap: wrap;
+  row-gap: 10px;
 }
 
-.Choices ul {
+.Choices div p {
+  font-family: "Courgette";
+  font-size: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  list-style-type: none;
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+
+.InputChoice div p {
   font-family: "Courgette";
   font-size: 1em;
   display: flex;

@@ -10,15 +10,6 @@
   margin-right: 20px;
 }
 
-li {
-  list-style-type: none;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-}
-
 meter::-webkit-meter-optimum-value {
   background: rgb(114, 114, 114);
 }

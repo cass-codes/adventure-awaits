@@ -37,12 +37,11 @@ const start: Screen = {
     "You are traveling on a road to a destination you hope will bring you answers. You will reach your destination soon, but first, who are you?",
   ],
   choiceInformation: {
-    text: "",
+    text: "What is your name?",
     options: [
       {
         type: "input",
         optionText: "Next",
-        promptText: "What is your name?",
         screenId: "pickClass",
         savePath: "User.name",
       },

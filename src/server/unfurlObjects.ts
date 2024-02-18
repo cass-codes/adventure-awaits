@@ -5,18 +5,10 @@ export function unfurlObjects(text: ChoiceInfo) {
   const newChoice: ChoiceInfo = {
     text: unfurlString(text.text),
     options: text.options.map((option) => {
-      if (option.type === "input") {
-        return {
-          ...option,
-          optionText: unfurlString(option.optionText),
-          promptText: unfurlString(option.promptText),
-        };
-      } else {
-        return {
-          ...option,
-          optionText: unfurlString(option.optionText),
-        };
-      }
+      return {
+        ...option,
+        optionText: unfurlString(option.optionText),
+      };
     }),
   };
   return newChoice;

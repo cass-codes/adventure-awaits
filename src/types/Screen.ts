@@ -52,7 +52,6 @@ interface SaveChoiceOption extends BaseChoiceOption {
 
 interface InputChoiceOption extends BaseChoiceOption {
   type: "input";
-  promptText: string;
   savePath: string;
 }
 
