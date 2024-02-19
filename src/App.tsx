@@ -20,6 +20,14 @@ function App() {
           >
             cass-codes
           </a>
+          {""} | Art by:{" "}
+          <a
+            href="https://www.redbubble.com/people/gigglysaurus/shop"
+            rel="noreferrer"
+            target="_blank"
+          >
+            GigglySaurus
+          </a>
         </p>
       </footer>
     </div>
