@@ -1,4 +1,4 @@
-import { QuestStatus } from "../../types/Quest";
+import { Quest, QuestStatus } from "../../types/Quest";
 import { Motivations, Relationship, Stat, User } from "../../types/User";
 import { allQuests } from "../data/quests";
 import { parseSavePath } from "./helper";
@@ -36,7 +36,6 @@ export class SavingService {
       } else if (propertyPath[0] === "class") {
         user.class = input;
       } else if (propertyPath[0] === "stats") {
-        console.log("updating stats", user.stats, propertyPath[1], input);
         const stat = Stat[propertyPath[1] as keyof typeof Stat];
         const currentStat = user.stats[stat];
         const changeBy = evalPlusMinusInput(input);
@@ -53,9 +52,7 @@ export class SavingService {
       } else if (propertyPath[0] === "relationships") {
         const relationship =
           Relationship[propertyPath[1] as keyof typeof Relationship];
-        console.log("updating relationship", relationship, input);
         let rel = user.relationships[relationship];
-        console.log("current rel", rel);
         if (rel === undefined) {
           rel = 0;
         }
@@ -118,7 +115,6 @@ export class SavingService {
   }
 
   static saveGame(screenId: string) {
-    console.log("savingGame", user);
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("screenId", screenId);
   }
@@ -129,13 +125,12 @@ export class SavingService {
     if (localUser) {
       user = JSON.parse(localUser);
     }
-    console.log("loadingGame", user, localScreenId);
     return { screenId: localScreenId || "0" };
   }
 
   static restartGame() {
     user = {
-      quests: allQuests,
+      quests: this.restartQuests(allQuests),
       coins: 10,
       stats: {
         goodness: 0,
@@ -149,5 +144,12 @@ export class SavingService {
     };
     localStorage.removeItem("user");
     localStorage.removeItem("screenId");
+  }
+
+  static restartQuests(quests: { [key: string]: Quest }) {
+    for (const key in quests) {
+      quests[key].status = QuestStatus.notFound;
+    }
+    return quests;
   }
 }

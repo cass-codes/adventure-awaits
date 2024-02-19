@@ -36,7 +36,6 @@ function ChoicesContent(props: {
             saveValue: string;
           }) => {
             if (savePath) {
-              console.log("saving", saveValue, savePath);
               props.savingContent(saveValue, savePath);
             }
           }

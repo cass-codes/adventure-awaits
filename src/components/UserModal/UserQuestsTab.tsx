@@ -7,7 +7,6 @@ function UserQuestsTab({ userData }: { userData: User }) {
   let modalData;
 
   const quests = userData.quests;
-  console.log(quests);
   const questKeys = Object.keys(quests);
 
   const activeQuestsKeys = questKeys.filter((questKey) => {
