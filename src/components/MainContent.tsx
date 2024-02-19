@@ -2,8 +2,6 @@ import { MainContentProps, PictureMain } from "../types/Screen";
 import "./MainContent.css";
 import { getUrlFromMap } from "./picture-url-map";
 
-// TODO: Make something to make it apparent that the side text for the picture is dialog!
-
 function MainContent(props: { content: MainContentProps }) {
   function buildPictureMain(p: PictureMain, index: number) {
     const url = getUrlFromMap(p.url);
@@ -14,10 +12,11 @@ function MainContent(props: { content: MainContentProps }) {
     } else {
       className += " Right";
     }
+
     return (
       <div key={index} className={className}>
         <img src={url} alt={p.alt} />
-        {p.sideText ? <p>{p.sideText}</p> : null}
+        {p.sideText ? <p className="DialogText">{p.sideText}</p> : null}
       </div>
     );
   }

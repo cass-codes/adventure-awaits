@@ -1,5 +1,6 @@
 import { Screen } from "../../types/Screen";
 import { fighterScreens as day0Screens } from "./Day0/findAnInn";
+import { day1Screens } from "./Day1";
 
 export const startScreen: Screen = {
   _id: "0",
@@ -184,4 +185,5 @@ export const screens = [
   fighterBegin,
   mageBegin,
   ...day0Screens,
+  ...day1Screens,
 ];

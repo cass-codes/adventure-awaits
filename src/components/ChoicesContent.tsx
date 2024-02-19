@@ -1,7 +1,6 @@
 import { Key, useRef } from "react";
 import "./ChoicesContent.css";
 import { ChoiceInfo, ChoiceOption } from "../types/Screen";
-import { evaluateConditionalScreenOption } from "../server/unfurlObjects";
 
 function ChoicesContent(props: {
   choices: ChoiceInfo;
@@ -17,11 +16,6 @@ function ChoicesContent(props: {
   function selectHandler(event: any) {
     const chosenId = event.target.id;
     const chosenOption = choicesOptions.find((option) => {
-      if (option.type === "conditionalScreen") {
-        return (
-          option.trueScreenId === chosenId || option.falseScreenId === chosenId
-        );
-      }
       return option.screenId === chosenId;
     });
     if (!chosenOption) {
@@ -70,14 +64,6 @@ function ChoicesContent(props: {
                 {choice.optionText}
               </button>
             </>
-          );
-        }
-        if (choice.type === "conditionalScreen") {
-          const screenId = evaluateConditionalScreenOption(choice);
-          return (
-            <button onClick={selectHandler} id={screenId}>
-              {choice.optionText}
-            </button>
           );
         }
         return (

@@ -32,16 +32,6 @@ interface StringChoiceOption extends BaseChoiceOption {
   type: "screen";
 }
 
-export interface ConditionalScreenOption {
-  type: "conditionalScreen";
-  optionText: string;
-  conditionPath: string;
-  conditionOperator: string;
-  conditionValue: string;
-  trueScreenId: string;
-  falseScreenId: string;
-}
-
 interface SaveChoiceOption extends BaseChoiceOption {
   type: "save";
   saveValues: {
@@ -60,7 +50,6 @@ interface QuitChoiceOption extends BaseChoiceOption {
 }
 
 export type ChoiceOption =
-  | ConditionalScreenOption
   | StringChoiceOption
   | SaveChoiceOption
   | InputChoiceOption

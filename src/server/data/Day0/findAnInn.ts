@@ -1,4 +1,7 @@
 import { Screen } from "../../../types/Screen";
+import { SavingService } from "../../SavingService/SavingService";
+
+const user = SavingService.loadUser();
 
 const theAdventureBegins: Screen = {
   _id: "theAdventureBegins",
@@ -93,7 +96,8 @@ const seekSolitude: Screen = {
       {
         type: "save",
         optionText: "Help",
-        screenId: "stepInToHelp",
+        screenId:
+          user.stats.charm >= 1 ? "stepInToHelp_success" : "failedAtHelping",
         saveValues: [{ savePath: "User.stats.goodness", saveValue: "++" }],
       },
       {
@@ -105,9 +109,8 @@ const seekSolitude: Screen = {
   },
 };
 
-// TODO: make stepping in to help contingent on your stats - opportunity for failure
-const stepInToHelp: Screen = {
-  _id: "stepInToHelp",
+const stepInToHelp_success: Screen = {
+  _id: "stepInToHelp_success",
   header: "The Rusty Sword",
   main: [
     `You step in to defuse the situation with a firm but fair hand, earning the gratitude of the 
@@ -126,6 +129,26 @@ const stepInToHelp: Screen = {
   },
 };
 
+const failedAtHelping: Screen = {
+  _id: "failedAtHelping",
+  header: "The Rusty Sword",
+  main: [
+    `You try to step in to help, but the rowdy patron is too much for you to handle. 
+    You find your self dodging a fist and the barkeep wrestled the patron out of the tavern.`,
+    `You shake yourself off, unnerved by the close call and turn back to your meal.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "Next",
+        screenId: "callItANight",
+      },
+    ],
+  },
+};
+
 const joinTheFestivities: Screen = {
   _id: "joinTheFestivities",
   header: "The Rusty Sword",
@@ -137,15 +160,18 @@ const joinTheFestivities: Screen = {
   choiceInformation: {
     text: "Challenge someone to a friendly arm wrestling match or call it a night?",
     options: [
-      {
-        type: "conditionalScreen",
-        optionText: "Arm wrestle",
-        conditionPath: "User.stats.brawn",
-        conditionOperator: ">=",
-        conditionValue: "1",
-        trueScreenId: "winArmWrestle",
-        falseScreenId: "loseArmWrestle",
-      },
+      user.stats.brawn >= 1
+        ? {
+            type: "screen",
+            optionText: "Arm wrestle",
+            screenId: "winArmWrestle",
+          }
+        : {
+            type: "save",
+            optionText: "Arm wrestle",
+            screenId: "loseArmWrestle",
+            saveValues: [{ savePath: "User.stats.brawn", saveValue: "++" }],
+          },
       {
         type: "screen",
         optionText: "Call it a night",
@@ -311,7 +337,6 @@ const thankTheKnight_callItANight: Screen = {
   },
 };
 
-// TODO add more choices to this one
 const loseArmWrestle: Screen = {
   _id: "loseArmWrestle",
   header: "The Rusty Sword",
@@ -330,9 +355,79 @@ const loseArmWrestle: Screen = {
     text: "",
     options: [
       {
-        type: "screen",
+        type: "save",
         optionText: "I'm trying to prove myself",
         screenId: "tryToProveYourself",
+        saveValues: [{ savePath: "User.motivations", saveValue: "power" }],
+      },
+      {
+        type: "save",
+        optionText: "I'm looking for work",
+        screenId: "lookForWork_somerild",
+        saveValues: [{ savePath: "User.motivations", saveValue: "money" }],
+      },
+      {
+        type: "save",
+        optionText: "I'm trying to see the world",
+        screenId: "tryToSeeTheWorld_somerild",
+        saveValues: [{ savePath: "User.motivations", saveValue: "adventure" }],
+      },
+    ],
+  },
+};
+
+const tryToSeeTheWorld_somerild: Screen = {
+  _id: "tryToSeeTheWorld_somerild",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "Somerild.png",
+      alt: "Young Fighter",
+      side: "left",
+      sideText: `Seeing the world is so adventurous! I'm working becoming a knight! I hope to be taken on as a squire soon.
+      Belenham is a good town to make a name for yourself. I hope you find what you're looking for.`,
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Yes please!",
+        screenId: "callItANight",
+        saveValues: [
+          { savePath: "User.quests", saveValue: "workWithSomerild" },
+        ],
+      },
+    ],
+  },
+};
+
+const lookForWork_somerild: Screen = {
+  _id: "lookForWork_somerild",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "Somerild.png",
+      alt: "Young Fighter",
+      side: "left",
+      sideText: `I'm also looking for work. I've found a lot of job boards for adventuring types 
+      in town, but I can't take any of the jobs on by myself. I think if we could handle them if 
+      we worked together. What do you think?`,
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "No thanks",
+        screenId: "callItANight",
+      },
+      {
+        type: "screen",
+        optionText: "Yes please!",
+        screenId: "yesToWorkingTogether",
       },
     ],
   },
@@ -404,8 +499,8 @@ const silverSpoon1: Screen = {
   main: [
     `Drawn by the promise of a quiet reprieve, you enter The Silver Spoon. The air is hushed, punctuated 
     only by the clinking of silverware and murmured conversations. A lone figure sits at the bar, nursing 
-    a glass of wine. Their cloak is pulled up around their face, and they carry a long staff that is
-    leaning against the bar.`,
+    a glass of wine. Their cloak is pulled up around their face, and there is a long staff leaning 
+    against the bar next to them.`,
   ],
   choiceInformation: {
     text: "Do you approach them or choose a table for yourself?",
@@ -436,10 +531,10 @@ const approachFigure: Screen = {
   header: "The Silver Spoon",
   main: [
     `You casually slide onto the stool next to the strange figure, dropping your heavy pack onto the floor 
-    with a thud. The figure looks up at you, their eyes twinkling with amusement.`,
-    ``, // TODO add something about discovering what the figure looks like
-    `You sit in comfortable silence for a while, as you order a meal and a glass of mead from the barkeep.
-    Eventually, the figure finally speaks.`,
+    with a thud. The figure looks up at you, and you get a good look at their face. They're a young woman,
+    not much older than you, and their eyes are twinkling with amusement. `,
+    `You nod at each other and sit in comfortable silence for a while. You order a meal and a glass of wine
+    from the barkeep. Eventually, the figure speaks.`,
     {
       url: "Lyra.png",
       alt: "Quiet Druid",
@@ -722,15 +817,18 @@ const intervene: Screen = {
   choiceInformation: {
     text: "Do you try to defuse the situation or take a more aggressive approach?",
     options: [
-      {
-        type: "conditionalScreen",
-        optionText: "Defuse",
-        conditionPath: "User.stats.charm",
-        conditionOperator: ">=",
-        conditionValue: "1",
-        trueScreenId: "defuseSituation_success",
-        falseScreenId: "defuseSituation_failure",
-      },
+      user.stats.charm >= 1
+        ? {
+            type: "screen",
+            optionText: "Defuse",
+            screenId: "defuseSituation_success",
+          }
+        : {
+            type: "save",
+            optionText: "Defuse",
+            screenId: "defuseSituation_failure",
+            saveValues: [{ savePath: "User.stats.charm", saveValue: "++" }],
+          },
       {
         type: "screen",
         optionText: "Aggressive",
@@ -1035,9 +1133,9 @@ const endFirstDay: Screen = {
     text: "",
     options: [
       {
-        type: "screen",
+        type: "quit",
         optionText: "Restart game",
-        screenId: "quit", // TODO: make an "end" so user data doesn't keep going
+        screenId: "0",
       },
     ],
   },
@@ -1052,7 +1150,7 @@ export const fighterScreens = [
   winArmWrestle,
   callItANight,
   seekSolitude,
-  stepInToHelp,
+  stepInToHelp_success,
   approachFigure,
   loseArmWrestle,
   lookForWork,
@@ -1083,4 +1181,7 @@ export const fighterScreens = [
   tryToProveYourself,
   yesToWorkingTogether,
   endFirstDay,
+  failedAtHelping,
+  tryToSeeTheWorld_somerild,
+  lookForWork_somerild,
 ];

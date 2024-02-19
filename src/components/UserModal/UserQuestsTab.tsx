@@ -1,7 +1,7 @@
 import { QuestStatus } from "../../types/Quest";
 import { User } from "../../types/User";
 
-// TODO: Add back bullets for quests
+import "./UserQuestsTab.css";
 
 function UserQuestsTab({ userData }: { userData: User }) {
   let modalData;
@@ -20,7 +20,11 @@ function UserQuestsTab({ userData }: { userData: User }) {
         <ul>
           {activeQuestsKeys.map((questKey) => {
             const quest = quests[questKey];
-            return <li key={questKey}>{quest.displayText}</li>;
+            return (
+              <li className="UserQuest" key={questKey}>
+                {quest.displayText}
+              </li>
+            );
           })}
         </ul>
       </div>

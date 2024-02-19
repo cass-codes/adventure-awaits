@@ -10,80 +10,29 @@ const brawnBarKey = "[weak]-------------------[strong]";
 const magicBarKey = "[none]-------------------[master]";
 const charmBarKey = "[uh]----------------[charismatic]";
 
+function generateBar(statValue: number) {
+  let bar = "";
+  for (let i = barStart; i <= barEnd; i++) {
+    if (i < statValue) {
+      bar += "[ ]";
+    } else if (i === statValue) {
+      bar += "[V]";
+    } else {
+      bar += "[ ]";
+    }
+  }
+  return bar;
+}
+
 function UserStatsTab({ userData }: { userData: User }) {
   let modalData;
 
-  const goodnessBarEval = userData.stats?.goodness || 0;
-  const sneakinessBarEval = userData.stats?.sneakiness || 0;
-  const clevernessBarEval = userData.stats?.cleverness || 0;
-  const brawnBarEval = userData.stats?.brawn || 0;
-  const magicBarEval = userData.stats?.magic || 0;
-  const charmBarEval = userData.stats?.charm || 0;
-
-  // TODO - Refactor this to be more DRY
-
-  let goodnessBar = "";
-  let sneakinessBar = "";
-  let clevernessBar = "";
-  let brawnBar = "";
-  let magicBar = "";
-  let charmBar = "";
-
-  for (let i = barStart; i <= barEnd; i++) {
-    // Eval Goodness
-    if (i < goodnessBarEval) {
-      goodnessBar += "[ ]";
-    } else if (i === goodnessBarEval) {
-      goodnessBar += "[V]";
-    } else {
-      goodnessBar += "[ ]";
-    }
-
-    // Eval Sneakiness
-    if (i < sneakinessBarEval) {
-      sneakinessBar += "[ ]";
-    } else if (i === sneakinessBarEval) {
-      sneakinessBar += `[V]`;
-    } else {
-      sneakinessBar += "[ ]";
-    }
-
-    // Eval Cleverness
-    if (i < clevernessBarEval) {
-      clevernessBar += "[ ]";
-    } else if (i === clevernessBarEval) {
-      clevernessBar += "[V]";
-    } else {
-      clevernessBar += "[ ]";
-    }
-
-    // Eval Brawn
-    if (i < brawnBarEval) {
-      brawnBar += "[ ]";
-    } else if (i === brawnBarEval) {
-      brawnBar += "[V]";
-    } else {
-      brawnBar += "[ ]";
-    }
-
-    // Eval Magic
-    if (i < magicBarEval) {
-      magicBar += "[ ]";
-    } else if (i === magicBarEval) {
-      magicBar += "[V]";
-    } else {
-      magicBar += "[ ]";
-    }
-
-    // Eval Charm
-    if (i < charmBarEval) {
-      charmBar += "[ ]";
-    } else if (i === charmBarEval) {
-      charmBar += "[V]";
-    } else {
-      charmBar += "[ ]";
-    }
-  }
+  let goodnessBar = generateBar(userData.stats?.goodness || 0);
+  let sneakinessBar = generateBar(userData.stats?.sneakiness || 0);
+  let clevernessBar = generateBar(userData.stats?.cleverness || 0);
+  let brawnBar = generateBar(userData.stats?.brawn || 0);
+  let magicBar = generateBar(userData.stats?.magic || 0);
+  let charmBar = generateBar(userData.stats?.charm || 0);
 
   if (!userData.name || !userData.class) {
     modalData = (
