@@ -3,8 +3,6 @@ import "./ChoicesContent.css";
 import { ChoiceInfo, ChoiceOption } from "../types/Screen";
 import { evaluateConditionalScreenOption } from "../server/unfurlObjects";
 
-// TODO fix alignment of choices when there is a single choice
-
 function ChoicesContent(props: {
   choices: ChoiceInfo;
   setScreenById: Function;
@@ -66,30 +64,26 @@ function ChoicesContent(props: {
       (choice: ChoiceOption, index: Key | null | undefined) => {
         if (choice.type === "input") {
           return (
-            <div className="InputChoice" key={index}>
+            <>
               <input type="text" ref={inputRef} />
               <button onClick={selectHandler} id={choice.screenId}>
                 {choice.optionText}
               </button>
-            </div>
+            </>
           );
         }
         if (choice.type === "conditionalScreen") {
           const screenId = evaluateConditionalScreenOption(choice);
           return (
-            <div className="Choices" key={index}>
-              <button onClick={selectHandler} id={screenId}>
-                {choice.optionText}
-              </button>
-            </div>
+            <button onClick={selectHandler} id={screenId}>
+              {choice.optionText}
+            </button>
           );
         }
         return (
-          <div className="Choices" key={index}>
-            <button onClick={selectHandler} id={choice.screenId}>
-              {choice.optionText}
-            </button>
-          </div>
+          <button onClick={selectHandler} id={choice.screenId}>
+            {choice.optionText}
+          </button>
         );
       }
     );
@@ -98,7 +92,7 @@ function ChoicesContent(props: {
   return (
     <div>
       <p className="ChoicesPrompt">{choicesText}</p>
-      <div>{buildChoices()}</div>
+      <div className="ChoicesWrapper">{buildChoices()}</div>
     </div>
   );
 }

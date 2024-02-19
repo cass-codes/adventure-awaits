@@ -1,32 +1,25 @@
+.ChoicesWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+
 .ChoicesPrompt {
   font-family: "Courgette";
   font-size: 1em;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  list-style-type: none;
-  flex-wrap: wrap;
-  row-gap: 10px;
 }
 
-.Choices div p {
+.Choices {
   font-family: "Courgette";
   font-size: 1em;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  list-style-type: none;
-  flex-wrap: wrap;
-  row-gap: 10px;
 }
 
-.InputChoice div p {
+.InputChoice {
   font-family: "Courgette";
   font-size: 1em;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  list-style-type: none;
   flex-wrap: wrap;
   row-gap: 10px;
 }
@@ -46,10 +39,6 @@ button {
 input {
   font-family: "Courgette";
   font-size: 1em;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  list-style-type: none;
+  width: 25rem;
   background-color: rgb(195, 195, 195);
-  margin-bottom: 10%;
 }

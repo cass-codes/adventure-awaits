@@ -13,9 +13,10 @@ function getUserGoal(userClass: string) {
   }
 }
 
-// TODO add a different message when user has not picked class yet
-
 function UserInfoTab({ userData }: { userData: User }) {
+  if (!userData.class) {
+    return <h2>Please play the game to build your character!</h2>;
+  }
   return (
     <div>
       <h2>Goal: {getUserGoal(userData.class || "")}</h2>
