@@ -9,4 +9,5 @@ export interface Quest {
   name: string;
   status: QuestStatus;
   displayText: string;
+  screenId: string;
 }

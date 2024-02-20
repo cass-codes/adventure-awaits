@@ -1,7 +1,6 @@
 import { Screen } from "../../../types/Screen";
+import { UserClass } from "../../../types/User";
 import { SavingService } from "../../SavingService/SavingService";
-
-const user = SavingService.loadUser();
 
 const theAdventureBegins: Screen = {
   _id: "theAdventureBegins",
@@ -56,6 +55,14 @@ const theAdventureBegins: Screen = {
 
 // RUSTY SWORD
 
+function evaluateScreenId_rustySword1() {
+  const user = SavingService.loadUser();
+  if (user.class === UserClass.bard) {
+    return "joinTheFestivities_bard";
+  }
+  return "joinTheFestivities";
+}
+
 const rustySword_1: Screen = {
   _id: "rustySword_1",
   header: "The Rusty Sword",
@@ -70,7 +77,7 @@ const rustySword_1: Screen = {
       {
         type: "save",
         optionText: "Join the festivities",
-        screenId: "joinTheFestivities",
+        screenId: evaluateScreenId_rustySword1,
         saveValues: [{ savePath: "User.stats.charm", saveValue: "++" }],
       },
       {
@@ -82,6 +89,13 @@ const rustySword_1: Screen = {
   },
 };
 
+function evalSeekSolitude() {
+  const user = SavingService.loadUser();
+  if (user.stats.charm >= 1) {
+    return "stepInToHelp_success";
+  }
+  return "failedAtHelping";
+}
 const seekSolitude: Screen = {
   _id: "seekSolitude",
   header: "The Rusty Sword",
@@ -96,8 +110,7 @@ const seekSolitude: Screen = {
       {
         type: "save",
         optionText: "Help",
-        screenId:
-          user.stats.charm >= 1 ? "stepInToHelp_success" : "failedAtHelping",
+        screenId: evalSeekSolitude,
         saveValues: [{ savePath: "User.stats.goodness", saveValue: "++" }],
       },
       {
@@ -149,6 +162,16 @@ const failedAtHelping: Screen = {
   },
 };
 
+// Arm wrestle stuff
+
+function evalWinArmWrestle() {
+  const user = SavingService.loadUser();
+  if (user.stats.brawn >= 1) {
+    return "winArmWrestle";
+  }
+  return "loseArmWrestle";
+}
+
 const joinTheFestivities: Screen = {
   _id: "joinTheFestivities",
   header: "The Rusty Sword",
@@ -160,18 +183,11 @@ const joinTheFestivities: Screen = {
   choiceInformation: {
     text: "Challenge someone to a friendly arm wrestling match or call it a night?",
     options: [
-      user.stats.brawn >= 1
-        ? {
-            type: "screen",
-            optionText: "Arm wrestle",
-            screenId: "winArmWrestle",
-          }
-        : {
-            type: "save",
-            optionText: "Arm wrestle",
-            screenId: "loseArmWrestle",
-            saveValues: [{ savePath: "User.stats.brawn", saveValue: "++" }],
-          },
+      {
+        type: "screen",
+        optionText: "Arm wrestle",
+        screenId: evalWinArmWrestle,
+      },
       {
         type: "screen",
         optionText: "Call it a night",
@@ -191,9 +207,10 @@ const callItANight: Screen = {
     text: "",
     options: [
       {
-        type: "screen",
+        type: "save",
         optionText: "Next",
         screenId: "endFirstDay",
+        saveValues: [{ savePath: "User.tavern", saveValue: "TheRustySword" }],
       },
     ],
   },
@@ -209,8 +226,9 @@ const winArmWrestle: Screen = {
       url: "Kael.png",
       alt: "Bearded Warrior",
       side: "right",
-      sideText:
-        "I see you have some talent, and by your pack I'm thinking you're new in town. What brings you to Belenham?",
+      sideText: [
+        `I see you have some talent, and by your pack I'm thinking you're new in town. What brings you to Belenham?`,
+      ],
     },
   ],
   choiceInformation: {
@@ -246,7 +264,9 @@ const tryingToMakeMoney: Screen = {
       url: "Kael.png",
       alt: "Bearded Warrior",
       side: "right",
-      sideText: `I know some places where you can make some coin. I'll introduce you to some people in the morning if you meet me here.`,
+      sideText: [
+        `I know some places where you can make some coin. I'll introduce you to some people in the morning if you meet me here.`,
+      ],
     },
   ],
   choiceInformation: {
@@ -272,7 +292,9 @@ const tryingToProveMyself: Screen = {
       url: "Kael.png",
       alt: "Bearded Warrior",
       side: "right",
-      sideText: `Prove yourself, huh? I'm not sure what you're looking for, but I might be able to help you find it. I'll meet you here tomorrow morning. I think I have a job for you.`,
+      sideText: [
+        `Prove yourself, huh? I'm not sure what you're looking for, but I might be able to help you find it. I'll meet you here tomorrow morning. I think I have a job for you.`,
+      ],
     },
   ],
   choiceInformation: {
@@ -301,7 +323,9 @@ const tryingToGetRevenge: Screen = {
       url: "Kael.png",
       alt: "Bearded Warrior",
       side: "right",
-      sideText: `Revenge is a dangerous game. I wish I could help you find what you're looking for. Best of luck to you`,
+      sideText: [
+        `Revenge is a dangerous game. I wish I could help you find what you're looking for. Best of luck to you`,
+      ],
     },
     `The warrior gives you a nod and heads back to their table. You finish your meal with your thoughts buzzing.`,
   ],
@@ -331,7 +355,10 @@ const thankTheKnight_callItANight: Screen = {
         type: "save",
         optionText: "Next",
         screenId: "endFirstDay",
-        saveValues: [{ savePath: "User.relationships.Kael", saveValue: "++" }],
+        saveValues: [
+          { savePath: "User.relationships.Kael", saveValue: "++" },
+          { savePath: "User.tavern", saveValue: "TheRustySword" },
+        ],
       },
     ],
   },
@@ -348,7 +375,9 @@ const loseArmWrestle: Screen = {
       url: "Somerild.png",
       alt: "Young Fighter",
       side: "left",
-      sideText: "You're new in town, aren't you? What brings you to Belenham?",
+      sideText: [
+        "You're new in town, aren't you? What brings you to Belenham?",
+      ],
     },
   ],
   choiceInformation: {
@@ -358,19 +387,28 @@ const loseArmWrestle: Screen = {
         type: "save",
         optionText: "I'm trying to prove myself",
         screenId: "tryToProveYourself",
-        saveValues: [{ savePath: "User.motivations", saveValue: "power" }],
+        saveValues: [
+          { savePath: "User.motivations", saveValue: "power" },
+          { savePath: "User.stats.brawn", saveValue: "++" },
+        ],
       },
       {
         type: "save",
         optionText: "I'm looking for work",
         screenId: "lookForWork_somerild",
-        saveValues: [{ savePath: "User.motivations", saveValue: "money" }],
+        saveValues: [
+          { savePath: "User.stats.brawn", saveValue: "++" },
+          { savePath: "User.motivations", saveValue: "money" },
+        ],
       },
       {
         type: "save",
         optionText: "I'm trying to see the world",
         screenId: "tryToSeeTheWorld_somerild",
-        saveValues: [{ savePath: "User.motivations", saveValue: "adventure" }],
+        saveValues: [
+          { savePath: "User.stats.brawn", saveValue: "++" },
+          { savePath: "User.motivations", saveValue: "adventure" },
+        ],
       },
     ],
   },
@@ -384,8 +422,10 @@ const tryToSeeTheWorld_somerild: Screen = {
       url: "Somerild.png",
       alt: "Young Fighter",
       side: "left",
-      sideText: `Seeing the world is so adventurous! I'm working becoming a knight! I hope to be taken on as a squire soon.
+      sideText: [
+        `Seeing the world is so adventurous! I'm working becoming a knight! I hope to be taken on as a squire soon.
       Belenham is a good town to make a name for yourself. I hope you find what you're looking for.`,
+      ],
     },
   ],
   choiceInformation: {
@@ -411,9 +451,11 @@ const lookForWork_somerild: Screen = {
       url: "Somerild.png",
       alt: "Young Fighter",
       side: "left",
-      sideText: `I'm also looking for work. I've found a lot of job boards for adventuring types 
-      in town, but I can't take any of the jobs on by myself. I think if we could handle them if 
+      sideText: [
+        `I'm also looking for work. I've found a lot of job boards for adventuring types 
+      in town, but I can't take any of the jobs on by myself. I think we could handle them if 
       we worked together. What do you think?`,
+      ],
     },
   ],
   choiceInformation: {
@@ -441,7 +483,9 @@ const tryToProveYourself: Screen = {
       url: "Somerild.png",
       alt: "Young Fighter",
       side: "left",
-      sideText: `Proving yourself is so hard in this city! I'm also trying to prove myself. Do you want to work together?`,
+      sideText: [
+        `Proving yourself is so hard in this city! I'm also trying to prove myself. Do you want to work together?`,
+      ],
     },
   ],
   choiceInformation: {
@@ -485,12 +529,369 @@ const yesToWorkingTogether: Screen = {
   },
 };
 
+// bard stuff
+const joinTheFestivities_bard: Screen = {
+  _id: "joinTheFestivities_bard",
+  header: "The Rusty Sword",
+  main: [
+    `You head to the corner of the room, where the bard sits strumming a lute. There are a
+    few patrons sitting close by listening intently and you take a seat at their table
+    watching the Bard work.`,
+    `At the end of their song, you applaud with the others and the bard gives you a nod and 
+    a smile.`,
+    `You settle into a nice rhythm and order a meal and a cup of beer, eating pleasantly with
+    the other patrons.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "Next",
+        screenId: "askedToPlay",
+      },
+    ],
+  },
+};
+
+const askedToPlay: Screen = {
+  _id: "askedToPlay",
+  header: "The Rusty Sword",
+  main: [
+    `The bard finishes their tune and comes over to your table, asking if you would like to 
+    play a song for the tavern. Some of the patrons you've been sitting with nod at you encouragingly.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "Yes",
+        screenId: "playASong",
+      },
+      {
+        type: "screen",
+        optionText: "No",
+        screenId: "callItANight",
+      },
+    ],
+  },
+};
+
+const playASong: Screen = {
+  _id: "playASong",
+  header: "The Rusty Sword",
+  main: [
+    `You agree to play a song and the bard hands you their lute. You play a lively tune and the 
+    tavern cheers and claps. The bard gives you a nod and a smile, and you return to your meal.`,
+    `After a few more songs, the bard approaches you again, this time ordering their own beer
+    and sitting down at your table.`,
+    {
+      url: "Serena.png",
+      alt: "Bard",
+      side: "right",
+      sideText: [
+        "You play well, though I'm surprised you don't have your own lute yet. What's your instrument of choice?",
+      ],
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "The lute is my favorite.",
+        screenId: "theLuteIsMyFavorite",
+        saveValues: [{ savePath: "User.skills", saveValue: "lute" }],
+      },
+      {
+        type: "save",
+        optionText: "I mostly sing",
+        screenId: "IJustSing",
+        saveValues: [{ savePath: "User.skills", saveValue: "singing" }],
+      },
+      {
+        type: "save",
+        optionText: "I actually prefer to tell tales",
+        screenId: "ITellTales",
+        saveValues: [{ savePath: "User.skills", saveValue: "telling tales" }],
+      },
+    ],
+  },
+};
+
+const ITellTales: Screen = {
+  _id: "ITellTales",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "Serena.png",
+      alt: "Bard",
+      side: "right",
+      sideText: [
+        `Tales are a fine art, though I don't do much of it myself. 
+      What do you hope to find in Belenham?`,
+      ],
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "I'm looking for work.",
+        screenId: "bard_lookingForWork",
+        saveValues: [{ savePath: "User.motivations", saveValue: "money" }],
+      },
+      {
+        type: "save",
+        optionText: "I'm trying to find a troupe to perform with.",
+        screenId: "bard_lookingForTroupe",
+        saveValues: [
+          { savePath: "User.quests", saveValue: "findATroupeToJoin" },
+        ],
+      },
+      {
+        type: "save",
+        optionText: "I'm running away from something.",
+        screenId: "bard_runningAway",
+        saveValues: [{ savePath: "User.motivations", saveValue: "safety" }],
+      },
+    ],
+  },
+};
+
+const IJustSing: Screen = {
+  _id: "IJustSing",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "Serena.png",
+      alt: "Bard",
+      side: "right",
+      sideText: [
+        `Singing is a fine art, though I don't do much of it myself.
+      What do you hope to find in Belenham?`,
+      ],
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "I'm looking for work.",
+        screenId: "bard_lookingForWork",
+      },
+      {
+        type: "screen",
+        optionText: "I'm trying to find a troupe to perform with.",
+        screenId: "bard_lookingForTroupe",
+      },
+      {
+        type: "screen",
+        optionText: "I'm running away from something.",
+        screenId: "bard_runningAway",
+      },
+    ],
+  },
+};
+
+const bard_runningAway: Screen = {
+  _id: "bard_runningAway",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "Serena.png",
+      alt: "Bard",
+      side: "right",
+      sideText: [
+        `Running away? I'm so sorry that you're going through that. If you want 
+      someone to talk to, I'm here for you.`,
+      ],
+    },
+    `You chat with the bard for a little while longer and she introduces herself as Serena.`,
+    `As the night wears on, you find yourself growing tired and eventually Serena leaves to
+    head to her own room, telling you to call on her if you should need anything.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Next",
+        screenId: "callItANight",
+        saveValues: [
+          { savePath: "User.relationships.Serena", saveValue: "++" },
+        ],
+      },
+    ],
+  },
+};
+
+const bard_lookingForTroupe: Screen = {
+  _id: "bard_lookingForTroupe",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "Serena.png",
+      alt: "Bard",
+      side: "right",
+      sideText: [
+        `Oh my gosh really?! I'm also trying to find a troupe to perform with, I'd love to
+      travel the country side and meet new people and learn more skills and songs from other bards.
+      Do you want to try to work together?`,
+      ],
+    },
+  ],
+  choiceInformation: {
+    text: "Do you want to work with the young bard or try to make it on your own?",
+    options: [
+      {
+        type: "save",
+        optionText: "Work with the bard",
+        screenId: "thankTheBard_callItANight",
+        saveValues: [
+          { savePath: "User.quests", saveValue: "findTroupeWithSerena" },
+          { savePath: "User.relationships.Serena", saveValue: "++" },
+        ],
+      },
+      {
+        type: "screen",
+        optionText: "Make it on your own",
+        screenId: "noThanks_Serena",
+      },
+    ],
+  },
+};
+
+const noThanks_Serena: Screen = {
+  _id: "noThanks_Serena",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "Serena.png",
+      alt: "Bard",
+      side: "right",
+      sideText: [
+        `That's okay. I understand. I hope you find what you're looking for.`,
+      ],
+    },
+    `You chat with the bard for a little while longer and she introduces herself as Serena.`,
+    `As the night wears on, you find yourself growing tired and eventually Serena leaves to
+    head to her own room, telling you to call on her if you should need anything.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Next",
+        screenId: "callItANight",
+        saveValues: [
+          { savePath: "User.relationships.Serena", saveValue: "++" },
+        ],
+      },
+    ],
+  },
+};
+
+const bard_lookingForWork: Screen = {
+  _id: "bard_lookingForWork",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "Serena.png",
+      alt: "Bard",
+      side: "right",
+      sideText: [
+        `I'm not really in the hiring business, but I might know someone who can help you. I can bring them by in the morning if you like?`,
+      ],
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Thank you",
+        screenId: "thankTheBard_callItANight",
+        saveValues: [
+          { savePath: "User.quests", saveValue: "meetSerenaForWork" },
+        ],
+      },
+    ],
+  },
+};
+
+const theLuteIsMyFavorite: Screen = {
+  _id: "theLuteIsMyFavorite",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "Serena.png",
+      alt: "Bard",
+      side: "right",
+      sideText: [
+        `The lute is a fine instrument. I have a friend who makes them. If you want, I can introduce you to him in the morning.`,
+      ],
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Thank you",
+        screenId: "thankTheBard_callItANight",
+        saveValues: [
+          { savePath: "User.quests", saveValue: "meetSerenaForLute" },
+        ],
+      },
+    ],
+  },
+};
+
+const thankTheBard_callItANight: Screen = {
+  _id: "thankTheBard_callItANight",
+  header: "The Rusty Sword",
+  main: [
+    `You thank the young bard who introduces herself as Serena, and head up to your room. 
+    The bed is soft and the room is warm. You fall asleep quickly.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Next",
+        screenId: "endFirstDay",
+        saveValues: [
+          { savePath: "User.relationships.Serena", saveValue: "++" },
+          { savePath: "User.tavern", saveValue: "TheRustySword" },
+        ],
+      },
+    ],
+  },
+};
+
 // SILVER SPOON
 
 const callItANight_SS: Screen = {
   ...callItANight,
   _id: "callItANight_SS",
   header: "The Silver Spoon",
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Next",
+        screenId: "endFirstDay",
+        saveValues: [{ savePath: "User.tavern", saveValue: "TheSilverSpoon" }],
+      },
+    ],
+  },
 };
 
 const silverSpoon1: Screen = {
@@ -539,8 +940,9 @@ const approachFigure: Screen = {
       url: "Lyra.png",
       alt: "Quiet Druid",
       side: "left",
-      sideText:
+      sideText: [
         "You look like you've been on a long journey. What brings you to Belenham?",
+      ],
     },
   ],
   choiceInformation: {
@@ -576,8 +978,10 @@ const lookForWork: Screen = {
       url: "Lyra.png",
       alt: "Quiet Druid",
       side: "left",
-      sideText: `Well, I'm not really in the hiring business, but I might know
+      sideText: [
+        `Well, I'm not really in the hiring business, but I might know
       someone who can help you. I'll bring them by in the morning.`,
+      ],
     },
   ],
   choiceInformation: {
@@ -601,8 +1005,10 @@ const tryingToSeeTheWorld: Screen = {
       url: "Lyra.png",
       alt: "Quiet Druid",
       side: "left",
-      sideText: `I understand that feeling. I've seen a lot of the world myself. 
+      sideText: [
+        `I understand that feeling. I've seen a lot of the world myself. 
       I might be able to help you find some interesting places.`,
+      ],
     },
   ],
   choiceInformation: {
@@ -629,9 +1035,11 @@ const runningAwayFromSomething: Screen = {
       url: "Lyra.png",
       alt: "Quiet Druid",
       side: "left",
-      sideText: `I understand that. Not all of the world is kind to everyone. 
+      sideText: [
+        `I understand that. Not all of the world is kind to everyone. 
         If you're looking to make a new start, I can introduce you to someone 
         who might be able to help. I'll meet you here tomorrow morning.`,
+      ],
     },
   ],
   choiceInformation: {
@@ -663,7 +1071,10 @@ const thankTheDruid_callItANight: Screen = {
         type: "save",
         optionText: "Next",
         screenId: "endFirstDay",
-        saveValues: [{ savePath: "User.relationships.Lyra", saveValue: "++" }],
+        saveValues: [
+          { savePath: "User.relationships.Lyra", saveValue: "++" },
+          { savePath: "User.tavern", saveValue: "TheSilverSpoon" },
+        ],
       },
     ],
   },
@@ -748,13 +1159,23 @@ const sewerWater1: Screen = {
 };
 
 const callItANight_SW: Screen = {
-  ...callItANight,
   _id: "callItANight_SW",
   header: "Sewer Water",
   main: [
     `You decide to call it a night and head up to your room. The bed is scratchy and there is a draft in the room. 
     You toss and turn for most of the night.`,
   ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Next",
+        screenId: "endFirstDay",
+        saveValues: [{ savePath: "User.tavern", saveValue: "SewerWater" }],
+      },
+    ],
+  },
 };
 
 const observe: Screen = {
@@ -807,6 +1228,22 @@ const keepALowProfile: Screen = {
   },
 };
 
+function evalInterveen() {
+  if (SavingService.loadUser().stats.charm >= 1) {
+    return {
+      type: "screen",
+      optionText: "Defuse",
+      screenId: "defuseSituation_success",
+    };
+  } else {
+    return {
+      type: "save",
+      optionText: "Defuse",
+      screenId: "defuseSituation_failure",
+      saveValues: [{ savePath: "User.stats.charm", saveValue: "++" }],
+    };
+  }
+}
 const intervene: Screen = {
   _id: "intervene",
   header: "Sewer Water",
@@ -817,18 +1254,7 @@ const intervene: Screen = {
   choiceInformation: {
     text: "Do you try to defuse the situation or take a more aggressive approach?",
     options: [
-      user.stats.charm >= 1
-        ? {
-            type: "screen",
-            optionText: "Defuse",
-            screenId: "defuseSituation_success",
-          }
-        : {
-            type: "save",
-            optionText: "Defuse",
-            screenId: "defuseSituation_failure",
-            saveValues: [{ savePath: "User.stats.charm", saveValue: "++" }],
-          },
+      evalInterveen,
       {
         type: "screen",
         optionText: "Aggressive",
@@ -915,8 +1341,9 @@ const middleOfBrawl: Screen = {
       url: "Hunstan.png",
       alt: "Tall Grizzled Man",
       side: "right",
-      sideText:
+      sideText: [
         "Are you stupid or something? You should know better than to get involved in a fight in a place like this!",
+      ],
     },
     `He gives you a shake and a stern look before releasing you and walking back inside.`,
   ],
@@ -951,8 +1378,9 @@ const followHimInside: Screen = {
       url: "Hunstan.png",
       alt: "Tall Grizzled Man",
       side: "right",
-      sideText:
+      sideText: [
         "You're lucky I was there to pull you out of that mess. You look like you could use a drink. What are you doing in Belenham?",
+      ],
     },
   ],
   choiceInformation: {
@@ -988,8 +1416,9 @@ const lookingToDisappear: Screen = {
       url: "Hunstan.png",
       alt: "Tall Grizzled Man",
       side: "right",
-      sideText:
+      sideText: [
         "I understand that. I know someone who is very good at that sort of thing. I'll introduce you in the morning.",
+      ],
     },
   ],
   choiceInformation: {
@@ -1015,8 +1444,9 @@ const SW_tryingToSeeTheWorld: Screen = {
       url: "Hunstan.png",
       alt: "Tall Grizzled Man",
       side: "right",
-      sideText:
+      sideText: [
         "I understand that. I might be able to help you find some interesting places.",
+      ],
     },
   ],
   choiceInformation: {
@@ -1042,9 +1472,11 @@ const lookingForAnswers: Screen = {
       url: "Hunstan.png",
       alt: "Tall Grizzled Man",
       side: "right",
-      sideText: `Getting answers can be dangerous. I might know someone who 
+      sideText: [
+        `Getting answers can be dangerous. I might know someone who 
       can help you. She's got ins with the right people. Meet me here tomorrow
       morning and I'll introduce you.`,
+      ],
     },
   ],
   choiceInformation: {
@@ -1079,6 +1511,7 @@ const thankTheMan_callItANight: Screen = {
         screenId: "endFirstDay",
         saveValues: [
           { savePath: "User.relationships.Hunstan", saveValue: "++" },
+          { savePath: "User.tavern", saveValue: "SewerWater" },
         ],
       },
     ],
@@ -1123,25 +1556,7 @@ const findDifferentInn: Screen = {
   },
 };
 
-// End of Day 0
-
-const endFirstDay: Screen = {
-  _id: "endFirstDay",
-  header: "You have finished your first day in Belenham!`",
-  main: [``, ``, ``, ``],
-  choiceInformation: {
-    text: "",
-    options: [
-      {
-        type: "quit",
-        optionText: "Restart game",
-        screenId: "0",
-      },
-    ],
-  },
-};
-
-export const fighterScreens = [
+export const findAnInnScreens = [
   theAdventureBegins,
   rustySword_1,
   silverSpoon1,
@@ -1180,8 +1595,18 @@ export const fighterScreens = [
   thankTheKnight_callItANight,
   tryToProveYourself,
   yesToWorkingTogether,
-  endFirstDay,
   failedAtHelping,
   tryToSeeTheWorld_somerild,
   lookForWork_somerild,
+  theLuteIsMyFavorite,
+  thankTheBard_callItANight,
+  bard_lookingForWork,
+  noThanks_Serena,
+  bard_lookingForTroupe,
+  bard_runningAway,
+  IJustSing,
+  ITellTales,
+  playASong,
+  askedToPlay,
+  joinTheFestivities_bard,
 ];

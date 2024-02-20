@@ -1,5 +1,17 @@
 import { Quest } from "./Quest";
 
+export enum Tavern {
+  TheRustySword = "The Rusty Sword",
+  TheSilverSpoon = "The Silver Spoon",
+  SewerWater = "Sewer Water",
+}
+
+export enum UserClass {
+  bard = "Bard",
+  fighter = "Fighter",
+  mage = "Mage",
+}
+
 export enum Motivations {
   money = "money",
   power = "power",
@@ -14,6 +26,7 @@ export enum Relationship {
   Hunstan = "Hunstan",
   Kael = "Kael",
   Somerild = "Somerild",
+  Serena = "Serena",
 }
 
 export enum Stat {
@@ -27,7 +40,7 @@ export enum Stat {
 
 export interface User {
   name?: string;
-  class?: string;
+  class?: UserClass;
   stats: {
     goodness: number;
     sneakiness: number;
@@ -43,6 +56,9 @@ export interface User {
     Hunstan?: number;
     Kael?: number;
     Somerild?: number;
+    Serena?: number;
   };
   quests: { [key: string]: Quest };
+  skills: string[];
+  tavern?: Tavern;
 }

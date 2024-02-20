@@ -50,14 +50,15 @@ function MainApp() {
 
   const header = unfurlString(screen.header);
   const main: MainContentProps = screen.main
-    .map((content) => {
+    .map((_content) => {
+      const content = typeof _content === "function" ? _content() : _content;
       if (typeof content === "string") {
         return unfurlString(content);
       } else {
         // type is PictureMain
         return {
           ...content,
-          sideText: unfurlString(content.sideText),
+          sideText: content.sideText.map(unfurlString),
           alt: unfurlString(content.alt),
         } as PictureMain;
       }

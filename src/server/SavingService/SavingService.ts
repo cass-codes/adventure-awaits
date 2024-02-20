@@ -1,10 +1,17 @@
 import { Quest, QuestStatus } from "../../types/Quest";
-import { Motivations, Relationship, Stat, User } from "../../types/User";
-import { allQuests } from "../data/quests";
+import {
+  Motivations,
+  Relationship,
+  Stat,
+  Tavern,
+  User,
+  UserClass,
+} from "../../types/User";
+import { dayZeroQuests } from "../data/Day0/quests";
 import { parseSavePath } from "./helper";
 
-let user: User = {
-  quests: allQuests,
+export let user: User = {
+  quests: dayZeroQuests,
   coins: 10,
   stats: {
     goodness: 0,
@@ -15,6 +22,7 @@ let user: User = {
     charm: 0,
   },
   relationships: {},
+  skills: [],
 };
 
 function evalPlusMinusInput(input: string) {
@@ -34,7 +42,8 @@ export class SavingService {
       if (propertyPath[0] === "name") {
         user.name = input;
       } else if (propertyPath[0] === "class") {
-        user.class = input;
+        console.log("saving class: ", input);
+        user.class = UserClass[input as keyof typeof UserClass];
       } else if (propertyPath[0] === "stats") {
         const stat = Stat[propertyPath[1] as keyof typeof Stat];
         const currentStat = user.stats[stat];
@@ -72,6 +81,11 @@ export class SavingService {
             throw Error(`Property not found: ${propertyPath[2]}`);
           }
         }
+      } else if (propertyPath[0] === "skills") {
+        if (!user.skills.find((skill) => skill === input))
+          user.skills.push(input);
+      } else if (propertyPath[0] === "tavern") {
+        user.tavern = Tavern[input as keyof typeof Tavern];
       } else {
         throw Error(`Property not found: ${propertyPath[0]}`);
       }
@@ -130,7 +144,7 @@ export class SavingService {
 
   static restartGame() {
     user = {
-      quests: this.restartQuests(allQuests),
+      quests: this.restartQuests(dayZeroQuests),
       coins: 10,
       stats: {
         goodness: 0,
@@ -141,6 +155,7 @@ export class SavingService {
         charm: 0,
       },
       relationships: {},
+      skills: [],
     };
     localStorage.removeItem("user");
     localStorage.removeItem("screenId");

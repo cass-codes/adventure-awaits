@@ -60,11 +60,15 @@ function UserRelationshipsTab({ userData }: { userData: User }) {
     <>
       <h3>Relationships</h3>
       <table>
-        {relationshipKeys.map((relationshipKey) => {
-          return (
-            <tr key={relationshipKey}>{getRelationshipRow(relationshipKey)}</tr>
-          );
-        })}
+        <tbody>
+          {relationshipKeys.map((relationshipKey) => {
+            return (
+              <tr key={relationshipKey}>
+                {getRelationshipRow(relationshipKey)}
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
     </>
   );

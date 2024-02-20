@@ -1,17 +1,18 @@
 import { User } from "../../types/User";
 
-function getUserGoal(userClass: string) {
-  switch (userClass) {
-    case "Fighter":
-      return "Become Knighted";
-    case "Mage":
-      return "Enroll in the Mage's College";
-    case "Bard":
-      return "Get the king to laugh!";
-    default:
-      return "";
-  }
-}
+// // Figure out what I want to do with goals
+// function getUserGoal(userClass: string) {
+//   switch (userClass) {
+//     case "Fighter":
+//       return "Become Knighted";
+//     case "Mage":
+//       return "Enroll in the Mage's College";
+//     case "Bard":
+//       return "Get the king to laugh!";
+//     default:
+//       return "";
+//   }
+// }
 
 function UserInfoTab({ userData }: { userData: User }) {
   if (!userData.class) {
@@ -19,22 +20,32 @@ function UserInfoTab({ userData }: { userData: User }) {
   }
   return (
     <div>
-      <h2>Goal: {getUserGoal(userData.class || "")}</h2>
       <p>
         <b>Class</b>: {userData.class}
       </p>
       <p>
         <b>Money</b>: {userData.coins} gold
       </p>
-      <>
-        {userData.motivations?.forEach((motivation) => {
-          return (
-            <p>
-              <b>Motivated By</b>: {motivation}
-            </p>
-          );
+      <p>
+        {userData.motivations ? (
+          <span>
+            <b>Motivated by: </b>
+          </span>
+        ) : null}
+        {userData.motivations?.map((motive) => {
+          return <span key={motive}>{motive}</span>;
         })}
-      </>
+      </p>
+      <p>
+        {userData.skills.length > 0 ? (
+          <span>
+            <b>Other skills: </b>
+          </span>
+        ) : null}
+        {userData.skills?.map((skill) => {
+          return <span key={skill}>{skill}</span>;
+        })}
+      </p>
     </div>
   );
 }

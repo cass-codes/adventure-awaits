@@ -11,28 +11,28 @@ export interface PictureMain {
   url: string;
   alt: string;
   side: "left" | "right";
-  sideText: string;
+  sideText: string[];
 }
 
-export type MainContentProps = (string | PictureMain)[];
+export type MainContentProps = (string | PictureMain | Function)[];
 
 // Choices
 
 export interface ChoiceInfo {
   text: string;
-  options: ChoiceOption[];
+  options: ChoiceOption[] | Function;
 }
 
 interface BaseChoiceOption {
   optionText: string;
-  screenId: string;
+  screenId: string | Function;
 }
 
 interface StringChoiceOption extends BaseChoiceOption {
   type: "screen";
 }
 
-interface SaveChoiceOption extends BaseChoiceOption {
+export interface SaveChoiceOption extends BaseChoiceOption {
   type: "save";
   saveValues: {
     savePath: string;
@@ -49,8 +49,10 @@ interface QuitChoiceOption extends BaseChoiceOption {
   type: "quit";
 }
 
-export type ChoiceOption =
+export type EvaluatedChoiceOption =
   | StringChoiceOption
   | SaveChoiceOption
   | InputChoiceOption
   | QuitChoiceOption;
+
+export type ChoiceOption = Function | EvaluatedChoiceOption;

@@ -16,7 +16,13 @@ function MainContent(props: { content: MainContentProps }) {
     return (
       <div key={index} className={className}>
         <img src={url} alt={p.alt} />
-        {p.sideText ? <p className="DialogText">{p.sideText}</p> : null}
+        {p.sideText ? (
+          <div className="DialogText">
+            {p.sideText.map((text, index) => (
+              <p key={index}>{text}</p>
+            ))}
+          </div>
+        ) : null}
       </div>
     );
   }

@@ -1,6 +1,10 @@
 import { Key, useRef } from "react";
 import "./ChoicesContent.css";
-import { ChoiceInfo, ChoiceOption } from "../types/Screen";
+import {
+  ChoiceInfo,
+  ChoiceOption,
+  EvaluatedChoiceOption,
+} from "../types/Screen";
 
 function ChoicesContent(props: {
   choices: ChoiceInfo;
@@ -11,13 +15,23 @@ function ChoicesContent(props: {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const choicesText = props.choices.text;
-  const choicesOptions = props.choices.options;
+  const choicesOptions =
+    typeof props.choices.options === "function"
+      ? props.choices.options()
+      : props.choices.options;
 
   function selectHandler(event: any) {
     const chosenId = event.target.id;
-    const chosenOption = choicesOptions.find((option) => {
-      return option.screenId === chosenId;
+    const _chosenOption = choicesOptions.find((opt: ChoiceOption) => {
+      const option = typeof opt === "function" ? opt() : opt;
+      const screenId =
+        typeof option.screenId === "function"
+          ? option.screenId()
+          : option.screenId;
+      return screenId === chosenId;
     });
+    const chosenOption =
+      typeof _chosenOption === "function" ? _chosenOption() : _chosenOption;
     if (!chosenOption) {
       throw new Error("No option found for id: " + chosenId);
     }
@@ -54,19 +68,27 @@ function ChoicesContent(props: {
 
   function buildChoices() {
     return choicesOptions.map(
-      (choice: ChoiceOption, index: Key | null | undefined) => {
+      (_choice: ChoiceOption, index: Key | null | undefined) => {
+        let choice: EvaluatedChoiceOption =
+          typeof _choice === "function" ? _choice() : _choice;
+
+        const screenId =
+          typeof choice.screenId === "function"
+            ? choice.screenId()
+            : choice.screenId;
+
         if (choice.type === "input") {
           return (
             <>
-              <input type="text" ref={inputRef} />
-              <button onClick={selectHandler} id={choice.screenId}>
+              <input key="one" type="text" ref={inputRef} />
+              <button key="two" onClick={selectHandler} id={screenId}>
                 {choice.optionText}
               </button>
             </>
           );
         }
         return (
-          <button onClick={selectHandler} id={choice.screenId}>
+          <button key={index} onClick={selectHandler} id={screenId}>
             {choice.optionText}
           </button>
         );
@@ -76,8 +98,12 @@ function ChoicesContent(props: {
 
   return (
     <div>
-      <p className="ChoicesPrompt">{choicesText}</p>
-      <div className="ChoicesWrapper">{buildChoices()}</div>
+      <p className="ChoicesPrompt" key="prompt">
+        {choicesText}
+      </p>
+      <div className="ChoicesWrapper" key="choices">
+        {buildChoices()}
+      </div>
     </div>
   );
 }
