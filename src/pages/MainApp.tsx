@@ -1,7 +1,7 @@
 import { MainContentProps, PictureMain, Screen } from "../types/Screen";
-import ChoicesContent from "../components/ChoicesContent";
+import ChoicesContent from "../components/ChoicesContent/ChoicesContent";
 import HeaderContent from "../components/HeaderContent";
-import MainContent from "../components/MainContent";
+import MainContent from "../components/MainContent/MainContent";
 import { useState } from "react";
 import { quit, startScreen } from "../server/data/screens";
 import { getScreenById } from "../server/ScreenHandler";

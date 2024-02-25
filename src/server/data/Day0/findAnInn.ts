@@ -1400,7 +1400,7 @@ const followHimInside: Screen = {
       },
       {
         type: "save",
-        optionText: "I'm looking for answers.",
+        optionText: "I'm looking to learn.",
         screenId: "lookingForAnswers",
         saveValues: [{ savePath: "User.motivations", saveValue: "knowledge" }],
       },
@@ -1473,9 +1473,8 @@ const lookingForAnswers: Screen = {
       alt: "Tall Grizzled Man",
       side: "right",
       sideText: [
-        `Getting answers can be dangerous. I might know someone who 
-      can help you. She's got ins with the right people. Meet me here tomorrow
-      morning and I'll introduce you.`,
+        `You're a scholar then? Well, that's good. I've got a friend who might be able to
+        help you. Meet us here tomorrow morning and I'll introduce you.`,
       ],
     },
   ],

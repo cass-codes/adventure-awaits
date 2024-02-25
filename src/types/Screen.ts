@@ -28,7 +28,7 @@ interface BaseChoiceOption {
   screenId: string | Function;
 }
 
-interface StringChoiceOption extends BaseChoiceOption {
+export interface ScreenChoiceOption extends BaseChoiceOption {
   type: "screen";
 }
 
@@ -40,17 +40,17 @@ export interface SaveChoiceOption extends BaseChoiceOption {
   }[];
 }
 
-interface InputChoiceOption extends BaseChoiceOption {
+export interface InputChoiceOption extends BaseChoiceOption {
   type: "input";
   savePath: string;
 }
 
-interface QuitChoiceOption extends BaseChoiceOption {
+export interface QuitChoiceOption extends BaseChoiceOption {
   type: "quit";
 }
 
 export type EvaluatedChoiceOption =
-  | StringChoiceOption
+  | ScreenChoiceOption
   | SaveChoiceOption
   | InputChoiceOption
   | QuitChoiceOption;

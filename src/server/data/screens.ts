@@ -31,4 +31,9 @@ export const quit: Screen = {
   },
 };
 
-export const screens = [startScreen, quit, ...day0Screens, ...day1Screens];
+export const screens: Screen[] = [
+  startScreen,
+  quit,
+  ...day0Screens,
+  ...day1Screens,
+];

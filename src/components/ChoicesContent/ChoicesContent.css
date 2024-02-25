@@ -17,13 +17,6 @@
   font-size: 1em;
 }
 
-.InputChoice {
-  font-family: "Courgette";
-  font-size: 1em;
-  flex-wrap: wrap;
-  row-gap: 10px;
-}
-
 button {
   font-family: "Courgette";
   font-size: 1em;
@@ -34,11 +27,4 @@ button {
   color: #333;
   cursor: pointer;
   transition: all 0.3s ease;
-}
-
-input {
-  font-family: "Courgette";
-  font-size: 1em;
-  width: 25rem;
-  background-color: rgb(195, 195, 195);
 }

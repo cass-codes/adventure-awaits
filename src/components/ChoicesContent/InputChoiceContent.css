@@ -1,0 +1,20 @@
+.InputChoice {
+  font-family: "Courgette";
+  font-size: 1em;
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+
+.InputForm {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  align-items: center;
+}
+
+input {
+  font-family: "Courgette";
+  font-size: 1em;
+  width: 25rem;
+  background-color: rgb(195, 195, 195);
+}
