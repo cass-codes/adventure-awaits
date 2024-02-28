@@ -16,13 +16,10 @@ function MainApp() {
   function setScreenByIdHandler(screenId: string) {
     const newScreen = getScreenById(screenId);
     if (!newScreen) {
-      throw new Error(`Screen with id ${screenId} not found`);
+      console.error(`Screen with id ${screenId} not found`);
+    } else {
+      setScreen(newScreen);
     }
-    setScreen(newScreen);
-  }
-
-  function savingContentHandler(input: string, savePath: string) {
-    SavingService.saveContent(input, savePath);
   }
 
   function saveGameHandler() {
@@ -80,7 +77,7 @@ function MainApp() {
       <ChoicesContent
         choices={choiceInformation}
         setScreenById={setScreenByIdHandler}
-        savingContent={savingContentHandler}
+        savingContent={SavingService.saveContent}
         quitWithoutSaving={realQuitGameHandler}
       />
     </>

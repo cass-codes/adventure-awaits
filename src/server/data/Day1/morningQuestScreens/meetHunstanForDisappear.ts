@@ -39,7 +39,7 @@ const meetHunstanForDisappear: Screen = {
         screenId: "", // TODO
         saveValues: [
           {
-            savePath: "User.quests.meetGrizzledManForDisappear",
+            savePath: "User.quests.meetGrizzledManForDisappear.status",
             saveValue: "completed",
           },
           { savePath: "User.relationships.Lyra", saveValue: "++" },
@@ -47,11 +47,11 @@ const meetHunstanForDisappear: Screen = {
       },
       {
         type: "save",
-        optionText: "This is too much for me",
-        screenId: "", // TODO
+        optionText: "What do you mean by disappear?",
+        screenId: "moreInformationOnDisappearing", // TODO
         saveValues: [
           {
-            savePath: "User.quests.meetGrizzledManForDisappear",
+            savePath: "User.quests.meetGrizzledManForDisappear.status",
             saveValue: "completed",
           },
           { savePath: "User.relationships.Lyra", saveValue: "++" },
@@ -61,4 +61,64 @@ const meetHunstanForDisappear: Screen = {
   },
 };
 
-export const screens = [meetHunstanForDisappear];
+const moreInformationOnDisappearing: Screen = {
+  _id: "moreInformationOnDisappearing",
+  header: "Belenham",
+  main: [
+    `Lyra looks around before leaning in close to you.`,
+    {
+      url: "Lyra.png",
+      alt: "Lyra",
+      side: "left",
+      sideText: [
+        `I can't tell you much, but I can help you.`,
+        `We can get you out of the city tonight if you want. I've got a place you can stay for a while.`,
+        `I can't promise it'll be easy, but it'll be better than whatever you're running from.`,
+      ],
+    },
+    `She looks at you expectantly.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "There's been a misunderstanding",
+        screenId: "", // TODO
+        saveValues: [
+          {
+            savePath: "User.quests.meetGrizzledManForDisappear.status",
+            saveValue: "completed",
+          },
+          { savePath: "User.relationships.Lyra", saveValue: "++" },
+        ],
+      },
+      {
+        type: "save",
+        optionText: "Maybe later",
+        screenId: "", // TODO
+        saveValues: [
+          {
+            savePath: "User.quests.meetGrizzledManForDisappear.status",
+            saveValue: "completed",
+          },
+          { savePath: "User.relationships.Lyra", saveValue: "++" },
+        ],
+      },
+      {
+        type: "save",
+        optionText: "I'm ready",
+        screenId: "", // TODO
+        saveValues: [
+          {
+            savePath: "User.quests.meetGrizzledManForDisappear.status",
+            saveValue: "completed",
+          },
+          { savePath: "User.relationships.Lyra", saveValue: "++" },
+        ],
+      },
+    ],
+  },
+};
+
+export const screens = [meetHunstanForDisappear, moreInformationOnDisappearing];

@@ -7,18 +7,15 @@ function QuitChoiceContent({
   choice: QuitChoiceOption;
   onSelect: Function;
 }) {
-  const screenId =
-    typeof choice.screenId === "function" ? choice.screenId() : choice.screenId;
-
   function selectHandler() {
+    const screenId =
+      typeof choice.screenId === "function"
+        ? choice.screenId()
+        : choice.screenId;
     onSelect(screenId);
   }
 
-  return (
-    <button onClick={selectHandler} id={screenId}>
-      {choice.optionText}
-    </button>
-  );
+  return <button onClick={selectHandler}>{choice.optionText}</button>;
 }
 
 export default QuitChoiceContent;

@@ -3,6 +3,9 @@ import { User } from "../../types/User";
 const barStart = -5;
 const barEnd = 5;
 
+const magicBarStart = 0;
+const magicBarEnd = 10;
+
 const goodnessBarKey = "[evil]---------------------[good]";
 const sneakinessBarKey = "[obvious]----------------[sneaky]";
 const clevernessBarKey = "[dumb]--------------------[smart]";
@@ -10,9 +13,13 @@ const brawnBarKey = "[weak]-------------------[strong]";
 const magicBarKey = "[none]-------------------[master]";
 const charmBarKey = "[uh]----------------[charismatic]";
 
-function generateBar(statValue: number) {
+function generateBar(
+  statValue: number,
+  specificBarStart = barStart,
+  specificBarEnd = barEnd
+) {
   let bar = "";
-  for (let i = barStart; i <= barEnd; i++) {
+  for (let i = specificBarStart; i <= specificBarEnd; i++) {
     if (i < statValue) {
       bar += "[ ]";
     } else if (i === statValue) {
@@ -31,7 +38,11 @@ function UserStatsTab({ userData }: { userData: User }) {
   let sneakinessBar = generateBar(userData.stats?.sneakiness || 0);
   let clevernessBar = generateBar(userData.stats?.cleverness || 0);
   let brawnBar = generateBar(userData.stats?.brawn || 0);
-  let magicBar = generateBar(userData.stats?.magic || 0);
+  let magicBar = generateBar(
+    userData.stats?.magic || 0,
+    magicBarStart,
+    magicBarEnd
+  );
   let charmBar = generateBar(userData.stats?.charm || 0);
 
   if (!userData.name || !userData.class) {

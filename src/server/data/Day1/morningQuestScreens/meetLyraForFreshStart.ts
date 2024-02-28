@@ -2,7 +2,7 @@ import { Screen } from "../../../../types";
 
 const meetLyraForFreshStart: Screen = {
   _id: "meetLyraForFreshStart",
-  header: "The Silver Spoon",
+  header: "Belenham",
   main: [
     `You wait for a few minutes outside of the Silver Spoon before you see Lyra
     approaching. She walks up to you and you notice there is someone else walking
@@ -43,7 +43,7 @@ const meetLyraForFreshStart: Screen = {
         screenId: "", //TODO
         saveValues: [
           {
-            savePath: "User.quests.meetLyraForFreshStart",
+            savePath: "User.quests.meetLyraForFreshStart.status",
             saveValue: "completed",
           },
           { savePath: "User.relationships.Lyra", saveValue: "++" },
@@ -57,7 +57,7 @@ const meetLyraForFreshStart: Screen = {
         screenId: "", //TODO
         saveValues: [
           {
-            savePath: "User.quests.meetLyraForFreshStart",
+            savePath: "User.quests.meetLyraForFreshStart.status",
             saveValue: "completed",
           },
           { savePath: "User.relationships.Lyra", saveValue: "++" },
@@ -71,7 +71,7 @@ const meetLyraForFreshStart: Screen = {
         screenId: "", // TODO
         saveValues: [
           {
-            savePath: "User.quests.meetLyraForFreshStart",
+            savePath: "User.quests.meetLyraForFreshStart.status",
             saveValue: "completed",
           },
           { savePath: "User.relationships.Hunstan", saveValue: "++" },

@@ -7,18 +7,15 @@ function SaveChoiceContent({
   choice: SaveChoiceOption;
   onSelect: Function;
 }) {
-  const screenId =
-    typeof choice.screenId === "function" ? choice.screenId() : choice.screenId;
-
   function selectHandler() {
-    onSelect(choice.saveValues, choice.screenId);
+    const screenId =
+      typeof choice.screenId === "function"
+        ? choice.screenId()
+        : choice.screenId;
+    onSelect(choice.saveValues, screenId);
   }
 
-  return (
-    <button onClick={selectHandler} id={screenId}>
-      {choice.optionText}
-    </button>
-  );
+  return <button onClick={selectHandler}>{choice.optionText}</button>;
 }
 
 export default SaveChoiceContent;

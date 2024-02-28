@@ -12,11 +12,14 @@ function InputChoiceContent({
   const [errorState, setErrorState] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const screenId =
-    typeof choice.screenId === "function" ? choice.screenId() : choice.screenId;
-
   function selectHandler(event: any) {
     event.preventDefault();
+
+    const screenId =
+      typeof choice.screenId === "function"
+        ? choice.screenId()
+        : choice.screenId;
+
     const enteredInput = inputRef?.current?.value || undefined;
     if (!enteredInput) {
       setErrorState(true);
@@ -33,7 +36,7 @@ function InputChoiceContent({
     <form key="zero" onSubmit={selectHandler}>
       <div className="InputForm">
         <input key="one" type="text" ref={inputRef} />
-        <button type="submit" key="two" id={screenId}>
+        <button type="submit" key="two">
           {choice.optionText}
         </button>
         {errorState && (

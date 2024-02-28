@@ -11,7 +11,7 @@ function evalStatsForKael(): EvaluatedChoiceOption[] {
       screenId: option.screenId,
       saveValues: [
         {
-          savePath: "User.quests.meetBeardedKnightForWork",
+          savePath: "User.quests.meetBeardedKnightForWork.status",
           saveValue: "completed",
         },
       ],
@@ -23,14 +23,14 @@ function evalStatsForKael(): EvaluatedChoiceOption[] {
 
 const meetKaelForWork: Screen = {
   _id: "meetKaelForWork",
-  header: "The Rusty Sword",
+  header: "Belenham",
   main: [
     `You see Kael heading towards The Rusty Sword shortly after you step outside. 
     They idle up to you, giving you a friendly wave.`,
     {
       url: "Kael.png",
       alt: "Kael",
-      side: "left",
+      side: "right",
       sideText: [
         `Good morning! I know I said last night that I might have some work 
       for you but I realize I didn't get a lot of details from you about what 

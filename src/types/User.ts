@@ -27,6 +27,7 @@ export enum Relationship {
   Kael = "Kael",
   Somerild = "Somerild",
   Serena = "Serena",
+  Kiirion = "Kiirion",
 }
 
 export enum Stat {
@@ -57,6 +58,7 @@ export interface User {
     Kael?: number;
     Somerild?: number;
     Serena?: number;
+    Kiirion?: number;
   };
   quests: { [key: string]: Quest };
   skills: string[];

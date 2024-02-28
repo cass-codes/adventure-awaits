@@ -31,6 +31,10 @@ function evalPlusMinusInput(input: string) {
   } else if (input === "--") {
     return -1;
   } else {
+    const num = parseFloat(input);
+    if (!isNaN(num)) {
+      return num;
+    }
     throw Error(`Invalid input: ${input}`);
   }
 }
@@ -42,16 +46,13 @@ export class SavingService {
       if (propertyPath[0] === "name") {
         user.name = input;
       } else if (propertyPath[0] === "class") {
-        console.log("saving class: ", input);
         user.class = UserClass[input as keyof typeof UserClass];
       } else if (propertyPath[0] === "stats") {
         const stat = Stat[propertyPath[1] as keyof typeof Stat];
         const currentStat = user.stats[stat];
-        const changeBy = evalPlusMinusInput(input);
-        user.stats[stat] = currentStat + changeBy;
+        user.stats[stat] = currentStat + evalPlusMinusInput(input);
       } else if (propertyPath[0] === "coins") {
-        const changeBy = evalPlusMinusInput(input);
-        user.coins += changeBy;
+        user.coins += evalPlusMinusInput(input);
       } else if (propertyPath[0] === "motivations") {
         if (user.motivations === undefined) {
           user.motivations = [];

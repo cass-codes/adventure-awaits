@@ -1,5 +1,4 @@
 import { Screen } from "../../../types/Screen";
-import { UserClass } from "../../../types/User";
 import { SavingService } from "../../SavingService/SavingService";
 
 const theAdventureBegins: Screen = {
@@ -55,14 +54,6 @@ const theAdventureBegins: Screen = {
 
 // RUSTY SWORD
 
-function evaluateScreenId_rustySword1() {
-  const user = SavingService.loadUser();
-  if (user.class === UserClass.bard) {
-    return "joinTheFestivities_bard";
-  }
-  return "joinTheFestivities";
-}
-
 const rustySword_1: Screen = {
   _id: "rustySword_1",
   header: "The Rusty Sword",
@@ -75,15 +66,21 @@ const rustySword_1: Screen = {
     text: "Do you join in the revelry or seek a quieter corner to rest?",
     options: [
       {
-        type: "save",
-        optionText: "Join the festivities",
-        screenId: evaluateScreenId_rustySword1,
-        saveValues: [{ savePath: "User.stats.charm", saveValue: "++" }],
-      },
-      {
         type: "screen",
         optionText: "Seek solitude",
         screenId: "seekSolitude",
+      },
+      {
+        type: "save",
+        optionText: "Chat with some patrons",
+        screenId: "joinTheFestivities",
+        saveValues: [{ savePath: "User.stats.charm", saveValue: "++" }],
+      },
+      {
+        type: "save",
+        optionText: "Listen to the bard in the corner",
+        screenId: "joinTheFestivities_bard",
+        saveValues: [{ savePath: "User.stats.charm", saveValue: "++" }],
       },
     ],
   },
@@ -427,6 +424,7 @@ const tryToSeeTheWorld_somerild: Screen = {
       Belenham is a good town to make a name for yourself. I hope you find what you're looking for.`,
       ],
     },
+    `You and the young knight talk for a little while longer and she introduces herself as Somerild.`,
   ],
   choiceInformation: {
     text: "",
@@ -436,7 +434,7 @@ const tryToSeeTheWorld_somerild: Screen = {
         optionText: "Yes please!",
         screenId: "callItANight",
         saveValues: [
-          { savePath: "User.quests", saveValue: "workWithSomerild" },
+          { savePath: "User.relationships.Somerild", saveValue: "++" },
         ],
       },
     ],
@@ -537,7 +535,7 @@ const joinTheFestivities_bard: Screen = {
     `You head to the corner of the room, where the bard sits strumming a lute. There are a
     few patrons sitting close by listening intently and you take a seat at their table
     watching the Bard work.`,
-    `At the end of their song, you applaud with the others and the bard gives you a nod and 
+    `At the end of her song, you applaud with the others and the bard gives you a nod and 
     a smile.`,
     `You settle into a nice rhythm and order a meal and a cup of beer, eating pleasantly with
     the other patrons.`,
@@ -554,6 +552,13 @@ const joinTheFestivities_bard: Screen = {
   },
 };
 
+function evalPlayASong() {
+  const user = SavingService.loadUser();
+  if (user.stats.charm >= 2) {
+    return "playASong_success";
+  }
+  return "playASong_failure";
+}
 const askedToPlay: Screen = {
   _id: "askedToPlay",
   header: "The Rusty Sword",
@@ -566,20 +571,143 @@ const askedToPlay: Screen = {
     options: [
       {
         type: "screen",
-        optionText: "Yes",
-        screenId: "playASong",
+        optionText: "No thanks",
+        screenId: "callItANight",
       },
       {
         type: "screen",
-        optionText: "No",
-        screenId: "callItANight",
+        optionText: "Yes",
+        screenId: evalPlayASong,
       },
     ],
   },
 };
 
-const playASong: Screen = {
-  _id: "playASong",
+const playASong_failure: Screen = {
+  _id: "playASong_failure",
+  header: "The Rusty Sword",
+  main: [
+    `You accept the lute graciously, but as you start to play, your fingers fumble and the song
+    quickly turns into a mess. The tavern falls silent and you feel your face flush with embarrassment.`,
+    `Nevertheless you struggle through it, singing out some tuneless notes. You recieve
+    a few claps and a few jeers, but the bard gives you a nod and a smile, and you return to your meal.`,
+    {
+      url: "Serena.png",
+      alt: "Bard",
+      side: "right",
+      sideText: [
+        "You're not bad, but you could use some practice. What's your instrument of choice?",
+      ],
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "I'm not actually much of performer",
+        screenId: "notMuchOfAPerformer",
+      },
+      {
+        type: "save",
+        optionText: "The lute is my favorite.",
+        screenId: "theLuteIsMyFavorite",
+        saveValues: [
+          { savePath: "User.skills", saveValue: "lute" },
+          { savePath: "User.stats.charm", saveValue: "++" },
+        ],
+      },
+      {
+        type: "save",
+        optionText: "I mostly sing",
+        screenId: "IJustSing",
+        saveValues: [
+          { savePath: "User.skills", saveValue: "singing" },
+          { savePath: "User.stats.charm", saveValue: "++" },
+        ],
+      },
+      {
+        type: "save",
+        optionText: "I actually prefer to tell tales",
+        screenId: "ITellTales",
+        saveValues: [
+          { savePath: "User.skills", saveValue: "telling tales" },
+          { savePath: "User.stats.charm", saveValue: "++" },
+        ],
+      },
+    ],
+  },
+};
+
+const notMuchOfAPerformer: Screen = {
+  _id: "notMuchOfAPerformer",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "Serena.png",
+      alt: "Bard",
+      side: "right",
+      sideText: [
+        `That's okay! Not everyone is a performer. What do you hope to find in Belenham?`,
+      ],
+    },
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "I'm looking for work.",
+        screenId: "bard_lookingForWork",
+      },
+      {
+        type: "screen",
+        optionText: "I'm want to learn",
+        screenId: "bard_learning",
+      },
+      {
+        type: "screen",
+        optionText: "I'm running away from something.",
+        screenId: "bard_runningAway",
+      },
+    ],
+  },
+};
+
+const bard_learning: Screen = {
+  _id: "bard_learning",
+  header: "The Rusty Sword",
+  main: [
+    {
+      url: "Serena.png",
+      alt: "Bard",
+      side: "right",
+      sideText: [
+        `Oh wow! A scholar! I'm not much of a teacher (or a student) but I hope you 
+        find what you're looking for.`,
+      ],
+    },
+    `You chat with the bard for a little while longer and she introduces herself as Serena.`,
+    `As the night wears on, you find yourself growing tired and eventually Serena leaves to
+    head to her own room, telling you to call on her if you should need anything.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "save",
+        optionText: "Thank you",
+        screenId: "callItANight",
+        saveValues: [
+          { savePath: "User.relationships.Serena", saveValue: "++" },
+        ],
+      },
+    ],
+  },
+};
+
+const playASong_success: Screen = {
+  _id: "playASong_success",
   header: "The Rusty Sword",
   main: [
     `You agree to play a song and the bard hands you their lute. You play a lively tune and the 
@@ -644,12 +772,9 @@ const ITellTales: Screen = {
         saveValues: [{ savePath: "User.motivations", saveValue: "money" }],
       },
       {
-        type: "save",
+        type: "screen",
         optionText: "I'm trying to find a troupe to perform with.",
         screenId: "bard_lookingForTroupe",
-        saveValues: [
-          { savePath: "User.quests", saveValue: "findATroupeToJoin" },
-        ],
       },
       {
         type: "save",
@@ -757,9 +882,12 @@ const bard_lookingForTroupe: Screen = {
         ],
       },
       {
-        type: "screen",
+        type: "save",
         optionText: "Make it on your own",
         screenId: "noThanks_Serena",
+        saveValues: [
+          { savePath: "User.quests", saveValue: "findATroupeToJoin" },
+        ],
       },
     ],
   },
@@ -833,7 +961,7 @@ const theLuteIsMyFavorite: Screen = {
       alt: "Bard",
       side: "right",
       sideText: [
-        `The lute is a fine instrument. I have a friend who makes them. If you want, I can introduce you to him in the morning.`,
+        `The lute is a fine instrument. I have a friend who makes them, he also gives lessons! If you want, I can introduce you to him in the morning.`,
       ],
     },
   ],
@@ -1605,7 +1733,10 @@ export const findAnInnScreens = [
   bard_runningAway,
   IJustSing,
   ITellTales,
-  playASong,
+  playASong_success,
   askedToPlay,
   joinTheFestivities_bard,
+  playASong_failure,
+  notMuchOfAPerformer,
+  bard_learning,
 ];

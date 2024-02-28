@@ -30,7 +30,7 @@ function evalStatsForLyraAndHunstan() {
       screenId: option.screenId,
       saveValues: [
         {
-          savePath: "User.quests.meetLyraForWork",
+          savePath: "User.quests.meetLyraForWork.status",
           saveValue: "completed",
         },
       ],
@@ -41,7 +41,7 @@ function evalStatsForLyraAndHunstan() {
 }
 const meetLyraForWork: Screen = {
   _id: "meetLyraForWork",
-  header: "The Silver Spoon",
+  header: "Belenham",
   main: [
     `You wait for a few minutes outside of the Silver Spoon before you see Lyra
     approaching. She is walking slowly with a tall gruff looking man with a shaggy

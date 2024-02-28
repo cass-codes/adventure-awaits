@@ -39,7 +39,7 @@ const endFirstDay: Screen = {
 };
 
 const wakeUp_RustySword: Screen = {
-  _id: "wakeUpInRustySword",
+  _id: "wakeUp_RustySword",
   header: "The Rusty Sword",
   main: [
     `You wake up in your room at The Rusty Sword. The sun is shining through the window, 
@@ -99,7 +99,7 @@ function evalStartFirstDay() {
     {
       type: "screen",
       optionText: "Explore the marketplace",
-      screenId: "Explore the marketplace", // TODO
+      screenId: "exploreMarketplace",
     },
   ];
   Object.values(quests).forEach((quest) => {
@@ -170,6 +170,7 @@ const sitAndChat: Screen = {
 
 export const startingMorningScreens = [
   wakeUp_RustySword,
+  wakeUp_SilverSpoon,
   sitAndChat,
   headOut,
   endFirstDay,

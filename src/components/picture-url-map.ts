@@ -4,6 +4,7 @@ import Lyra from "../media/Lyra.png";
 import Somerild from "../media/Somerild.png";
 import Serena from "../media/Serena.png";
 import Dulgot from "../media/Dulgot.png";
+import Kiirion from "../media/Kiirion.png";
 
 export function getUrlFromMap(urlStr: string) {
   if (urlStr in pictureUrlMap) {
@@ -19,4 +20,5 @@ const pictureUrlMap = {
   "Somerild.png": Somerild,
   "Serena.png": Serena,
   "Dulgot.png": Dulgot,
+  "Kiirion.png": Kiirion,
 };

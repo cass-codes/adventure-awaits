@@ -2,7 +2,7 @@ import { Screen } from "../../../../types";
 
 const meetLyraForAdventure: Screen = {
   _id: "meetLyraForAdventure",
-  header: "The Silver Spoon",
+  header: "Belenham",
   main: [
     `You wait for a few minutes outside of the Silver Spoon before you see Lyra
     approaching. She walks up to you and you notice she's holding a small backpack 
@@ -29,7 +29,7 @@ const meetLyraForAdventure: Screen = {
         screenId: "goWithLyraToEnchantedForest",
         saveValues: [
           {
-            savePath: "User.quests.meetLyraForAdventure",
+            savePath: "User.quests.meetLyraForAdventure.status",
             saveValue: "completed",
           },
           { savePath: "User.relationships.Lyra", saveValue: "++" },
@@ -41,7 +41,7 @@ const meetLyraForAdventure: Screen = {
         screenId: "headOut",
         saveValues: [
           {
-            savePath: "User.quests.meetLyraForAdventure",
+            savePath: "User.quests.meetLyraForAdventure.status",
             saveValue: "completed",
           },
         ],

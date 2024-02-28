@@ -72,6 +72,8 @@ const meetSerenaForWork: Quest = {
   displayText: "Meet Serena in the morning.",
   screenId: "meetSerenaForWork",
 };
+
+// longer quests
 const findTroupeWithSerena: Quest = {
   name: "findTroupeWithSerena",
   status: QuestStatus.notFound,

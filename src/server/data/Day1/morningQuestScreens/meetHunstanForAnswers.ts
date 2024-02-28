@@ -38,10 +38,10 @@ const meetHunstanForAnswers: Screen = {
       {
         type: "save",
         optionText: "I actually think I'm better on my own.",
-        screenId: "", // TODO
+        screenId: "rejectHunstanAndDulgotForJob",
         saveValues: [
           {
-            savePath: "User.quests.meetGrizzledManForAnswers",
+            savePath: "User.quests.meetGrizzledManForAnswers.status",
             saveValue: "completed",
           },
           { savePath: "User.relationships.Hunstan", saveValue: "++" },
@@ -55,7 +55,7 @@ const meetHunstanForAnswers: Screen = {
         screenId: "", //TODO
         saveValues: [
           {
-            savePath: "User.quests.meetGrizzledManForAnswers",
+            savePath: "User.quests.meetGrizzledManForAnswers.status",
             saveValue: "completed",
           },
           { savePath: "User.relationships.Hunstan", saveValue: "++" },
@@ -67,4 +67,40 @@ const meetHunstanForAnswers: Screen = {
   },
 };
 
-export const screens = [meetHunstanForAnswers];
+const rejectHunstanAndDulgotForJob: Screen = {
+  _id: "rejectHunstanAndDulgotForJob",
+  header: "Belenham",
+  main: [
+    {
+      url: "Hunstan.png",
+      alt: "Hunstan",
+      side: "right",
+      sideText: [
+        `Think you can make it on your own, eh? Well I'm not going to stop you. I wish you hadn't dragged me over here for nothing, though.`,
+      ],
+    },
+    `Hunstan turns and walks away. Dulgot gives you a disappointed shake of his head.`,
+    {
+      url: "Dulgot.png",
+      alt: "Dulgot",
+      side: "right",
+      sideText: [
+        `You could have done well with us, %%{User.name}. Come find me if you change your mind.`,
+      ],
+    },
+    `Dulgot walks off, leaving you standing in the street.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "Head out",
+        screenId: "headOut",
+        // TODO: save something about finding Dulgot later
+      },
+    ],
+  },
+};
+
+export const screens = [meetHunstanForAnswers, rejectHunstanAndDulgotForJob];

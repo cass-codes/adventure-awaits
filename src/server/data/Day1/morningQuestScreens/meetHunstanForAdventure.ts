@@ -27,13 +27,12 @@ const meetHunstanForAdventure: Screen = {
       {
         type: "save",
         optionText: "I actually think I'm better on my own.",
-        screenId: "", // TODO
+        screenId: "rejectHunstanForJob",
         saveValues: [
           {
-            savePath: "User.quests.meetGrizzledManForAdventure",
+            savePath: "User.quests.meetGrizzledManForAdventure.status",
             saveValue: "completed",
           },
-          { savePath: "User.relationships.Hunstan", saveValue: "++" },
         ],
       },
       {
@@ -42,7 +41,7 @@ const meetHunstanForAdventure: Screen = {
         screenId: "", //TODO
         saveValues: [
           {
-            savePath: "User.quests.meetGrizzledManForAdventure",
+            savePath: "User.quests.meetGrizzledManForAdventure.status",
             saveValue: "completed",
           },
           { savePath: "User.relationships.Hunstan", saveValue: "++" },
@@ -55,7 +54,7 @@ const meetHunstanForAdventure: Screen = {
         screenId: "", //TODO
         saveValues: [
           {
-            savePath: "User.quests.meetGrizzledManForAdventure",
+            savePath: "User.quests.meetGrizzledManForAdventure.status",
             saveValue: "completed",
           },
           { savePath: "User.relationships.Hunstan", saveValue: "++" },
@@ -67,4 +66,30 @@ const meetHunstanForAdventure: Screen = {
   },
 };
 
-export const screens = [meetHunstanForAdventure];
+const rejectHunstanForJob: Screen = {
+  _id: "rejectHunstanForJob",
+  header: "Belenham",
+  main: [
+    {
+      url: "Hunstan.png",
+      alt: "Hunstan",
+      side: "right",
+      sideText: [
+        `Think you can make it on your own, eh? Well I'm not going to stop you. I wish you hadn't dragged me over here for nothing, though.`,
+      ],
+    },
+    `Hunstan turns and walks away, leaving you standing in the street.`,
+  ],
+  choiceInformation: {
+    text: "",
+    options: [
+      {
+        type: "screen",
+        optionText: "Head out",
+        screenId: "headOut",
+      },
+    ],
+  },
+};
+
+export const screens = [meetHunstanForAdventure, rejectHunstanForJob];
