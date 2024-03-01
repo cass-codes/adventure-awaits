@@ -24,7 +24,7 @@ function UserInfoTab({ userData }: { userData: User }) {
         <b>Class</b>: {userData.class}
       </p>
       <p>
-        <b>Money</b>: {userData.coins} gold
+        <b>Money</b>: {userData.coins} gold, {userData.pennies} pennies
       </p>
       <p>
         {userData.motivations ? (

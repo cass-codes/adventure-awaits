@@ -51,6 +51,7 @@ export interface User {
     charm: number;
   };
   coins: number;
+  pennies: number;
   motivations?: Motivations[];
   relationships: {
     Lyra?: number;

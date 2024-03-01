@@ -31,9 +31,20 @@ export const quit: Screen = {
   },
 };
 
+export const errorScreen: Screen = {
+  _id: "error",
+  header: "Error",
+  main: ["An error occurred."],
+  choiceInformation: {
+    text: "Return to the start screen then Load your game.",
+    options: [{ type: "screen", optionText: "Start", screenId: "0" }],
+  },
+};
+
 export const screens: Screen[] = [
   startScreen,
   quit,
+  errorScreen,
   ...day0Screens,
   ...day1Screens,
 ];

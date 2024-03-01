@@ -1,4 +1,4 @@
-import { Screen } from "../../../types/Screen";
+import { ChoiceOption, Screen } from "../../../types/Screen";
 import { SavingService } from "../../SavingService/SavingService";
 
 const theAdventureBegins: Screen = {
@@ -86,13 +86,6 @@ const rustySword_1: Screen = {
   },
 };
 
-function evalSeekSolitude() {
-  const user = SavingService.loadUser();
-  if (user.stats.charm >= 1) {
-    return "stepInToHelp_success";
-  }
-  return "failedAtHelping";
-}
 const seekSolitude: Screen = {
   _id: "seekSolitude",
   header: "The Rusty Sword",
@@ -105,10 +98,15 @@ const seekSolitude: Screen = {
     text: "Do you step in to help?",
     options: [
       {
-        type: "save",
+        type: "screen",
         optionText: "Help",
-        screenId: evalSeekSolitude,
-        saveValues: [{ savePath: "User.stats.goodness", saveValue: "++" }],
+        screenId: (): string => {
+          const user = SavingService.loadUser();
+          if (user.stats.charm >= 1) {
+            return "stepInToHelp_success";
+          }
+          return "failedAtHelping";
+        },
       },
       {
         type: "screen",
@@ -151,23 +149,16 @@ const failedAtHelping: Screen = {
     text: "",
     options: [
       {
-        type: "screen",
+        type: "save",
         optionText: "Next",
         screenId: "callItANight",
+        saveValues: [{ savePath: "User.stats.goodness", saveValue: "++" }],
       },
     ],
   },
 };
 
 // Arm wrestle stuff
-
-function evalWinArmWrestle() {
-  const user = SavingService.loadUser();
-  if (user.stats.brawn >= 1) {
-    return "winArmWrestle";
-  }
-  return "loseArmWrestle";
-}
 
 const joinTheFestivities: Screen = {
   _id: "joinTheFestivities",
@@ -183,7 +174,13 @@ const joinTheFestivities: Screen = {
       {
         type: "screen",
         optionText: "Arm wrestle",
-        screenId: evalWinArmWrestle,
+        screenId: (): string => {
+          const user = SavingService.loadUser();
+          if (user.stats.brawn >= 1) {
+            return "winArmWrestle";
+          }
+          return "loseArmWrestle";
+        },
       },
       {
         type: "screen",
@@ -552,13 +549,6 @@ const joinTheFestivities_bard: Screen = {
   },
 };
 
-function evalPlayASong() {
-  const user = SavingService.loadUser();
-  if (user.stats.charm >= 2) {
-    return "playASong_success";
-  }
-  return "playASong_failure";
-}
 const askedToPlay: Screen = {
   _id: "askedToPlay",
   header: "The Rusty Sword",
@@ -577,7 +567,13 @@ const askedToPlay: Screen = {
       {
         type: "screen",
         optionText: "Yes",
-        screenId: evalPlayASong,
+        screenId: (): string => {
+          const user = SavingService.loadUser();
+          if (user.stats.charm >= 2) {
+            return "playASong_success";
+          }
+          return "playASong_failure";
+        },
       },
     ],
   },
@@ -1356,22 +1352,6 @@ const keepALowProfile: Screen = {
   },
 };
 
-function evalInterveen() {
-  if (SavingService.loadUser().stats.charm >= 1) {
-    return {
-      type: "screen",
-      optionText: "Defuse",
-      screenId: "defuseSituation_success",
-    };
-  } else {
-    return {
-      type: "save",
-      optionText: "Defuse",
-      screenId: "defuseSituation_failure",
-      saveValues: [{ savePath: "User.stats.charm", saveValue: "++" }],
-    };
-  }
-}
 const intervene: Screen = {
   _id: "intervene",
   header: "Sewer Water",
@@ -1382,7 +1362,22 @@ const intervene: Screen = {
   choiceInformation: {
     text: "Do you try to defuse the situation or take a more aggressive approach?",
     options: [
-      evalInterveen,
+      (): ChoiceOption => {
+        if (SavingService.loadUser().stats.charm >= 1) {
+          return {
+            type: "screen",
+            optionText: "Defuse",
+            screenId: "defuseSituation_success",
+          };
+        } else {
+          return {
+            type: "save",
+            optionText: "Defuse",
+            screenId: "defuseSituation_failure",
+            saveValues: [{ savePath: "User.stats.charm", saveValue: "++" }],
+          };
+        }
+      },
       {
         type: "screen",
         optionText: "Aggressive",

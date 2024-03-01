@@ -13,6 +13,7 @@ import { parseSavePath } from "./helper";
 export let user: User = {
   quests: dayZeroQuests,
   coins: 10,
+  pennies: 0,
   stats: {
     goodness: 0,
     sneakiness: 0,
@@ -53,6 +54,12 @@ export class SavingService {
         user.stats[stat] = currentStat + evalPlusMinusInput(input);
       } else if (propertyPath[0] === "coins") {
         user.coins += evalPlusMinusInput(input);
+      } else if (propertyPath[0] === "pennies") {
+        user.pennies += evalPlusMinusInput(input);
+        while (user.pennies < 0) {
+          user.coins -= 1;
+          user.pennies += 20;
+        }
       } else if (propertyPath[0] === "motivations") {
         if (user.motivations === undefined) {
           user.motivations = [];
@@ -147,6 +154,7 @@ export class SavingService {
     user = {
       quests: this.restartQuests(dayZeroQuests),
       coins: 10,
+      pennies: 0,
       stats: {
         goodness: 0,
         sneakiness: 0,

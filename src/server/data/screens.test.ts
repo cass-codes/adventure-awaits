@@ -1,15 +1,9 @@
 import { screens } from "./screens";
 
-// TODO fix these tests!
-
 describe("screen data", () => {
-  it("every screenId is unique", () => {
-    const screenIds = new Set();
-    for (const screen of screens) {
-      if (screenIds.has(screen._id)) {
-        throw new Error(`Duplicate screenId: ${screen._id}`);
-      }
-      screenIds.add(screen._id);
-    }
+  const screenIds = screens.map((screen) => screen._id);
+  it.each(screenIds)("id for screen should only occur once: %s", (screenId) => {
+    const count = screenIds.filter((id) => id === screenId).length;
+    expect(count).toBe(1);
   });
 });

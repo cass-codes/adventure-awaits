@@ -1,25 +1,7 @@
-import { EvaluatedChoiceOption, Screen } from "../../../../types";
+import { EvaluatedChoiceOption, PictureMain, Screen } from "../../../../types";
 import { SavingService } from "../../../SavingService/SavingService";
 import { evalStats } from "./_shared";
 
-function evalIfMetHunstan() {
-  const user = SavingService.loadUser();
-  return user.relationships.Hunstan && user.relationships.Hunstan > 0
-    ? {
-        img: "Hunstan.png",
-        alt: "Hunstan",
-        side: "left",
-        sideText: `I'm glad to see you not in quite so much trouble, this is a much
-    better inn to be staying at. Lyra says you're here looking for work? What're you good at?`,
-      }
-    : {
-        img: "Hunstan.png",
-        alt: "Hunstan",
-        side: "left",
-        sideText: `The name's Hunstan. I's good to meet you I guess. Lyra says you're
-    here looking for work? What're you good at?`,
-      };
-}
 function evalStatsForLyraAndHunstan() {
   const options = evalStats();
   const newOptions: EvaluatedChoiceOption[] = [];
@@ -57,7 +39,28 @@ const meetLyraForWork: Screen = {
     },
     `You look at the man next to her and shake his hand. He grunts at you and
     Lyra laughs.`,
-    evalIfMetHunstan,
+    (): PictureMain => {
+      const user = SavingService.loadUser();
+      return user.relationships.Hunstan && user.relationships.Hunstan > 0
+        ? {
+            url: "Hunstan.png",
+            alt: "Hunstan",
+            side: "left",
+            sideText: [
+              `I'm glad to see you not in quite so much trouble, this is a much
+        better inn to be staying at. Lyra says you're here looking for work? What're you good at?`,
+            ],
+          }
+        : {
+            url: "Hunstan.png",
+            alt: "Hunstan",
+            side: "left",
+            sideText: [
+              `The name's Hunstan. I's good to meet you I guess. Lyra says you're
+        here looking for work? What're you good at?`,
+            ],
+          };
+    },
   ],
   choiceInformation: {
     text: "What do you tell Hunstan you specialize in?",

@@ -1,4 +1,4 @@
-import { Screen } from "../../../types/Screen";
+import { ChoiceOption, Screen } from "../../../types/Screen";
 import { SavingService } from "../../SavingService/SavingService";
 import { QuestStatus } from "../../../types/Quest";
 import { Tavern } from "../../../types/User";
@@ -6,17 +6,6 @@ import { Tavern } from "../../../types/User";
 // TODO: check all of these screens to make sure they have the right header.
 // TODO: finish the evalWhichTavern fn and the respective screens
 
-function evalWhichTavern() {
-  const user = SavingService.loadUser();
-  switch (user.tavern) {
-    case Tavern.TheRustySword:
-      return wakeUp_RustySword._id;
-    case Tavern.TheSilverSpoon:
-      return wakeUp_SilverSpoon._id; // TODO
-    case Tavern.SewerWater:
-      return "Sewer Water"; //TODO
-  }
-}
 const endFirstDay: Screen = {
   _id: "endFirstDay",
   header: "You have finished your first day in Belenham!`",
@@ -32,7 +21,19 @@ const endFirstDay: Screen = {
       {
         type: "screen",
         optionText: "Continue to Day 1 (in development)",
-        screenId: evalWhichTavern,
+        screenId: (): string => {
+          const user = SavingService.loadUser();
+          switch (user.tavern) {
+            case Tavern.TheRustySword:
+              return wakeUp_RustySword._id;
+            case Tavern.TheSilverSpoon:
+              return wakeUp_SilverSpoon._id; // TODO
+            case Tavern.SewerWater:
+              return "Sewer Water"; //TODO
+            default:
+              throw new Error("Invalid tavern");
+          }
+        },
       },
     ],
   },
@@ -67,9 +68,9 @@ const wakeUp_RustySword: Screen = {
 
 const wakeUp_SilverSpoon: Screen = {
   _id: "wakeUp_SilverSpoon",
-  header: "The Rusty Sword",
+  header: "The Silver Spoon",
   main: [
-    `You wake up in your room at The Rusty Sword. The sun is shining through the window, 
+    `You wake up in your room at The Silver Spoon. The sun is shining through the window, 
     and the birds are chirping. You gather your things and head downstairs, smelling the
     wonderful aromas of coffee and breakfast. The barkeep nods at you as you appear in the
     dining room.
@@ -99,7 +100,7 @@ function evalStartFirstDay() {
     {
       type: "screen",
       optionText: "Explore the marketplace",
-      screenId: "exploreMarketplace",
+      screenId: "day1Marketplace",
     },
   ];
   Object.values(quests).forEach((quest) => {
@@ -126,45 +127,45 @@ const headOut: Screen = {
   },
 };
 
-function evalMain_sitAndChat() {
-  const user = SavingService.loadUser();
-  return user.quests.learnAboutRobberies.status === QuestStatus.notFound
-    ? `You learn that the city has had some recent economic troubles and many believe that they
-  are due to a series of robberies that have targeted the city's wealthiest citizens.`
-    : "";
-}
-function evalOpts_sitAndChat() {
-  const user = SavingService.loadUser();
-  return user.quests.learnAboutRobberies.status === QuestStatus.notFound
-    ? {
-        type: "save",
-        optionText: "Head out",
-        screenId: headOut._id,
-        saveValues: [
-          {
-            savePath: "User.quests",
-            saveValue: "learnAboutRobberies",
-          },
-        ],
-      }
-    : {
-        type: "screen",
-        optionText: "Head out",
-        screenId: headOut._id,
-      };
-}
 const sitAndChat: Screen = {
   _id: "sitAndChat",
   header: "The Rusty Sword",
   main: [
     `You sit at the bar and chat with the barkeep. He tells you about the latest news and gossip
     in the city.`,
-    evalMain_sitAndChat,
+    (): string => {
+      const user = SavingService.loadUser();
+      return user.quests.learnAboutRobberies.status === QuestStatus.notFound
+        ? `You learn that the city has had some recent economic troubles and many believe that they
+      are due to a series of robberies that have targeted the city's wealthiest citizens.`
+        : "";
+    },
     `You eat a hearty breakfast and drink a cup of coffee. You feel ready to take on the day.`,
   ],
   choiceInformation: {
     text: "",
-    options: [evalOpts_sitAndChat],
+    options: [
+      (): ChoiceOption => {
+        const user = SavingService.loadUser();
+        return user.quests.learnAboutRobberies.status === QuestStatus.notFound
+          ? {
+              type: "save",
+              optionText: "Head out",
+              screenId: headOut._id,
+              saveValues: [
+                {
+                  savePath: "User.quests",
+                  saveValue: "learnAboutRobberies",
+                },
+              ],
+            }
+          : {
+              type: "screen",
+              optionText: "Head out",
+              screenId: headOut._id,
+            };
+      },
+    ],
   },
 };
 

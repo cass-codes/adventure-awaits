@@ -3,7 +3,7 @@ import ChoicesContent from "../components/ChoicesContent/ChoicesContent";
 import HeaderContent from "../components/HeaderContent";
 import MainContent from "../components/MainContent/MainContent";
 import { useState } from "react";
-import { quit, startScreen } from "../server/data/screens";
+import { quit, startScreen, errorScreen } from "../server/data/screens";
 import { getScreenById } from "../server/ScreenHandler";
 import { SavingService } from "../server/SavingService/SavingService";
 import { unfurlObjects, unfurlString } from "../server/unfurlObjects";
@@ -17,6 +17,8 @@ function MainApp() {
     const newScreen = getScreenById(screenId);
     if (!newScreen) {
       console.error(`Screen with id ${screenId} not found`);
+      saveGameHandler();
+      setScreen(errorScreen);
     } else {
       setScreen(newScreen);
     }
