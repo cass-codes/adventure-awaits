@@ -1,9 +1,9 @@
-import { MainContentProps, PictureMain, Screen } from "../types/Screen";
+import { MainContentProps, Screen } from "../types/Screen";
 import ChoicesContent from "../components/ChoicesContent/ChoicesContent";
 import HeaderContent from "../components/HeaderContent";
 import MainContent from "../components/MainContent/MainContent";
 import { useState } from "react";
-import { quit, startScreen, errorScreen } from "../server/data/screens";
+import { quit, startScreen, errorScreen } from "../server/basicData";
 import { SavingService } from "../server/SavingService/SavingService";
 import { unfurlObjects, unfurlString } from "../server/unfurlObjects";
 import GlobalActionsHeader from "../components/GlobalActionsHeader";
@@ -14,15 +14,21 @@ function MainApp() {
   const onFirst = screen._id === "0";
 
   function setScreenByIdHandler(screenId: string) {
-    getScreenById(screenId).then((res) => {
-      const screen = res.data;
-      if (!screen) {
-        console.error(`Screen with id ${screenId} not found`);
+    getScreenById(screenId)
+      .then((res) => {
+        const screen = res.data;
+        if (!screen) {
+          console.error(`Screen with id ${screenId} not found`);
+          saveGameHandler();
+          setScreen(errorScreen);
+        }
+        setScreen(screen);
+      })
+      .catch((err) => {
+        console.error(`Screen with id ${screenId} not found | ${err}`);
         saveGameHandler();
         setScreen(errorScreen);
-      }
-      setScreen(screen);
-    });
+      });
   }
 
   function saveGameHandler() {
@@ -49,21 +55,19 @@ function MainApp() {
   }
 
   const header = unfurlString(screen.header);
-  const main: MainContentProps = screen.main
-    .map((_content) => {
-      const content = typeof _content === "function" ? _content() : _content;
-      if (typeof content === "string") {
-        return unfurlString(content);
-      } else {
-        // type is PictureMain
-        return {
-          ...content,
-          sideText: content.sideText.map(unfurlString),
-          alt: unfurlString(content.alt),
-        } as PictureMain;
-      }
-    })
-    .flat();
+  const main: MainContentProps = screen.main.map((_content) => {
+    const content = _content instanceof Function ? _content() : _content;
+    if (typeof content === "string") {
+      return unfurlString(content);
+    } else {
+      // type is PictureMain
+      return {
+        ...content,
+        sideText: content.sideText.map(unfurlString),
+        alt: unfurlString(content.alt),
+      };
+    }
+  });
   const choiceInformation = unfurlObjects(screen.choiceInformation);
 
   return (

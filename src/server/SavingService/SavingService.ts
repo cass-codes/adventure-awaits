@@ -1,4 +1,4 @@
-import { Quest, QuestStatus } from "../../types/Quest";
+import { QuestStatus } from "../../types/Quest";
 import {
   Motivations,
   Relationship,
@@ -7,11 +7,10 @@ import {
   User,
   UserClass,
 } from "../../types/User";
-import { dayZeroQuests } from "../data/Day0/quests";
 import { parseSavePath } from "./helper";
 
 export let user: User = {
-  quests: dayZeroQuests,
+  quests: {},
   coins: 10,
   pennies: 0,
   stats: {
@@ -152,7 +151,7 @@ export class SavingService {
 
   static restartGame() {
     user = {
-      quests: this.restartQuests(dayZeroQuests),
+      quests: {},
       coins: 10,
       pennies: 0,
       stats: {
@@ -168,12 +167,5 @@ export class SavingService {
     };
     localStorage.removeItem("user");
     localStorage.removeItem("screenId");
-  }
-
-  static restartQuests(quests: { [key: string]: Quest }) {
-    for (const key in quests) {
-      quests[key].status = QuestStatus.notFound;
-    }
-    return quests;
   }
 }

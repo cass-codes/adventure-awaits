@@ -1,6 +1,4 @@
-import { Screen } from "../../types/Screen";
-import { day0Screens } from "./Day0";
-import { day1Screens } from "./Day1";
+import { Screen } from "../types/Screen";
 
 export const startScreen: Screen = {
   _id: "0",
@@ -40,11 +38,3 @@ export const errorScreen: Screen = {
     options: [{ type: "screen", optionText: "Start", screenId: "0" }],
   },
 };
-
-export const screens: Screen[] = [
-  startScreen,
-  quit,
-  errorScreen,
-  ...day0Screens,
-  ...day1Screens,
-];
