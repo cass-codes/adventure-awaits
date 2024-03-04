@@ -2,22 +2,17 @@ import { ChoiceInfo, ChoiceOption } from "../types/Screen";
 import { SavingService } from "./SavingService/SavingService";
 
 export function unfurlObjects(text: ChoiceInfo) {
-  console.log("text", text);
-  const options =
-    text.options instanceof Function ? text.options() : text.options;
-  console.log("options", options);
+  const options = text.options;
+
   const newChoice: ChoiceInfo = {
     text: unfurlString(text.text),
-    options: options.map((_option: ChoiceOption) => {
-      const option = _option instanceof Function ? _option() : _option;
-      console.log("option", option);
+    options: options.map((option: ChoiceOption) => {
       return {
         ...option,
         optionText: unfurlString(option.optionText),
       };
     }),
   };
-  console.log("newChoice", newChoice);
   return newChoice;
 }
 

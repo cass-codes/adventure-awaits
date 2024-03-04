@@ -1,10 +1,6 @@
 import { Key } from "react";
 import "./ChoicesContent.css";
-import {
-  ChoiceInfo,
-  ChoiceOption,
-  EvaluatedChoiceOption,
-} from "../../types/Screen";
+import { ChoiceInfo, EvaluatedChoiceOption } from "../../types/Screen";
 import InputChoiceContent from "./InputChoiceContent";
 import ScreenChoiceContent from "./ScreenChoiceContent";
 import SaveChoiceContent from "./SaveChoiceContent";
@@ -17,10 +13,7 @@ function ChoicesContent(props: {
   quitWithoutSaving: Function;
 }) {
   const choicesText = props.choices.text;
-  const choicesOptions =
-    typeof props.choices.options === "function"
-      ? props.choices.options()
-      : props.choices.options;
+  const choicesOptions = props.choices.options;
 
   function selectScreenHandler(screenId: string) {
     props.setScreenById(screenId);
@@ -56,10 +49,7 @@ function ChoicesContent(props: {
 
   function buildChoices() {
     return choicesOptions.map(
-      (_choice: ChoiceOption, index: Key | null | undefined) => {
-        let choice: EvaluatedChoiceOption =
-          typeof _choice === "function" ? _choice() : _choice;
-
+      (choice: EvaluatedChoiceOption, index: Key | null | undefined) => {
         if (choice.type === "input") {
           return (
             <div key={index}>

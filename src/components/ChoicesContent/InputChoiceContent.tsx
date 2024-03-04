@@ -15,10 +15,7 @@ function InputChoiceContent({
   function selectHandler(event: any) {
     event.preventDefault();
 
-    const screenId =
-      typeof choice.screenId === "function"
-        ? choice.screenId()
-        : choice.screenId;
+    const screenId = choice.screenId;
 
     const enteredInput = inputRef?.current?.value || undefined;
     if (!enteredInput) {

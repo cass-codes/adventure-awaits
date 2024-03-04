@@ -14,18 +14,18 @@ export interface PictureMain {
   sideText: string[];
 }
 
-export type MainContentProps = (string | PictureMain | Function)[];
+export type MainContentProps = (string | PictureMain)[];
 
 // Choices
 
 export interface ChoiceInfo {
   text: string;
-  options: ChoiceOption[] | Function;
+  options: ChoiceOption[];
 }
 
 interface BaseChoiceOption {
   optionText: string;
-  screenId: string | Function;
+  screenId: string;
 }
 
 export interface ScreenChoiceOption extends BaseChoiceOption {
@@ -55,4 +55,4 @@ export type EvaluatedChoiceOption =
   | InputChoiceOption
   | QuitChoiceOption;
 
-export type ChoiceOption = Function | EvaluatedChoiceOption;
+export type ChoiceOption = EvaluatedChoiceOption;

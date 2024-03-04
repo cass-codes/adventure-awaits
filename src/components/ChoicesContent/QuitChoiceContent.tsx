@@ -8,10 +8,7 @@ function QuitChoiceContent({
   onSelect: Function;
 }) {
   function selectHandler() {
-    const screenId =
-      typeof choice.screenId === "function"
-        ? choice.screenId()
-        : choice.screenId;
+    const screenId = choice.screenId;
     onSelect(screenId);
   }
 

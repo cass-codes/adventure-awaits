@@ -55,8 +55,7 @@ function MainApp() {
   }
 
   const header = unfurlString(screen.header);
-  const main: MainContentProps = screen.main.map((_content) => {
-    const content = _content instanceof Function ? _content() : _content;
+  const main: MainContentProps = screen.main.map((content) => {
     if (typeof content === "string") {
       return unfurlString(content);
     } else {
