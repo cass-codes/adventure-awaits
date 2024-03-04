@@ -4,24 +4,25 @@ import HeaderContent from "../components/HeaderContent";
 import MainContent from "../components/MainContent/MainContent";
 import { useState } from "react";
 import { quit, startScreen, errorScreen } from "../server/data/screens";
-import { getScreenById } from "../server/ScreenHandler";
 import { SavingService } from "../server/SavingService/SavingService";
 import { unfurlObjects, unfurlString } from "../server/unfurlObjects";
 import GlobalActionsHeader from "../components/GlobalActionsHeader";
+import { getScreenById } from "../server/api-handler";
 
 function MainApp() {
   const [screen, setScreen] = useState<Screen>(startScreen);
   const onFirst = screen._id === "0";
 
   function setScreenByIdHandler(screenId: string) {
-    const newScreen = getScreenById(screenId);
-    if (!newScreen) {
-      console.error(`Screen with id ${screenId} not found`);
-      saveGameHandler();
-      setScreen(errorScreen);
-    } else {
-      setScreen(newScreen);
-    }
+    getScreenById(screenId).then((res) => {
+      const screen = res.data;
+      if (!screen) {
+        console.error(`Screen with id ${screenId} not found`);
+        saveGameHandler();
+        setScreen(errorScreen);
+      }
+      setScreen(screen);
+    });
   }
 
   function saveGameHandler() {

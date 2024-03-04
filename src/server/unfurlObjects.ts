@@ -3,7 +3,7 @@ import { SavingService } from "./SavingService/SavingService";
 
 export function unfurlObjects(text: ChoiceInfo) {
   const options =
-    typeof text.options === "function" ? text.options() : text.options;
+    text.options instanceof Function ? text.options() : text.options;
   const newChoice: ChoiceInfo = {
     text: unfurlString(text.text),
     options: options.map((option: ChoiceOption) => {

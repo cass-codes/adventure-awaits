@@ -2,7 +2,7 @@ import { EvaluatedChoiceOption, PictureMain, Screen } from "../../../../types";
 import { SavingService } from "../../../SavingService/SavingService";
 import { evalStats } from "./_shared";
 
-function evalStatsForLyraAndHunstan() {
+function evalStatsForLyraAndHunstan(): EvaluatedChoiceOption[] {
   const options = evalStats();
   const newOptions: EvaluatedChoiceOption[] = [];
   options.forEach((option) => {
