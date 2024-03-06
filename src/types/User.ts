@@ -40,6 +40,7 @@ export enum Stat {
 }
 
 export interface User {
+  gameId?: string;
   name?: string;
   class?: UserClass;
   stats: {

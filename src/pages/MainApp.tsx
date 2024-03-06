@@ -7,16 +7,22 @@ import { quit, startScreen, errorScreen } from "../server/basicData";
 import { SavingService } from "../server/SavingService/SavingService";
 import { unfurlObjects, unfurlString } from "../server/unfurlObjects";
 import GlobalActionsHeader from "../components/GlobalActionsHeader";
-import { getScreenById } from "../server/api-handler";
+import {
+  getScreenById,
+  loadUser,
+  saveContent,
+  saveGame,
+} from "../server/api-handler";
+import { User } from "../types";
 
 function MainApp() {
   const [screen, setScreen] = useState<Screen>(startScreen);
+  const [gameId, setGameId] = useState<string>("");
   const onFirst = screen._id === "0";
 
   function setScreenByIdHandler(screenId: string) {
     getScreenById(screenId)
-      .then((res) => {
-        const screen = res.data;
+      .then((screen) => {
         if (!screen) {
           console.error(`Screen with id ${screenId} not found`);
           saveGameHandler();
@@ -32,6 +38,10 @@ function MainApp() {
   }
 
   function saveGameHandler() {
+    saveGame(screen._id, gameId).then((gameId) => {
+      SavingService.setGameId(gameId);
+      setGameId(gameId);
+    });
     SavingService.saveGame(screen._id);
   }
 
@@ -46,12 +56,21 @@ function MainApp() {
   }
 
   function loadUserHandler() {
+    loadUser().then((user: User) => {
+      return user;
+    });
     return SavingService.loadUser();
   }
 
   function realQuitGameHandler() {
     SavingService.restartGame();
     setScreen(startScreen);
+  }
+
+  function savingContentHandler(value: string, objectPath: string) {
+    saveContent(value, objectPath).then((user) => {
+      SavingService.setUser(user);
+    });
   }
 
   const header = unfurlString(screen.header);
@@ -83,7 +102,7 @@ function MainApp() {
       <ChoicesContent
         choices={choiceInformation}
         setScreenById={setScreenByIdHandler}
-        savingContent={SavingService.saveContent}
+        savingContent={savingContentHandler}
         quitWithoutSaving={realQuitGameHandler}
       />
     </>
