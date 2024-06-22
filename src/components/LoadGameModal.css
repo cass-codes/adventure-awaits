@@ -1,0 +1,12 @@
+.LoadGameModalForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  row-gap: 10px;
+}
+
+.LoadGameModalButton {
+  border: 1pt solid black;
+  margin: 2pt;
+}
