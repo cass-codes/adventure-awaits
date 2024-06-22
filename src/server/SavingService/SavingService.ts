@@ -1,4 +1,5 @@
 import { Relationship, Stat, User } from "../../types/User";
+import { saveGame } from "../api-handler";
 import { parseSavePath } from "./helper";
 
 export let user: User = {
@@ -20,10 +21,6 @@ export let user: User = {
 export class SavingService {
   static loadUser() {
     return user;
-  }
-
-  static setGameId(gameId: string) {
-    user.gameId = gameId;
   }
 
   static setUser(newUser: User) {
@@ -60,9 +57,17 @@ export class SavingService {
     }
   }
 
-  static saveGame(screenId: string) {
-    localStorage.setItem("user", JSON.stringify(user));
-    localStorage.setItem("screenId", screenId);
+  static async loadGameId(): Promise<string> {
+    let localGameId: string | null = await localStorage.getItem("gameId");
+    if (localGameId) {
+      return localGameId;
+    }
+    const dbGameId = await saveGame("0", "");
+    if (!dbGameId) {
+      throw new Error("No game id found");
+    }
+    localStorage.setItem("gameId", dbGameId);
+    return dbGameId;
   }
 
   static loadGame(): { screenId: string } {
