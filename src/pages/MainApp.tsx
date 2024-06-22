@@ -11,38 +11,47 @@ import {
   getScreenById,
   loadUser,
   saveContent,
-  saveGame,
+  // saveGame,
 } from "../server/api-handler";
 import { User } from "../types";
+
+async function loadGameId(): Promise<string> {
+  const gameId = await SavingService.loadGameId();
+  return gameId;
+}
 
 function MainApp() {
   const [screen, setScreen] = useState<Screen>(startScreen);
   const [gameId, setGameId] = useState<string>("");
   const onFirst = screen._id === "0";
 
+  if (gameId === "") {
+    loadGameId().then((gameId) => {
+      setGameId(gameId);
+    });
+  }
+
   function setScreenByIdHandler(screenId: string) {
     getScreenById(screenId)
       .then((screen) => {
         if (!screen) {
           console.error(`Screen with id ${screenId} not found`);
-          saveGameHandler();
+          // saveGameHandler();
           setScreen(errorScreen);
         }
         setScreen(screen);
       })
       .catch((err) => {
         console.error(`Screen with id ${screenId} not found | ${err}`);
-        saveGameHandler();
+        // saveGameHandler();
         setScreen(errorScreen);
       });
   }
 
   function saveGameHandler() {
-    saveGame(screen._id, gameId).then((gameId) => {
-      SavingService.setGameId(gameId);
-      setGameId(gameId);
-    });
-    SavingService.saveGame(screen._id);
+    // saveGame(screen._id, gameId).then((gameId) => {
+    //   setGameId(gameId);
+    // });
   }
 
   function loadGameHandler() {
@@ -51,12 +60,11 @@ function MainApp() {
   }
 
   function quitGameHandler() {
-    saveGameHandler();
     setScreen(quit);
   }
 
   function loadUserHandler() {
-    loadUser().then((user: User) => {
+    loadUser(gameId).then((user: User) => {
       return user;
     });
     return SavingService.loadUser();
@@ -67,8 +75,11 @@ function MainApp() {
     setScreen(startScreen);
   }
 
-  function savingContentHandler(value: string, objectPath: string) {
-    saveContent(value, objectPath).then((user) => {
+  async function savingContentHandler(value: string, objectPath: string) {
+    if (gameId === "") {
+      await saveGameHandler();
+    }
+    saveContent(value, objectPath, gameId, screen._id).then((user) => {
       SavingService.setUser(user);
     });
   }
