@@ -5,6 +5,11 @@ export interface Screen {
   choiceInformation: ChoiceInfo;
 }
 
+export interface SaveValues {
+  savePath: string;
+  saveValue: string;
+}
+
 // Main
 
 export interface PictureMain {

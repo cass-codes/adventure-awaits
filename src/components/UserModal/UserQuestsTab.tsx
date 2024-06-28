@@ -1,43 +1,45 @@
 import { QuestStatus } from "../../types/Quest";
-import { User } from "../../types/User";
+import { Character } from "../../types/User";
 
 import "./UserQuestsTab.css";
 
-function UserQuestsTab({ userData }: { userData: User }) {
+function UserQuestsTab({ userData }: { userData: Character }) {
   let modalData;
 
   const quests = userData.quests;
   const questKeys = Object.keys(quests);
 
-  const activeQuestsKeys = questKeys.filter((questKey) => {
-    return quests[questKey].status === QuestStatus.active;
-  });
+  return <p>Quests are in Development!</p>;
 
-  if (activeQuestsKeys.length > 0) {
-    modalData = (
-      <div>
-        <ul>
-          {activeQuestsKeys.map((questKey) => {
-            const quest = quests[questKey];
-            return (
-              <li className="UserQuest" key={questKey}>
-                {quest.displayText}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    );
-  } else {
-    modalData = <p>No quests yet.</p>;
-  }
+  // const activeQuestsKeys = questKeys.filter((questKey) => {
+  //   return quests[questKey].status === QuestStatus.active;
+  // });
 
-  return (
-    <>
-      <h3>Quests</h3>
-      {modalData}
-    </>
-  );
+  // if (activeQuestsKeys.length > 0) {
+  //   modalData = (
+  //     <div>
+  //       <ul>
+  //         {activeQuestsKeys.map((questKey) => {
+  //           const quest = quests[questKey];
+  //           return (
+  //             <li className="UserQuest" key={questKey}>
+  //               {quest.displayText}
+  //             </li>
+  //           );
+  //         })}
+  //       </ul>
+  //     </div>
+  //   );
+  // } else {
+  //   modalData = <p>No quests yet.</p>;
+  // }
+
+  // return (
+  //   <>
+  //     <h3>Quests</h3>
+  //     {modalData}
+  //   </>
+  // );
 }
 
 export default UserQuestsTab;

@@ -1,73 +1,56 @@
-import { MainContentProps, Screen } from "../types/Screen";
+import { SaveValues, Screen } from "../types/Screen";
 import ChoicesContent from "../components/ChoicesContent/ChoicesContent";
 import HeaderContent from "../components/HeaderContent";
 import MainContent from "../components/MainContent/MainContent";
 import { useState } from "react";
 import { quit, startScreen, errorScreen } from "../server/basicData";
 import { SavingService } from "../server/SavingService/SavingService";
-import { unfurlObjects, unfurlString } from "../server/unfurlObjects";
 import GlobalActionsHeader from "../components/GlobalActionsHeader";
-import {
-  getScreenById,
-  loadUser,
-  saveContent,
-  // saveGame,
-} from "../server/api-handler";
-import { User } from "../types";
-
-async function loadGameId(): Promise<string> {
-  const gameId = await SavingService.loadGameId();
-  return gameId;
-}
+import { getScreenById, saveNewGame } from "../server/api-handler";
+import { Game } from "../types";
 
 function MainApp() {
   const [screen, setScreen] = useState<Screen>(startScreen);
-  const [gameId, setGameId] = useState<string>("");
+  const [userId] = useState<string>("123"); // TODO do this when login gets built
+  const [game, setGame] = useState<Game>({
+    screenId: "0",
+    day: 0,
+    userId,
+  });
   const onFirst = screen._id === "0";
 
-  if (gameId === "") {
-    loadGameId().then((gameId) => {
-      setGameId(gameId);
-    });
-  }
-
-  function setScreenByIdHandler(screenId: string) {
-    getScreenById(screenId)
-      .then((screen) => {
-        if (!screen) {
-          console.error(`Screen with id ${screenId} not found`);
-          // saveGameHandler();
-          setScreen(errorScreen);
-        }
-        setScreen(screen);
-      })
-      .catch((err) => {
-        console.error(`Screen with id ${screenId} not found | ${err}`);
-        // saveGameHandler();
-        setScreen(errorScreen);
+  async function saveIfNecessary() {
+    if (!game._id) {
+      console.log("game._id not found, creating new game");
+      saveNewGame(userId, game).then((newGameId) => {
+        console.log("newGameId", newGameId);
+        setGame({ ...game, _id: newGameId.id });
+        console.log("game after set", game);
       });
+    }
   }
 
-  function saveGameHandler() {
-    // saveGame(screen._id, gameId).then((gameId) => {
-    //   setGameId(gameId);
-    // });
-  }
-
-  function loadGameHandler() {
-    const { screenId } = SavingService.loadGame();
-    setScreenByIdHandler(screenId);
+  function setScreenByIdHandler(screenId: string, saveValues?: SaveValues[]) {
+    saveIfNecessary().then(() => {
+      console.log("theoretically saved game", game);
+      getScreenById(screenId, game._id as string, userId, saveValues)
+        .catch((err) => {
+          console.error(`Screen with id ${screenId} not found | ${err}`);
+          setScreen(errorScreen);
+        })
+        .then((screen) => {
+          if (!screen) {
+            console.error(`Screen with id ${screenId} not found`);
+            setScreen(errorScreen);
+          } else {
+            setScreen(screen);
+          }
+        });
+    });
   }
 
   function quitGameHandler() {
     setScreen(quit);
-  }
-
-  function loadUserHandler() {
-    loadUser(gameId).then((user: User) => {
-      return user;
-    });
-    return SavingService.loadUser();
   }
 
   function realQuitGameHandler() {
@@ -75,45 +58,14 @@ function MainApp() {
     setScreen(startScreen);
   }
 
-  async function savingContentHandler(value: string, objectPath: string) {
-    if (gameId === "") {
-      await saveGameHandler();
-    }
-    saveContent(value, objectPath, gameId, screen._id).then((user) => {
-      SavingService.setUser(user);
-    });
-  }
-
-  const header = unfurlString(screen.header);
-  const main: MainContentProps = screen.main.map((content) => {
-    if (typeof content === "string") {
-      return unfurlString(content);
-    } else {
-      // type is PictureMain
-      return {
-        ...content,
-        sideText: content.sideText.map(unfurlString),
-        alt: unfurlString(content.alt),
-      };
-    }
-  });
-  const choiceInformation = unfurlObjects(screen.choiceInformation);
-
   return (
     <>
-      <GlobalActionsHeader
-        onFirstScreen={onFirst}
-        saveGame={saveGameHandler}
-        loadGame={loadGameHandler}
-        quitGame={quitGameHandler}
-        loadUser={loadUserHandler}
-      />
-      <HeaderContent content={header} />
-      <MainContent content={main} />
+      <GlobalActionsHeader onFirstScreen={onFirst} quitGame={quitGameHandler} />
+      <HeaderContent content={screen.header} />
+      <MainContent content={screen.main} />
       <ChoicesContent
-        choices={choiceInformation}
+        choices={screen.choiceInformation}
         setScreenById={setScreenByIdHandler}
-        savingContent={savingContentHandler}
         quitWithoutSaving={realQuitGameHandler}
       />
     </>

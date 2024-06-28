@@ -1,4 +1,4 @@
-import { User } from "../../types/User";
+import { Character } from "../../types/User";
 
 const barStart = -5;
 const barEnd = 5;
@@ -31,7 +31,7 @@ function generateBar(
   return bar;
 }
 
-function UserStatsTab({ userData }: { userData: User }) {
+function UserStatsTab({ userData }: { userData: Character }) {
   let modalData;
 
   let goodnessBar = generateBar(userData.stats?.goodness || 0);

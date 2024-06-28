@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { User } from "../../types/User";
+import { Character } from "../../types/User";
 import Modal from "../basics/Modal";
 import "./UserModal.css";
 import UserStatsTab from "./UserStatsTab";
@@ -15,7 +15,7 @@ function UserModal({
 }: {
   isOpen: boolean;
   onClose: Function;
-  userData: User;
+  userData: Character;
 }) {
   const [activeTab, setActiveTab] = useState("stats");
 

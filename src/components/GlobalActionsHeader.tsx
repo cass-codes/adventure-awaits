@@ -7,23 +7,21 @@ import LoginModal from "./LoginModal/LoginModal";
 
 function GlobalActionsHeader(props: {
   onFirstScreen: boolean;
-  saveGame: Function;
-  loadGame: Function;
   quitGame: Function;
-  loadUser: Function;
 }) {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isLoadGameModalOpen, setIsLoadGameModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [userData, setUserData] = useState(SavingService.loadUser());
+  const [userData /*setUserData*/] = useState(SavingService.loadUser());
 
   function handleOpenLoadGameModal() {
     // props.loadGame();
+    // TODO: do this bit to import a gameId that exists
     setIsLoadGameModalOpen(true);
   }
 
   function saveGameHandler() {
-    props.saveGame();
+    // props.saveGame();
   }
 
   function quitGameHandler() {
@@ -31,8 +29,8 @@ function GlobalActionsHeader(props: {
   }
 
   function handleOpenUserModal() {
-    const user = props.loadUser();
-    setUserData(user);
+    // const user = props.loadUser();
+    // setUserData(user);
     setIsUserModalOpen(true);
   }
 

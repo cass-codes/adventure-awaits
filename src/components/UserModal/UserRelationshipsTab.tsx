@@ -1,4 +1,4 @@
-import { User } from "../../types/User";
+import { Character } from "../../types/User";
 import { getUrlFromMap } from "../picture-url-map";
 import "./UserRelationshipsTab.css";
 
@@ -17,7 +17,7 @@ function hasAnyRelationships(relationships: {
   return Object.keys(relationships).length === 0;
 }
 
-function UserRelationshipsTab({ userData }: { userData: User }) {
+function UserRelationshipsTab({ userData }: { userData: Character }) {
   const relationships = userData.relationships;
   if (hasAnyRelationships(relationships)) {
     return (
