@@ -7,6 +7,7 @@ function InputChoiceContent({
   onSelect,
 }: {
   choice: InputChoiceOption;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   onSelect: Function;
 }) {
   const [errorState, setErrorState] = useState(false);

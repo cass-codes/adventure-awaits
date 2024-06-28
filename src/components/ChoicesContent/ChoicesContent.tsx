@@ -12,7 +12,9 @@ import QuitChoiceContent from "./QuitChoiceContent";
 
 function ChoicesContent(props: {
   choices: ChoiceInfo;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   setScreenById: Function;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   quitWithoutSaving: Function;
 }) {
   const choicesText = props.choices.text;

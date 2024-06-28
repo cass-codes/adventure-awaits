@@ -5,6 +5,7 @@ function ScreenChoiceContent({
   onSelect,
 }: {
   choice: ScreenChoiceOption;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   onSelect: Function;
 }) {
   function selectHandler() {

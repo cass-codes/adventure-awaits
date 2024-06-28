@@ -5,6 +5,7 @@ function QuitChoiceContent({
   onSelect,
 }: {
   choice: QuitChoiceOption;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   onSelect: Function;
 }) {
   function selectHandler() {
