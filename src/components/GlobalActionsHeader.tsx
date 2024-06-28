@@ -7,6 +7,7 @@ import LoginModal from "./LoginModal/LoginModal";
 
 function GlobalActionsHeader(props: {
   onFirstScreen: boolean;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   quitGame: Function;
 }) {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);

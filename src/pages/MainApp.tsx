@@ -29,7 +29,7 @@ function MainApp() {
         })
         .then(() => {
           getScreenById(screenId, currentGame._id as string, userId, saveValues)
-            .catch((err) => {
+            .catch(() => {
               setScreen(errorScreen);
             })
             .then((screen) => {

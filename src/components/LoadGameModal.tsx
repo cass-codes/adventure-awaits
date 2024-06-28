@@ -6,6 +6,7 @@ function LoadGameModal({
   onClose,
 }: {
   isOpen: boolean;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   onClose: Function;
 }) {
   function onCloseHandler() {

@@ -49,5 +49,3 @@ export async function loadUser(gameId: string): Promise<Character> {
   const res = await axios.get(`${baseUrl}/api/user/${gameId}`);
   return res.data;
 }
-
-export async function getGame(gameId: string, userId: string) {}
