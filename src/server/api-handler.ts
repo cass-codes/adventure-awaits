@@ -11,7 +11,7 @@ export async function getScreenById(
 ) {
   const res = await axios.request({
     url: `${baseUrl}/api/screen/${screenId}`,
-    method: "GET",
+    method: "PUT",
     params: { gameId, userId },
     ...(saveValues ? { data: { saveValues } } : {}),
   });

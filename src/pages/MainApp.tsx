@@ -19,21 +19,29 @@ function MainApp() {
   });
   const onFirst = screen._id === "0";
 
-  async function saveIfNecessary() {
-    if (!game._id) {
-      console.log("game._id not found, creating new game");
-      saveNewGame(userId, game).then((newGameId) => {
-        console.log("newGameId", newGameId);
-        setGame({ ...game, _id: newGameId.id });
-        console.log("game after set", game);
-      });
-    }
-  }
-
   function setScreenByIdHandler(screenId: string, saveValues?: SaveValues[]) {
-    saveIfNecessary().then(() => {
-      console.log("theoretically saved game", game);
-      getScreenById(screenId, game._id as string, userId, saveValues)
+    const currentGame = game;
+    if (!game._id) {
+      saveNewGame(userId, game)
+        .then((newGameId) => {
+          setGame({ ...game, _id: newGameId.id });
+          currentGame._id = newGameId.id;
+        })
+        .then(() => {
+          getScreenById(screenId, currentGame._id as string, userId, saveValues)
+            .catch((err) => {
+              setScreen(errorScreen);
+            })
+            .then((screen) => {
+              if (!screen) {
+                setScreen(errorScreen);
+              } else {
+                setScreen(screen);
+              }
+            });
+        });
+    } else {
+      getScreenById(screenId, currentGame._id as string, userId, saveValues)
         .catch((err) => {
           console.error(`Screen with id ${screenId} not found | ${err}`);
           setScreen(errorScreen);
@@ -46,7 +54,7 @@ function MainApp() {
             setScreen(screen);
           }
         });
-    });
+    }
   }
 
   function quitGameHandler() {
