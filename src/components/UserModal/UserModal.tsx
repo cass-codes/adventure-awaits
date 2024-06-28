@@ -34,7 +34,7 @@ function UserModal({
       <UserTabs openTab={openTabHandler} activeTab={activeTab} />
       <div className="UserModal">
         {activeTab === "stats" && <UserStatsTab userData={userData} />}
-        {activeTab === "quests" && <UserQuestsTab userData={userData} />}
+        {activeTab === "quests" && <UserQuestsTab /*userData={userData} */ />}
         {activeTab === "relationships" && (
           <UserRelationshipsTab userData={userData} />
         )}

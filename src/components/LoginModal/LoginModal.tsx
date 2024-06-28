@@ -13,11 +13,13 @@ function LoginModal({
     onClose();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function loginHandler(data: any) {
     data.preventDefault();
     console.log("login", data);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function signUpHandler(data: any) {
     console.log("signUp", data);
   }

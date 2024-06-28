@@ -1,13 +1,10 @@
-import { QuestStatus } from "../../types/Quest";
-import { Character } from "../../types/User";
-
 import "./UserQuestsTab.css";
 
-function UserQuestsTab({ userData }: { userData: Character }) {
-  let modalData;
+function UserQuestsTab() {
+  // let modalData;
 
-  const quests = userData.quests;
-  const questKeys = Object.keys(quests);
+  // const quests = userData.quests;
+  // const questKeys = Object.keys(quests);
 
   return <p>Quests are in Development!</p>;
 

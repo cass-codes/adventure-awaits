@@ -13,6 +13,7 @@ function InputChoiceContent({
   const [errorState, setErrorState] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function selectHandler(event: any) {
     event.preventDefault();
 
@@ -26,6 +27,7 @@ function InputChoiceContent({
     if (enteredInput && savePath) {
       setErrorState(false);
       onSelect(savePath, enteredInput, screenId);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       inputRef.current!.value = "";
     }
   }
