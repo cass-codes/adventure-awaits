@@ -3,8 +3,11 @@ import "./Modal.css";
 
 function Modal(props: {
   isOpen: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   hasCloseBtn: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   children: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onClose: any;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(props.isOpen);

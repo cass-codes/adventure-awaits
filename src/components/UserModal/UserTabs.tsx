@@ -4,6 +4,7 @@ function UserTabs({
   openTab,
   activeTab,
 }: {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   openTab: Function;
   activeTab: string;
 }) {

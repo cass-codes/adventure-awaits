@@ -5,6 +5,7 @@ function SaveChoiceContent({
   onSelect,
 }: {
   choice: SaveChoiceOption;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   onSelect: Function;
 }) {
   function selectHandler() {

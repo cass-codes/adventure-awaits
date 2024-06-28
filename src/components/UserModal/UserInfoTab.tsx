@@ -1,4 +1,4 @@
-import { User } from "../../types/User";
+import { Character } from "../../types/User";
 
 // // Figure out what I want to do with goals
 // function getUserGoal(userClass: string) {
@@ -14,7 +14,7 @@ import { User } from "../../types/User";
 //   }
 // }
 
-function UserInfoTab({ userData }: { userData: User }) {
+function UserInfoTab({ userData }: { userData: Character }) {
   if (!userData.class) {
     return <h2>Please play the game to build your character!</h2>;
   }
@@ -24,27 +24,28 @@ function UserInfoTab({ userData }: { userData: User }) {
         <b>Class</b>: {userData.class}
       </p>
       <p>
-        <b>Money</b>: {userData.coins} gold, {userData.pennies} pennies
+        <b>Money</b>: {userData.money.gold} gold, {userData.money.pennies}{" "}
+        pennies
       </p>
       <p>
-        {userData.motivations ? (
+        {/* {userData.motivations ? (
           <span>
             <b>Motivated by: </b>
           </span>
         ) : null}
         {userData.motivations?.map((motive) => {
           return <span key={motive}>{motive}</span>;
-        })}
+        })} */}
       </p>
       <p>
-        {userData.skills.length > 0 ? (
+        {/* {userData.skills.length > 0 ? (
           <span>
             <b>Other skills: </b>
           </span>
         ) : null}
         {userData.skills?.map((skill) => {
           return <span key={skill}>{skill}</span>;
-        })}
+        })} */}
       </p>
     </div>
   );

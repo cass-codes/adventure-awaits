@@ -1,11 +1,11 @@
-import { Relationship, Stat, User } from "../../types/User";
-import { saveGame } from "../api-handler";
-import { parseSavePath } from "./helper";
+import { Character } from "../../types/User";
 
-export let user: User = {
-  quests: {},
-  coins: 10,
-  pennies: 0,
+export let user: Character = {
+  quests: [],
+  money: {
+    gold: 10,
+    pennies: 0,
+  },
   stats: {
     goodness: 0,
     sneakiness: 0,
@@ -15,7 +15,7 @@ export let user: User = {
     charm: 0,
   },
   relationships: {},
-  skills: [],
+  // skills: [],
 };
 
 export class SavingService {
@@ -23,67 +23,10 @@ export class SavingService {
     return user;
   }
 
-  static setUser(newUser: User) {
-    user = newUser;
-  }
-
-  static getObjectPathString(objectPath: string) {
-    const { ObjectName, propertyPath } = parseSavePath(objectPath);
-    if (ObjectName === "User") {
-      if (propertyPath[0] === "name") {
-        return user.name;
-      }
-      if (propertyPath[0] === "class") {
-        return user.class;
-      }
-      if (propertyPath[0] === "stats") {
-        const stat = Stat[propertyPath[1] as keyof typeof Stat];
-        return user.stats[stat].toString();
-      }
-      if (propertyPath[0] === "coins") {
-        return user.coins.toString();
-      }
-      if (propertyPath[0] === "motivations") {
-        return user.motivations?.join(", ") || "";
-      }
-      if (propertyPath[0] === "relationships") {
-        const relationship =
-          Relationship[propertyPath[1] as keyof typeof Relationship];
-        return user.relationships[relationship]?.toString() || "";
-      }
-      if (propertyPath[0] === "quests") {
-        return user.quests[propertyPath[1]].displayText;
-      }
-    }
-  }
-
-  static async loadGameId(): Promise<string> {
-    let localGameId: string | null = await localStorage.getItem("gameId");
-    if (localGameId) {
-      return localGameId;
-    }
-    const dbGameId = await saveGame("0", "");
-    if (!dbGameId) {
-      throw new Error("No game id found");
-    }
-    localStorage.setItem("gameId", dbGameId);
-    return dbGameId;
-  }
-
-  static loadGame(): { screenId: string } {
-    const localUser = localStorage.getItem("user");
-    const localScreenId = localStorage.getItem("screenId");
-    if (localUser) {
-      user = JSON.parse(localUser);
-    }
-    return { screenId: localScreenId || "0" };
-  }
-
   static restartGame() {
     user = {
-      quests: {},
-      coins: 10,
-      pennies: 0,
+      quests: [],
+      money: { gold: 10, pennies: 0 },
       stats: {
         goodness: 0,
         sneakiness: 0,
@@ -93,9 +36,7 @@ export class SavingService {
         charm: 0,
       },
       relationships: {},
-      skills: [],
+      // skills: [],
     };
-    localStorage.removeItem("user");
-    localStorage.removeItem("screenId");
   }
 }

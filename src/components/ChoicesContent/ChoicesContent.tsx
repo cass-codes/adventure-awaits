@@ -1,6 +1,10 @@
 import { Key } from "react";
 import "./ChoicesContent.css";
-import { ChoiceInfo, EvaluatedChoiceOption } from "../../types/Screen";
+import {
+  ChoiceInfo,
+  EvaluatedChoiceOption,
+  SaveValues,
+} from "../../types/Screen";
 import InputChoiceContent from "./InputChoiceContent";
 import ScreenChoiceContent from "./ScreenChoiceContent";
 import SaveChoiceContent from "./SaveChoiceContent";
@@ -8,8 +12,9 @@ import QuitChoiceContent from "./QuitChoiceContent";
 
 function ChoicesContent(props: {
   choices: ChoiceInfo;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   setScreenById: Function;
-  savingContent: Function;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   quitWithoutSaving: Function;
 }) {
   const choicesText = props.choices.text;
@@ -24,22 +29,11 @@ function ChoicesContent(props: {
     saveValue: string,
     screenId: string
   ) {
-    props.savingContent(saveValue, savePath);
-    props.setScreenById(screenId);
+    props.setScreenById(screenId, [{ saveValue, savePath }]);
   }
 
-  function selectSaveHandler(
-    saveValues: { savePath: string; saveValue: string }[],
-    screenId: string
-  ) {
-    saveValues.forEach(
-      ({ savePath, saveValue }: { savePath: string; saveValue: string }) => {
-        if (savePath) {
-          props.savingContent(saveValue, savePath);
-        }
-      }
-    );
-    props.setScreenById(screenId);
+  function selectSaveHandler(saveValues: SaveValues[], screenId: string) {
+    props.setScreenById(screenId, saveValues);
   }
 
   function selectQuitHandler(screenId: string) {

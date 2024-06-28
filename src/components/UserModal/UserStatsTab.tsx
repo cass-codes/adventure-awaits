@@ -1,4 +1,4 @@
-import { User } from "../../types/User";
+import { Character } from "../../types/User";
 
 const barStart = -5;
 const barEnd = 5;
@@ -31,19 +31,19 @@ function generateBar(
   return bar;
 }
 
-function UserStatsTab({ userData }: { userData: User }) {
+function UserStatsTab({ userData }: { userData: Character }) {
   let modalData;
 
-  let goodnessBar = generateBar(userData.stats?.goodness || 0);
-  let sneakinessBar = generateBar(userData.stats?.sneakiness || 0);
-  let clevernessBar = generateBar(userData.stats?.cleverness || 0);
-  let brawnBar = generateBar(userData.stats?.brawn || 0);
-  let magicBar = generateBar(
+  const goodnessBar = generateBar(userData.stats?.goodness || 0);
+  const sneakinessBar = generateBar(userData.stats?.sneakiness || 0);
+  const clevernessBar = generateBar(userData.stats?.cleverness || 0);
+  const brawnBar = generateBar(userData.stats?.brawn || 0);
+  const magicBar = generateBar(
     userData.stats?.magic || 0,
     magicBarStart,
     magicBarEnd
   );
-  let charmBar = generateBar(userData.stats?.charm || 0);
+  const charmBar = generateBar(userData.stats?.charm || 0);
 
   if (!userData.name || !userData.class) {
     modalData = (

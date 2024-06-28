@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { User } from "../../types/User";
+import { Character } from "../../types/User";
 import Modal from "../basics/Modal";
 import "./UserModal.css";
 import UserStatsTab from "./UserStatsTab";
@@ -14,8 +14,9 @@ function UserModal({
   userData,
 }: {
   isOpen: boolean;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   onClose: Function;
-  userData: User;
+  userData: Character;
 }) {
   const [activeTab, setActiveTab] = useState("stats");
 
@@ -33,7 +34,7 @@ function UserModal({
       <UserTabs openTab={openTabHandler} activeTab={activeTab} />
       <div className="UserModal">
         {activeTab === "stats" && <UserStatsTab userData={userData} />}
-        {activeTab === "quests" && <UserQuestsTab userData={userData} />}
+        {activeTab === "quests" && <UserQuestsTab /*userData={userData} */ />}
         {activeTab === "relationships" && (
           <UserRelationshipsTab userData={userData} />
         )}

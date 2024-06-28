@@ -1,5 +1,3 @@
-import { Quest } from "./Quest";
-
 export enum Tavern {
   TheRustySword = "The Rusty Sword",
   TheSilverSpoon = "The Silver Spoon",
@@ -39,8 +37,16 @@ export enum Stat {
   charm = "charm",
 }
 
-export interface User {
-  gameId?: string;
+export interface Game {
+  _id?: string;
+  quests?: unknown[];
+  userId?: string; // Keeping not required for now
+  day?: number;
+  screenId?: string;
+  character?: Character;
+}
+
+export interface Character {
   name?: string;
   class?: UserClass;
   stats: {
@@ -51,9 +57,11 @@ export interface User {
     magic: number;
     charm: number;
   };
-  coins: number;
-  pennies: number;
-  motivations?: Motivations[];
+  money: {
+    gold: number;
+    pennies: number;
+  };
+  // motivations?: Motivations[];
   relationships: {
     Lyra?: number;
     Hunstan?: number;
@@ -62,7 +70,7 @@ export interface User {
     Serena?: number;
     Kiirion?: number;
   };
-  quests: { [key: string]: Quest };
-  skills: string[];
-  tavern?: Tavern;
+  quests: unknown[];
+  // skills: string[];
+  // tavern?: Tavern;
 }
