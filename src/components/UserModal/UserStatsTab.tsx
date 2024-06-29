@@ -31,21 +31,25 @@ function generateBar(
   return bar;
 }
 
-function UserStatsTab({ userData }: { userData: Character }) {
+function UserStatsTab({
+  characterData,
+}: {
+  characterData: Character | undefined;
+}) {
   let modalData;
 
-  const goodnessBar = generateBar(userData.stats?.goodness || 0);
-  const sneakinessBar = generateBar(userData.stats?.sneakiness || 0);
-  const clevernessBar = generateBar(userData.stats?.cleverness || 0);
-  const brawnBar = generateBar(userData.stats?.brawn || 0);
+  const goodnessBar = generateBar(characterData?.stats?.goodness || 0);
+  const sneakinessBar = generateBar(characterData?.stats?.sneakiness || 0);
+  const clevernessBar = generateBar(characterData?.stats?.cleverness || 0);
+  const brawnBar = generateBar(characterData?.stats?.brawn || 0);
   const magicBar = generateBar(
-    userData.stats?.magic || 0,
+    characterData?.stats?.magic || 0,
     magicBarStart,
     magicBarEnd
   );
-  const charmBar = generateBar(userData.stats?.charm || 0);
+  const charmBar = generateBar(characterData?.stats?.charm || 0);
 
-  if (!userData.name || !userData.class) {
+  if (!characterData?.name || !characterData?.class) {
     modalData = (
       <div>
         <h2>Please play the game to build your character!</h2>
@@ -55,7 +59,7 @@ function UserStatsTab({ userData }: { userData: Character }) {
     modalData = (
       <>
         <h1>
-          {userData.name} the {userData.class}
+          {characterData.name} the {characterData.class}
         </h1>
         <p>Goodness: </p>
         <p className="barStats">{goodnessBar}</p>

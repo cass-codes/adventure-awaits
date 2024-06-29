@@ -30,22 +30,12 @@ export async function saveGame(id: string, gameId: string) {
   return res.data;
 }
 
-export async function saveContent(
-  value: string,
-  objectPath: string,
+export async function loadGame(
   gameId: string,
-  screenId: string
-) {
-  console.log("saving content", value, objectPath, gameId, screenId);
-  const res = await axios.post(`${baseUrl}/api/save/${gameId}`, {
-    value,
-    objectPath,
-    screenId,
+  userId: string
+): Promise<Character> {
+  const res = await axios.get(`${baseUrl}/api/games/${gameId}`, {
+    params: { userId },
   });
-  return res.data;
-}
-
-export async function loadUser(gameId: string): Promise<Character> {
-  const res = await axios.get(`${baseUrl}/api/user/${gameId}`);
   return res.data;
 }

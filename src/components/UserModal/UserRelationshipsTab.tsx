@@ -8,17 +8,25 @@ function getRelationshipPicture(relationship: string) {
   return getUrlFromMap(relationship + ".png");
 }
 
-function hasAnyRelationships(relationships: {
-  Lyra?: number | undefined;
-  Hunstan?: number | undefined;
-  Kael?: number | undefined;
-  Somerild?: number | undefined;
-}) {
-  return Object.keys(relationships).length === 0;
+function hasAnyRelationships(
+  relationships:
+    | {
+        Lyra?: number | undefined;
+        Hunstan?: number | undefined;
+        Kael?: number | undefined;
+        Somerild?: number | undefined;
+      }
+    | undefined
+) {
+  return relationships && Object.keys(relationships).length === 0;
 }
 
-function UserRelationshipsTab({ userData }: { userData: Character }) {
-  const relationships = userData.relationships;
+function UserRelationshipsTab({
+  characterData,
+}: {
+  characterData: Character | undefined;
+}) {
+  const relationships = characterData?.relationships || {};
   if (hasAnyRelationships(relationships)) {
     return (
       <>
