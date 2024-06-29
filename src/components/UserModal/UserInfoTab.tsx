@@ -14,18 +14,22 @@ import { Character } from "../../types/User";
 //   }
 // }
 
-function UserInfoTab({ userData }: { userData: Character }) {
-  if (!userData.class) {
+function UserInfoTab({
+  characterData,
+}: {
+  characterData: Character | undefined;
+}) {
+  if (!characterData?.class) {
     return <h2>Please play the game to build your character!</h2>;
   }
   return (
     <div>
       <p>
-        <b>Class</b>: {userData.class}
+        <b>Class</b>: {characterData.class}
       </p>
       <p>
-        <b>Money</b>: {userData.money.gold} gold, {userData.money.pennies}{" "}
-        pennies
+        <b>Money</b>: {characterData.money.gold} gold,{" "}
+        {characterData.money.pennies} pennies
       </p>
       <p>
         {/* {userData.motivations ? (

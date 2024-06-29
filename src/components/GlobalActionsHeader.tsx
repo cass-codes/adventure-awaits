@@ -1,19 +1,19 @@
 import { useState } from "react";
 import "./GlobalActionsHeader.css";
 import UserModal from "./UserModal/UserModal";
-import { SavingService } from "../server/SavingService/SavingService";
 import LoadGameModal from "./LoadGameModal";
 import LoginModal from "./LoginModal/LoginModal";
+import { Game } from "../types";
 
 function GlobalActionsHeader(props: {
   onFirstScreen: boolean;
+  gameData: Game;
   // eslint-disable-next-line @typescript-eslint/ban-types
   quitGame: Function;
 }) {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isLoadGameModalOpen, setIsLoadGameModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [userData /*setUserData*/] = useState(SavingService.loadUser());
 
   function handleOpenLoadGameModal() {
     // props.loadGame();
@@ -30,8 +30,6 @@ function GlobalActionsHeader(props: {
   }
 
   function handleOpenUserModal() {
-    // const user = props.loadUser();
-    // setUserData(user);
     setIsUserModalOpen(true);
   }
 
@@ -90,8 +88,8 @@ function GlobalActionsHeader(props: {
       </div>
       <UserModal
         isOpen={isUserModalOpen}
+        gameData={props.gameData}
         onClose={handleCloseUserModal}
-        userData={userData}
       />
       <LoadGameModal
         isOpen={isLoadGameModalOpen}

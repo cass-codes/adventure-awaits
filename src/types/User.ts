@@ -5,9 +5,9 @@ export enum Tavern {
 }
 
 export enum UserClass {
-  bard = "Bard",
-  fighter = "Fighter",
-  mage = "Mage",
+  Bard = "Bard",
+  Fighter = "Fighter",
+  Mage = "Mage",
 }
 
 export enum Motivations {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Character } from "../../types/User";
+import { Game } from "../../types/User";
 import Modal from "../basics/Modal";
 import "./UserModal.css";
 import UserStatsTab from "./UserStatsTab";
@@ -10,13 +10,13 @@ import UserInfoTab from "./UserInfoTab";
 
 function UserModal({
   isOpen,
+  gameData,
   onClose,
-  userData,
 }: {
   isOpen: boolean;
+  gameData: Game;
   // eslint-disable-next-line @typescript-eslint/ban-types
   onClose: Function;
-  userData: Character;
 }) {
   const [activeTab, setActiveTab] = useState("stats");
 
@@ -33,12 +33,16 @@ function UserModal({
     <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onCloseHandler}>
       <UserTabs openTab={openTabHandler} activeTab={activeTab} />
       <div className="UserModal">
-        {activeTab === "stats" && <UserStatsTab userData={userData} />}
+        {activeTab === "stats" && (
+          <UserStatsTab characterData={gameData.character} />
+        )}
         {activeTab === "quests" && <UserQuestsTab /*userData={userData} */ />}
         {activeTab === "relationships" && (
-          <UserRelationshipsTab userData={userData} />
+          <UserRelationshipsTab characterData={gameData.character} />
         )}
-        {activeTab === "info" && <UserInfoTab userData={userData} />}
+        {activeTab === "info" && (
+          <UserInfoTab characterData={gameData.character} />
+        )}
       </div>
     </Modal>
   );

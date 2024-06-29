@@ -6,7 +6,7 @@ import { useState } from "react";
 import { quit, startScreen, errorScreen } from "../server/basicData";
 import { SavingService } from "../server/SavingService/SavingService";
 import GlobalActionsHeader from "../components/GlobalActionsHeader";
-import { getScreenById, saveNewGame } from "../server/api-handler";
+import { getScreenById, loadGame, saveNewGame } from "../server/api-handler";
 import { Game } from "../types";
 
 function MainApp() {
@@ -53,6 +53,9 @@ function MainApp() {
           } else {
             setScreen(screen);
           }
+          loadGame(currentGame._id as string, userId).then((game) => {
+            setGame(game);
+          });
         });
     }
   }
@@ -68,7 +71,11 @@ function MainApp() {
 
   return (
     <>
-      <GlobalActionsHeader onFirstScreen={onFirst} quitGame={quitGameHandler} />
+      <GlobalActionsHeader
+        onFirstScreen={onFirst}
+        quitGame={quitGameHandler}
+        gameData={game}
+      />
       <HeaderContent content={screen.header} />
       <MainContent content={screen.main} />
       <ChoicesContent
