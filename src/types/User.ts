@@ -61,7 +61,7 @@ export interface Character {
     gold: number;
     pennies: number;
   };
-  // motivations?: Motivations[];
+  motivations?: Motivations[];
   relationships: {
     Lyra?: number;
     Hunstan?: number;
