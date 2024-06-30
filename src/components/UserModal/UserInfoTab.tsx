@@ -32,14 +32,14 @@ function UserInfoTab({
         {characterData.money.pennies} pennies
       </p>
       <p>
-        {/* {userData.motivations ? (
+        {characterData.motivations ? (
           <span>
             <b>Motivated by: </b>
           </span>
         ) : null}
-        {userData.motivations?.map((motive) => {
+        {characterData.motivations?.map((motive) => {
           return <span key={motive}>{motive}</span>;
-        })} */}
+        })}
       </p>
       <p>
         {/* {userData.skills.length > 0 ? (
