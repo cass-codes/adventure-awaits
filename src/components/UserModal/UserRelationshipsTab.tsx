@@ -1,4 +1,4 @@
-import { Character } from "../../types/User";
+import { Character, Relationship } from "../../types/User";
 import { getUrlFromMap } from "../picture-url-map";
 import "./UserRelationshipsTab.css";
 
@@ -8,17 +8,8 @@ function getRelationshipPicture(relationship: string) {
   return getUrlFromMap(relationship + ".png");
 }
 
-function hasAnyRelationships(
-  relationships:
-    | {
-        Lyra?: number | undefined;
-        Hunstan?: number | undefined;
-        Kael?: number | undefined;
-        Somerild?: number | undefined;
-      }
-    | undefined
-) {
-  return relationships && Object.keys(relationships).length === 0;
+function hasAnyRelationships(relationships: Relationship[]) {
+  return relationships && Object.keys(relationships).length >= 0;
 }
 
 function UserRelationshipsTab({
@@ -26,8 +17,8 @@ function UserRelationshipsTab({
 }: {
   characterData: Character | undefined;
 }) {
-  const relationships = characterData?.relationships || {};
-  if (hasAnyRelationships(relationships)) {
+  const relationships = characterData?.relationships || [];
+  if (!hasAnyRelationships(relationships)) {
     return (
       <>
         <h3>Relationships</h3>
@@ -35,11 +26,10 @@ function UserRelationshipsTab({
       </>
     );
   }
-  const relationshipKeys = Object.keys(relationships);
 
   function getRelationshipRow(relationshipKey: string) {
-    const relationshipValue =
-      relationships[relationshipKey as keyof typeof relationships] || 0;
+    const { relationshipValue } =
+      relationships.find((rel) => rel.name === relationshipKey) || {};
     return (
       <>
         <td>
@@ -69,12 +59,8 @@ function UserRelationshipsTab({
       <h3>Relationships</h3>
       <table>
         <tbody>
-          {relationshipKeys.map((relationshipKey) => {
-            return (
-              <tr key={relationshipKey}>
-                {getRelationshipRow(relationshipKey)}
-              </tr>
-            );
+          {relationships.map(({ name }) => {
+            return <tr key={name}>{getRelationshipRow(name)}</tr>;
           })}
         </tbody>
       </table>

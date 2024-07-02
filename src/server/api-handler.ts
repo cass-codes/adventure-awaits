@@ -25,7 +25,6 @@ export async function saveNewGame(userId: string, game: Game) {
 }
 
 export async function saveGame(id: string, gameId: string) {
-  console.log("saving game", id, gameId);
   const res = await axios.post(`${baseUrl}/api/save`, { screenId: id, gameId });
   return res.data;
 }
