@@ -19,7 +19,7 @@ export enum Motivations {
   adventure = "adventure",
 }
 
-export enum Relationship {
+export enum RelationshipEnum {
   Lyra = "Lyra",
   Hunstan = "Hunstan",
   Kael = "Kael",
@@ -46,6 +46,12 @@ export interface Game {
   character?: Character;
 }
 
+export interface Relationship {
+  name: RelationshipEnum;
+  dayMet: number;
+  relationshipValue: number;
+}
+
 export interface Character {
   name?: string;
   class?: UserClass;
@@ -62,14 +68,7 @@ export interface Character {
     pennies: number;
   };
   motivations?: Motivations[];
-  relationships: {
-    Lyra?: number;
-    Hunstan?: number;
-    Kael?: number;
-    Somerild?: number;
-    Serena?: number;
-    Kiirion?: number;
-  };
+  relationships: Relationship[];
   quests: unknown[];
   // skills: string[];
   // tavern?: Tavern;

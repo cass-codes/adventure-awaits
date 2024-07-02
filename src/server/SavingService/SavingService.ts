@@ -14,7 +14,7 @@ export let user: Character = {
     magic: 0,
     charm: 0,
   },
-  relationships: {},
+  relationships: [],
   // skills: [],
 };
 
@@ -35,7 +35,7 @@ export class SavingService {
         magic: 0,
         charm: 0,
       },
-      relationships: {},
+      relationships: [],
       // skills: [],
     };
   }
