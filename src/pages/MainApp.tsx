@@ -6,7 +6,7 @@ import { useState } from "react";
 import { quit, startScreen, errorScreen } from "../server/basicData";
 import { SavingService } from "../server/SavingService/SavingService";
 import GlobalActionsHeader from "../components/GlobalActionsHeader";
-import { getScreenById, loadGame, saveNewGame } from "../server/api-handler";
+import { getScreenById, saveGame } from "../server/api-handler";
 import { Game } from "../types";
 
 function MainApp() {
@@ -19,45 +19,29 @@ function MainApp() {
   });
   const onFirst = screen._id === "0";
 
-  function setScreenByIdHandler(screenId: string, saveValues?: SaveValues[]) {
-    const currentGame = game;
-    if (!game._id) {
-      saveNewGame(userId, game)
-        .then((newGameId) => {
-          setGame({ ...game, _id: newGameId.id });
-          currentGame._id = newGameId.id;
-        })
-        .then(() => {
-          getScreenById(screenId, currentGame._id as string, userId, saveValues)
-            .catch(() => {
-              setScreen(errorScreen);
-            })
-            .then((screen) => {
-              if (!screen) {
-                setScreen(errorScreen);
-              } else {
-                setScreen(screen);
-              }
-            });
-        });
+  function setScreenAndGame(screen: Screen, game: Game) {
+    if (screen) {
+      setScreen(screen);
     } else {
-      getScreenById(screenId, currentGame._id as string, userId, saveValues)
-        .catch((err) => {
-          console.error(`Screen with id ${screenId} not found | ${err}`);
+      setScreen(errorScreen);
+    }
+    if (game) {
+      setGame(game);
+    }
+  }
+
+  function setScreenByIdHandler(screenId: string, saveValues?: SaveValues[]) {
+    saveGame(userId, game).then(({ id }) => {
+      getScreenById(screenId, id, userId, saveValues)
+        .catch(() => {
           setScreen(errorScreen);
         })
-        .then((screen) => {
-          if (!screen) {
-            console.error(`Screen with id ${screenId} not found`);
-            setScreen(errorScreen);
-          } else {
-            setScreen(screen);
+        .then((response) => {
+          if (response.screen || response.game) {
+            setScreenAndGame(response.screen, response.game);
           }
-          loadGame(currentGame._id as string, userId).then((game) => {
-            setGame(game);
-          });
         });
-    }
+    });
   }
 
   function quitGameHandler() {
