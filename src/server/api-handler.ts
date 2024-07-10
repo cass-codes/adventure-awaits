@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SaveValues, Character, Game } from "../types";
+import { SaveValues, Game } from "../types";
 
 const baseUrl = "http://localhost:3090";
 
@@ -19,22 +19,14 @@ export async function getScreenById(
   return res.data;
 }
 
-export async function saveNewGame(userId: string, game: Game) {
-  const res = await axios.post(`${baseUrl}/api/games`, { ...game, userId });
-  return res.data;
-}
-
-export async function saveGame(id: string, gameId: string) {
-  const res = await axios.post(`${baseUrl}/api/save`, { screenId: id, gameId });
-  return res.data;
-}
-
-export async function loadGame(
-  gameId: string,
-  userId: string
-): Promise<Character> {
-  const res = await axios.get(`${baseUrl}/api/games/${gameId}`, {
-    params: { userId },
-  });
-  return res.data;
+export async function saveGame(
+  userId: string,
+  game: Game
+): Promise<{ id: string }> {
+  if (!game._id) {
+    const res = await axios.post(`${baseUrl}/api/games`, { ...game, userId });
+    return res.data;
+  } else {
+    return { id: game._id };
+  }
 }
